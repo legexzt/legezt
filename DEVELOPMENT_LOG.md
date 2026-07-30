@@ -273,6 +273,11 @@
 - **Gateway Display Stages**: Created 3D glass display stages for Student Hub (`3d_character_2.png`), Faculty Studio (`3d_character_5.png`), and Native APKs (`3d_character_7.png`) with hover scale transitions.
 - **Platform Architecture & Vision**: Integrated 3D Security Radar (`3d_character_6.png`) in slide deck and 3D Student with University Campus Building & Server (`3d_character_10.png`) in Founder Vision card.
 
+### 32. 3D Character Scale Enlargement & Exact Placement Fix (v4.6 Build — New!)
+- **Hero Character Fix**: Fixed Hero center character to use `3d_character_1.png` (Student in white hoodie sitting at laptop) and enlarged scale to `w-full max-w-[480px] lg:max-w-[580px]` with background ambient blue radial glow.
+- **Card Mapping Correction**: Corrected gateway card stages to display `3d_character_2.png` (Student Hub study desk), `3d_character_3.png` (Faculty Studio professor workstation), and `3d_character_4.png` (Native APK student holding phone with security shield).
+- **Vision Card Alignment**: Ensured `3d_character_10.png` (Student standing proudly in front of 3D university building & server rack) is properly aligned in the Founder Vision section.
+
 ---
 
 ## 📋 Backlog & Pending Tasks (To Be Addressed next)

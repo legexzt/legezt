@@ -144,7 +144,7 @@ export default function LandingPage() {
       <main className="relative z-10 max-w-[1700px] mx-auto px-6 lg:px-12 xl:px-16 py-12 space-y-28">
         
         {/* HERO SECTION - 3D Character Split Layout */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center pt-2 relative">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-2 relative">
           
           {/* Hero Left Column */}
           <div className="lg:col-span-5 space-y-8 z-10">
@@ -216,13 +216,15 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Hero Center Column - 3D Student Character Overlay */}
-          <div className="lg:col-span-3 flex justify-center items-end relative z-20 min-h-[380px] lg:min-h-[500px]">
+          {/* Hero Center Column - 3D Main Student Character (LARGE Hero Size) */}
+          <div className="lg:col-span-3 flex justify-center items-center relative z-20 min-h-[420px] lg:min-h-[550px]">
+            {/* Ambient Background Glow behind Character */}
+            <div className="absolute inset-0 bg-blue-600/25 rounded-full blur-3xl pointer-events-none" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/3d/3d_character_1.png"
-              alt="3D Student at Laptop"
-              className="w-full max-w-[360px] lg:max-w-[420px] object-contain drop-shadow-[0_25px_35px_rgba(37,99,235,0.35)] hover:scale-105 transition-transform duration-500"
+              alt="3D Hero Student at Laptop"
+              className="w-full max-w-[480px] lg:max-w-[580px] object-contain drop-shadow-[0_30px_45px_rgba(37,99,235,0.45)] hover:scale-105 transition-transform duration-500 relative z-10"
             />
           </div>
 
@@ -311,13 +313,13 @@ export default function LandingPage() {
             <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative group">
               <div className="space-y-6">
                 {/* 3D Character Display Stage */}
-                <div className="h-52 w-full rounded-2xl bg-gradient-to-b from-slate-950/80 to-slate-900/40 border border-slate-800 flex items-center justify-center relative overflow-hidden">
+                <div className="h-56 w-full rounded-2xl bg-gradient-to-b from-slate-950/90 to-slate-900/50 border border-slate-800 flex items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/3d/3d_character_2.png"
                     alt="3D Student Hub Character"
-                    className="h-44 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(37,99,235,0.3)] group-hover:scale-110 transition-transform duration-500"
+                    className="h-48 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(37,99,235,0.3)] group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
 
@@ -346,13 +348,13 @@ export default function LandingPage() {
             <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative group">
               <div className="space-y-6">
                 {/* 3D Character Display Stage */}
-                <div className="h-52 w-full rounded-2xl bg-gradient-to-b from-slate-950/80 to-slate-900/40 border border-slate-800 flex items-center justify-center relative overflow-hidden">
+                <div className="h-56 w-full rounded-2xl bg-gradient-to-b from-slate-950/90 to-slate-900/50 border border-slate-800 flex items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/3d/3d_character_5.png"
+                    src="/images/3d/3d_character_3.png"
                     alt="3D Faculty Studio Character"
-                    className="h-44 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(99,102,241,0.3)] group-hover:scale-110 transition-transform duration-500"
+                    className="h-48 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(99,102,241,0.3)] group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
 
@@ -381,13 +383,13 @@ export default function LandingPage() {
             <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-emerald-500/40 space-y-8 flex flex-col justify-between overflow-hidden relative group">
               <div className="space-y-6">
                 {/* 3D Character Display Stage */}
-                <div className="h-52 w-full rounded-2xl bg-gradient-to-b from-slate-950/80 to-slate-900/40 border border-emerald-500/30 flex items-center justify-center relative overflow-hidden">
+                <div className="h-56 w-full rounded-2xl bg-gradient-to-b from-slate-950/90 to-slate-900/50 border border-emerald-500/30 flex items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/3d/3d_character_7.png"
+                    src="/images/3d/3d_character_4.png"
                     alt="3D Native APK Character"
-                    className="h-44 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(16,185,129,0.3)] group-hover:scale-110 transition-transform duration-500"
+                    className="h-48 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(16,185,129,0.3)] group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
 
