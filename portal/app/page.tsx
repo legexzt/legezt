@@ -45,6 +45,40 @@ export default function LandingPage() {
   const [cardX, setCardX] = useState(0);
   const [cardY, setCardY] = useState(0);
 
+  // Mouse Grab-and-Drag State
+  const [activeDragTarget, setActiveDragTarget] = useState<"hero" | "card" | null>(null);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [initialPos, setInitialPos] = useState({ x: 0, y: 0 });
+
+  const handleMouseDown = (target: "hero" | "card", e: React.MouseEvent) => {
+    if (!isEditMode) return;
+    e.preventDefault();
+    setActiveDragTarget(target);
+    setDragStart({ x: e.clientX, y: e.clientY });
+    if (target === "hero") {
+      setInitialPos({ x: heroX, y: heroY });
+    } else {
+      setInitialPos({ x: cardX, y: cardY });
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!activeDragTarget) return;
+    const deltaX = e.clientX - dragStart.x;
+    const deltaY = e.clientY - dragStart.y;
+    if (activeDragTarget === "hero") {
+      setHeroX(initialPos.x + deltaX);
+      setHeroY(initialPos.y + deltaY);
+    } else if (activeDragTarget === "card") {
+      setCardX(initialPos.x + deltaX);
+      setCardY(initialPos.y + deltaY);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setActiveDragTarget(null);
+  };
+
   const slides = [
     {
       title: "200m GPS Geofencing Lock",
@@ -99,7 +133,11 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#0b0f19] text-white selection:bg-blue-600 selection:text-white overflow-x-hidden pb-24">
+    <div
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      className="relative min-h-screen bg-[#0b0f19] text-white selection:bg-blue-600 selection:text-white overflow-x-hidden pb-24 select-none"
+    >
       {/* Dynamic Background Mesh Gradients */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-blue-600/20 rounded-full blur-[140px] animate-pulse" />
@@ -368,28 +406,34 @@ export default function LandingPage() {
             {/* Ambient Background Radial Glow behind Main Character */}
             <div className="absolute inset-0 bg-blue-600/35 rounded-full blur-[110px] pointer-events-none scale-125" />
             
-            {/* MAIN MASSIVE 3D HERO STUDENT CHARACTER */}
+            {/* MAIN MASSIVE 3D HERO STUDENT CHARACTER (Mouse Grab-and-Drag enabled) */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/3d/hero_student_laptop.png"
-              alt="3D Hero Student at Laptop"
+              alt="3D Hero Student at Laptop (Drag to Move)"
+              onMouseDown={(e) => handleMouseDown("hero", e)}
               style={{
                 transform: `scale(${heroScale / 100}) translate(${heroX}px, ${heroY}px)`,
-                transition: "transform 0.1s ease-out"
+                transition: activeDragTarget === "hero" ? "none" : "transform 0.1s ease-out"
               }}
-              className="w-[120%] max-w-[650px] lg:max-w-[820px] object-contain drop-shadow-[0_40px_60px_rgba(37,99,235,0.55)] hover:scale-105 relative z-10"
+              className={`w-[120%] max-w-[650px] lg:max-w-[820px] object-contain drop-shadow-[0_40px_60px_rgba(37,99,235,0.55)] relative z-10 ${
+                isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-blue-500/50 rounded-3xl" : ""
+              }`}
             />
 
             {/* Grounded 3D Shadow Ring */}
             <div className="w-[85%] h-10 bg-blue-500/25 rounded-[100%] blur-xl pointer-events-none -mt-6 relative z-0" />
 
-            {/* FLOATING COMPACT CS-3A MID-TERM LIVE WORKSPACE GLASS CARD (Swapped to Float over Character) */}
+            {/* FLOATING COMPACT CS-3A MID-TERM LIVE WORKSPACE GLASS CARD (Mouse Grab-and-Drag enabled) */}
             <div
+              onMouseDown={(e) => handleMouseDown("card", e)}
               style={{
                 transform: `scale(${cardScale / 100}) translate(${cardX}px, ${cardY}px)`,
-                transition: "transform 0.1s ease-out"
+                transition: activeDragTarget === "card" ? "none" : "transform 0.1s ease-out"
               }}
-              className="absolute top-2 sm:top-6 right-0 sm:right-4 z-30 max-w-[340px] sm:max-w-[380px] w-full"
+              className={`absolute top-2 sm:top-6 right-0 sm:right-4 z-30 max-w-[340px] sm:max-w-[380px] w-full ${
+                isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-indigo-500/60 rounded-2xl" : ""
+              }`}
             >
               {isLoading ? (
                 <div className="glass-card p-5 rounded-2xl space-y-4 bg-slate-900/90 border-slate-800">

@@ -296,6 +296,10 @@
   - **CS-3A Mid-Term Floating Card**: Size scale (50%–180%), Position X (-350px to +350px), Position Y (-300px to +300px).
 - **Toggle Control**: Included real-time live coordinate display, Reset button, and Hide/Show Adjuster toggle button per user request.
 
+### 37. Direct Mouse Grab & Drag Capability across Homepage (v5.1 Build — New!)
+- **Mouse Drag-and-Drop**: Integrated `onMouseDown`, `onMouseMove`, and `onMouseUp` event handlers allowing user to click, grab, and drag the 3D Student Character and CS-3A Floating Card directly with their mouse anywhere on screen.
+- **Grab Cursor & Hover Ring**: Added `cursor-grab`, `active:cursor-grabbing`, and active glowing outline ring indicators when hovering over draggable elements in Edit Mode.
+
 ---
 
 ## 📋 Backlog & Pending Tasks (To Be Addressed next)
