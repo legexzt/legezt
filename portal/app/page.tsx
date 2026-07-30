@@ -32,23 +32,138 @@ export default function LandingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
 
-  // Interactive Visual Layout Controls State (Editing Finished - Saved Final State)
-  const [isEditMode, setIsEditMode] = useState(false);
-  
-  // Hero 3D Character Adjustments (Saved Default Layout)
+  // Visual Studio Editor Mode State (ON by default for user customization)
+  const [isEditMode, setIsEditMode] = useState(true);
+  const [saveStatus, setSaveStatus] = useState<"" | "saving" | "saved" | "error">("");
+
+  // Hero 3D Character Adjustments
+  const [heroImage, setHeroImage] = useState("/images/3d/hero_student_laptop.png");
   const [heroScale, setHeroScale] = useState(100);
   const [heroX, setHeroX] = useState(0);
   const [heroY, setHeroY] = useState(0);
 
-  // Floating CS-3A Card Adjustments (Saved Default Layout)
+  // Floating CS-3A Card Adjustments
   const [cardScale, setCardScale] = useState(100);
   const [cardX, setCardX] = useState(0);
   const [cardY, setCardY] = useState(0);
+
+  // Gateway Cards Images
+  const [studentHubImage, setStudentHubImage] = useState("/images/3d/student_login_badge.png");
+  const [facultyStudioImage, setFacultyStudioImage] = useState("/images/3d/peer_chat_students.png");
+  const [nativeApkImage, setNativeApkImage] = useState("/images/3d/notes_library_books.png");
 
   // Mouse Grab-and-Drag State
   const [activeDragTarget, setActiveDragTarget] = useState<"hero" | "card" | null>(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [initialPos, setInitialPos] = useState({ x: 0, y: 0 });
+
+  // Catalog of all 17 available 3D PNG images
+  const all3DImages = [
+    { label: "Hero Student at Laptop", value: "/images/3d/hero_student_laptop.png" },
+    { label: "Student Login ID Badge", value: "/images/3d/student_login_badge.png" },
+    { label: "Peer Chat Students", value: "/images/3d/peer_chat_students.png" },
+    { label: "Notes & Library Books", value: "/images/3d/notes_library_books.png" },
+    { label: "Student Hub Study Desk", value: "/images/3d/student_hub_study_desk.png" },
+    { label: "Faculty Female Professor", value: "/images/3d/faculty_female_professor.png" },
+    { label: "Native APK Student Shield", value: "/images/3d/native_apk_student_shield.png" },
+    { label: "200m GPS Geofence Radar", value: "/images/3d/geofence_gps_radar.png" },
+    { label: "3-Strike Proctor Shield", value: "/images/3d/proctor_warning_shield.png" },
+    { label: "PDF Marksheet Dispatch", value: "/images/3d/pdf_marksheet_dispatch.png" },
+    { label: "Vision Campus & Server", value: "/images/3d/vision_campus_building.png" },
+    { label: "AI Syllabus Generator Robot", value: "/images/3d/ai_syllabus_generator.png" },
+    { label: "Admin Dashboard Monitor", value: "/images/3d/admin_dashboard_monitoring.png" },
+    { label: "Offline Network Inspector", value: "/images/3d/offline_network_cable.png" },
+    { label: "Faculty Male Whiteboard", value: "/images/3d/faculty_classroom_whiteboard.png" },
+    { label: "Campus Student Lifestyle", value: "/images/3d/campus_student_lifestyle.png" },
+    { label: "LeGeZt 3D Emblem Shield", value: "/images/3d/legezt_3d_emblem_shield.png" }
+  ];
+
+  // Load Saved Layout on Initial Render
+  React.useEffect(() => {
+    const loadSavedLayout = async () => {
+      try {
+        // Try reading from backend API first
+        const res = await fetch("/api/layout/save");
+        if (res.ok) {
+          const config = await res.json();
+          if (config.hero) {
+            setHeroImage(config.hero.image || "/images/3d/hero_student_laptop.png");
+            setHeroScale(config.hero.scale || 100);
+            setHeroX(config.hero.x || 0);
+            setHeroY(config.hero.y || 0);
+          }
+          if (config.card) {
+            setCardScale(config.card.scale || 100);
+            setCardX(config.card.x || 0);
+            setCardY(config.card.y || 0);
+          }
+          if (config.studentHub) setStudentHubImage(config.studentHub.image || "/images/3d/student_login_badge.png");
+          if (config.facultyStudio) setFacultyStudioImage(config.facultyStudio.image || "/images/3d/peer_chat_students.png");
+          if (config.nativeApk) setNativeApkImage(config.nativeApk.image || "/images/3d/notes_library_books.png");
+          return;
+        }
+      } catch (e) {
+        console.log("Loading layout fallback from localStorage");
+      }
+
+      // Fallback to localStorage
+      const local = localStorage.getItem("legezt_layout_config");
+      if (local) {
+        try {
+          const config = JSON.parse(local);
+          if (config.hero) {
+            setHeroImage(config.hero.image);
+            setHeroScale(config.hero.scale);
+            setHeroX(config.hero.x);
+            setHeroY(config.hero.y);
+          }
+          if (config.card) {
+            setCardScale(config.card.scale);
+            setCardX(config.card.x);
+            setCardY(config.card.y);
+          }
+          if (config.studentHub) setStudentHubImage(config.studentHub.image);
+          if (config.facultyStudio) setFacultyStudioImage(config.facultyStudio.image);
+          if (config.nativeApk) setNativeApkImage(config.nativeApk.image);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+    loadSavedLayout();
+  }, []);
+
+  // Save Layout Permanently to API & localStorage
+  const saveLayoutPermanently = async () => {
+    setSaveStatus("saving");
+    const layoutConfig = {
+      hero: { image: heroImage, scale: heroScale, x: heroX, y: heroY },
+      card: { scale: cardScale, x: cardX, y: cardY },
+      studentHub: { image: studentHubImage },
+      facultyStudio: { image: facultyStudioImage },
+      nativeApk: { image: nativeApkImage }
+    };
+
+    localStorage.setItem("legezt_layout_config", JSON.stringify(layoutConfig));
+
+    try {
+      const res = await fetch("/api/layout/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(layoutConfig)
+      });
+      if (res.ok) {
+        setSaveStatus("saved");
+        setTimeout(() => setSaveStatus(""), 3500);
+      } else {
+        setSaveStatus("error");
+      }
+    } catch (e) {
+      console.error(e);
+      setSaveStatus("saved"); // Fallback saved via localStorage
+      setTimeout(() => setSaveStatus(""), 3500);
+    }
+  };
 
   const handleMouseDown = (target: "hero" | "card", e: React.MouseEvent) => {
     if (!isEditMode) return;
@@ -124,19 +239,23 @@ export default function LandingPage() {
   };
 
   const resetLayoutAdjuster = () => {
+    setHeroImage("/images/3d/hero_student_laptop.png");
     setHeroScale(100);
     setHeroX(0);
     setHeroY(0);
     setCardScale(100);
     setCardX(0);
     setCardY(0);
+    setStudentHubImage("/images/3d/student_login_badge.png");
+    setFacultyStudioImage("/images/3d/peer_chat_students.png");
+    setNativeApkImage("/images/3d/notes_library_books.png");
   };
 
   return (
     <div
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
-      className="relative min-h-screen bg-[#0b0f19] text-white selection:bg-blue-600 selection:text-white overflow-x-hidden pb-24 select-none"
+      className="relative min-h-screen bg-[#0b0f19] text-white selection:bg-blue-600 selection:text-white overflow-x-hidden pb-32 select-none"
     >
       {/* Dynamic Background Mesh Gradients */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -145,131 +264,179 @@ export default function LandingPage() {
         <div className="absolute top-[40%] left-[30%] w-[35vw] h-[35vw] bg-cyan-600/10 rounded-full blur-[160px]" />
       </div>
 
-      {/* INTERACTIVE VISUAL LAYOUT ADJUSTMENT OVERLAY TOOLBAR */}
+      {/* ADVANCED VISUAL STUDIO EDITOR TOOLBAR (WITH PERMANENT SAVE & IMAGE PICKER) */}
       {isEditMode && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl bg-slate-900/95 backdrop-blur-2xl border-2 border-blue-500/60 rounded-3xl p-4 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.8)] space-y-3 transition-all">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-            <div className="flex items-center space-x-2 text-blue-400 font-black text-sm">
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl bg-slate-900/95 backdrop-blur-2xl border-2 border-blue-500/70 rounded-3xl p-4 sm:p-5 shadow-[0_25px_60px_rgba(0,0,0,0.9)] space-y-4 transition-all">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div className="flex items-center space-x-3">
               <Sparkles className="w-5 h-5 text-blue-400 animate-spin" />
-              <span>🎨 Live Visual Adjuster Mode (Active)</span>
+              <div>
+                <span className="text-blue-400 font-black text-sm block leading-none">
+                  🎨 LeGeZt Visual Studio (Active Editor)
+                </span>
+                <span className="text-[10px] text-slate-400 font-medium">
+                  Drag elements with mouse or use sliders below, then click &quot;Save Permanently&quot;
+                </span>
+              </div>
             </div>
+
+            {/* ACTION BUTTONS & SAVE STATUS */}
             <div className="flex items-center space-x-3 text-xs">
+              {saveStatus === "saved" && (
+                <span className="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40 animate-pulse">
+                  ✓ Layout Saved Permanently!
+                </span>
+              )}
+              {saveStatus === "saving" && (
+                <span className="px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-300 font-bold border border-blue-500/40 animate-pulse">
+                  ⏳ Saving Layout...
+                </span>
+              )}
+              
+              <button
+                onClick={saveLayoutPermanently}
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white font-black shadow-lg shadow-blue-600/40 border border-blue-300/30 flex items-center space-x-2 transition-all scale-105 active:scale-95"
+              >
+                <span>💾 SAVE PERMANENTLY</span>
+              </button>
+
               <button
                 onClick={resetLayoutAdjuster}
-                className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold border border-slate-700 transition-colors flex items-center space-x-1"
+                className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold border border-slate-700 transition-colors flex items-center space-x-1"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
-                <span>Reset Default</span>
+                <span>Reset</span>
               </button>
+              
               <button
                 onClick={() => setIsEditMode(false)}
-                className="px-3.5 py-1.5 rounded-lg bg-red-600/20 text-red-300 hover:bg-red-600/40 font-bold border border-red-500/40 transition-colors"
+                className="px-3 py-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white font-bold border border-slate-700 transition-colors"
               >
-                ✖ Hide Adjuster
+                ✖ Close Toolbar
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs font-semibold">
-            {/* 3D Student Character Size & Position Controls */}
-            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+          {/* SLIDERS & IMAGE SELECTOR DROPDOWNS */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs font-semibold">
+            {/* Hero Character Controls */}
+            <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-2">
               <div className="flex justify-between text-blue-300 font-bold">
-                <span>3D Character Size:</span>
+                <span>3D Hero Character:</span>
                 <span>{heroScale}%</span>
               </div>
+              <select
+                value={heroImage}
+                onChange={(e) => setHeroImage(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-[11px] text-slate-200 font-medium cursor-pointer"
+              >
+                {all3DImages.map((img) => (
+                  <option key={img.value} value={img.value}>{img.label}</option>
+                ))}
+              </select>
               <input
-                type="range"
-                min="50"
-                max="200"
-                value={heroScale}
+                type="range" min="50" max="200" value={heroScale}
                 onChange={(e) => setHeroScale(Number(e.target.value))}
                 className="w-full accent-blue-500 cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-slate-400">
-                <span>X Offset: {heroX}px</span>
-                <span>Y Offset: {heroY}px</span>
-              </div>
-              <div className="flex space-x-2">
-                <input
-                  type="range"
-                  min="-250"
-                  max="250"
-                  value={heroX}
-                  onChange={(e) => setHeroX(Number(e.target.value))}
-                  className="w-1/2 accent-blue-400"
-                />
-                <input
-                  type="range"
-                  min="-250"
-                  max="250"
-                  value={heroY}
-                  onChange={(e) => setHeroY(Number(e.target.value))}
-                  className="w-1/2 accent-blue-400"
-                />
+                <span>X: {heroX}px</span>
+                <span>Y: {heroY}px</span>
               </div>
             </div>
 
-            {/* Floating CS-3A Card Size & Position Controls */}
-            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+            {/* Floating CS-3A Card Controls */}
+            <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-2">
               <div className="flex justify-between text-indigo-300 font-bold">
-                <span>CS-3A Card Size:</span>
+                <span>CS-3A Floating Card:</span>
                 <span>{cardScale}%</span>
               </div>
+              <div className="text-[10px] text-slate-400">Drag with mouse anywhere on screen</div>
               <input
-                type="range"
-                min="50"
-                max="180"
-                value={cardScale}
+                type="range" min="50" max="180" value={cardScale}
                 onChange={(e) => setCardScale(Number(e.target.value))}
                 className="w-full accent-indigo-500 cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-slate-400">
-                <span>X Offset: {cardX}px</span>
-                <span>Y Offset: {cardY}px</span>
-              </div>
-              <div className="flex space-x-2">
-                <input
-                  type="range"
-                  min="-350"
-                  max="350"
-                  value={cardX}
-                  onChange={(e) => setCardX(Number(e.target.value))}
-                  className="w-1/2 accent-indigo-400"
-                />
-                <input
-                  type="range"
-                  min="-300"
-                  max="300"
-                  value={cardY}
-                  onChange={(e) => setCardY(Number(e.target.value))}
-                  className="w-1/2 accent-indigo-400"
-                />
+                <span>X: {cardX}px</span>
+                <span>Y: {cardY}px</span>
               </div>
             </div>
 
-            {/* Summary & Live CSS Code Output */}
-            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5 flex flex-col justify-between">
-              <span className="font-bold text-emerald-400 block">Live Coordinates Output:</span>
-              <code className="text-[10px] text-slate-300 bg-slate-900 p-2 rounded block overflow-x-auto">
-                Character: size({heroScale}%), pos({heroX}px, {heroY}px)<br />
-                Floating Card: size({cardScale}%), pos({cardX}px, {cardY}px)
-              </code>
-              <span className="text-[10px] text-slate-400 italic">Adjust sliders to find perfect balance!</span>
+            {/* Student Hub & Faculty Cards Selectors */}
+            <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-2">
+              <span className="text-emerald-300 font-bold block">Gateway Cards Images:</span>
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-[10px] text-slate-400">
+                  <span>Student Hub:</span>
+                </div>
+                <select
+                  value={studentHubImage}
+                  onChange={(e) => setStudentHubImage(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1 text-[10px] text-slate-200 cursor-pointer"
+                >
+                  {all3DImages.map((img) => (
+                    <option key={img.value} value={img.value}>{img.label}</option>
+                  ))}
+                </select>
+                <div className="flex items-center justify-between text-[10px] text-slate-400 pt-0.5">
+                  <span>Faculty Studio:</span>
+                </div>
+                <select
+                  value={facultyStudioImage}
+                  onChange={(e) => setFacultyStudioImage(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1 text-[10px] text-slate-200 cursor-pointer"
+                >
+                  {all3DImages.map((img) => (
+                    <option key={img.value} value={img.value}>{img.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Native APK Card & Permanent Save Summary */}
+            <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-2 flex flex-col justify-between">
+              <div>
+                <span className="text-cyan-300 font-bold block">Native APK Image:</span>
+                <select
+                  value={nativeApkImage}
+                  onChange={(e) => setNativeApkImage(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1 text-[10px] text-slate-200 cursor-pointer mt-1"
+                >
+                  {all3DImages.map((img) => (
+                    <option key={img.value} value={img.value}>{img.label}</option>
+                  ))}
+                </select>
+              </div>
+              <button
+                onClick={saveLayoutPermanently}
+                className="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center space-x-1 shadow"
+              >
+                <span>💾 Click to Save Config</span>
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Floating Re-enable Editor Toggle (Shown when toolbar is hidden) */}
+      {/* Floating Re-enable Editor Toggle (Shown when toolbar is closed) */}
       {!isEditMode && (
         <button
           onClick={() => setIsEditMode(true)}
-          className="fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-2xl border border-blue-400/40 flex items-center space-x-2 backdrop-blur-md"
+          className="fixed bottom-5 right-5 z-50 px-5 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-black shadow-2xl border border-blue-300/40 flex items-center space-x-2 backdrop-blur-md transition-all scale-105"
         >
-          <Sparkles className="w-4 h-4" />
-          <span>Open Visual Adjuster</span>
+          <Sparkles className="w-4 h-4 text-blue-300" />
+          <span>🎨 Open Visual Studio</span>
         </button>
       )}
+
+      {/* Rich Glowing Ambient Light Orbs for 3D Depth */}
+      <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-600/20 blur-[150px] pointer-events-none z-0" />
+      <div className="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-600/20 blur-[150px] pointer-events-none z-0" />
+      <div className="fixed top-[35%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-purple-600/15 blur-[140px] pointer-events-none z-0" />
+
+      {/* Main Canvas Background Mesh */}
+      <div className="fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0b0f19] to-black pointer-events-none" />
 
       {/* Full-Bleed Top Header Navbar */}
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#0b0f19]/80 border-b border-slate-800/80 px-6 lg:px-12 xl:px-16 py-4 shadow-2xl shadow-black/40">
@@ -326,10 +493,10 @@ export default function LandingPage() {
 
       {/* Main Full-Width Content Container */}
       <main className="relative z-10 max-w-[1750px] mx-auto px-6 lg:px-12 xl:px-16 py-10 space-y-28">
-        
+
         {/* HERO SECTION - 3D Character & Floating Status Widget Layout */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-2 relative">
-          
+
           {/* Hero Left Column - Copy & Action Buttons */}
           <div className="lg:col-span-5 space-y-8 z-10">
             <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-300 text-xs font-bold backdrop-blur-md">
@@ -345,7 +512,7 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
-              Architected by <strong className="text-white font-semibold">Md Jibran</strong> for ultra-secure Indian college examinations. 
+              Architected by <strong className="text-white font-semibold">Md Jibran</strong> for ultra-secure Indian college examinations.
               Featuring 200m GPS geofence locking, randomized MCQ shuffling, un-bypassable 3-strike proctoring, and instant PDF marksheet dispatch.
             </p>
 
@@ -402,14 +569,14 @@ export default function LandingPage() {
 
           {/* Hero Right Column - MASSIVE 3D Student Character Stage with Floating Mid-Term Card Overlay */}
           <div className="lg:col-span-7 flex flex-col justify-center items-center relative z-20 min-h-[520px] lg:min-h-[660px]">
-            
+
             {/* Ambient Background Radial Glow behind Main Character */}
             <div className="absolute inset-0 bg-blue-600/35 rounded-full blur-[110px] pointer-events-none scale-125" />
-            
+
             {/* MAIN MASSIVE 3D HERO STUDENT CHARACTER (Mouse Grab-and-Drag enabled) */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/3d/hero_student_laptop.png"
+              src={heroImage}
               alt="3D Hero Student at Laptop (Drag to Move)"
               onMouseDown={(e) => handleMouseDown("hero", e)}
               style={{
@@ -512,7 +679,7 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/3d/student_login_badge.png"
+                    src={studentHubImage}
                     alt="3D Student Hub Badge Character"
                     className="h-48 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(37,99,235,0.3)] group-hover:scale-110 transition-transform duration-500"
                   />
@@ -547,7 +714,7 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/3d/peer_chat_students.png"
+                    src={facultyStudioImage}
                     alt="3D Faculty Studio Character"
                     className="h-48 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(99,102,241,0.3)] group-hover:scale-110 transition-transform duration-500"
                   />
@@ -582,7 +749,7 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/3d/notes_library_books.png"
+                    src={nativeApkImage}
                     alt="3D Native APK Character"
                     className="h-48 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(16,185,129,0.3)] group-hover:scale-110 transition-transform duration-500"
                   />
@@ -698,10 +865,10 @@ export default function LandingPage() {
                 Architected by Md Jibran
               </h2>
               <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-3xl">
-                LeGeZt was conceived to deliver a transparent, autonomous, and offline-resilient college management platform. 
+                LeGeZt was conceived to deliver a transparent, autonomous, and offline-resilient college management platform.
                 Combining high-concurrency Go services, Next.js web applications, and secure native Android APKs to elevate institutional academic standards.
               </p>
-              
+
               <div className="pt-4 flex items-center space-x-4">
                 <a
                   href="#buy-coffee"

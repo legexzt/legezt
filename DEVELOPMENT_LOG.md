@@ -290,29 +290,17 @@
 - **Stage Swap**: Swapped the Hero middle and right columns so that the **3D Hero Student Character** (`hero_student_laptop.png`) takes the main right stage (`lg:col-span-7`, `max-w-[820px]`).
 - **Floating Badge Overlay**: Transformed the CS-3A Mid-Term Examination card into a sleek, floating 3D glass widget floating over the top-right of the 3D student character with backdrop blur and glowing hover state.
 
-### 36. Interactive Live Visual Layout Adjuster Overlay (v5.0 Build — New!)
-- **Live User Control Access**: Built a real-time floating **Visual Layout Adjuster Toolbar** directly into `http://localhost:3000` giving user interactive sliders to adjust:
-  - **3D Hero Student Character**: Size scale (50%–200%), Position X (-250px to +250px), Position Y (-250px to +250px).
-  - **CS-3A Mid-Term Floating Card**: Size scale (50%–180%), Position X (-350px to +350px), Position Y (-300px to +300px).
-- **Toggle Control**: Included real-time live coordinate display, Reset button, and Hide/Show Adjuster toggle button per user request.
-
-### 37. Direct Mouse Grab & Drag Capability across Homepage (v5.1 Build — New!)
-- **Mouse Drag-and-Drop**: Integrated `onMouseDown`, `onMouseMove`, and `onMouseUp` event handlers allowing user to click, grab, and drag the 3D Student Character and CS-3A Floating Card directly with their mouse anywhere on screen.
-- **Grab Cursor & Hover Ring**: Added `cursor-grab`, `active:cursor-grabbing`, and active glowing outline ring indicators when hovering over draggable elements in Edit Mode.
-
-### 38. Gateway Grid 3D Character PNG Update & Edit Mode Freeze (v5.2 Build — New!)
-- **3-Card Gateway Integration**: Mapped user-selected 3D character PNGs to the 3 Gateway cards:
-  - **Student Hub Card**: `student_login_badge.png` (Student holding digital campus login ID badge).
-  - **Faculty Studio Card**: `peer_chat_students.png` (Students communicating with floating speech bubbles).
-  - **Native APKs Card**: `notes_library_books.png` (Student studying on stack of textbooks).
-- **Edit Overlay Removal**: Disabled interactive live edit mode overlay toolbar to freeze and lock the clean production layout.
-
 ---
 
 ## 📋 Backlog & Pending Tasks (To Be Addressed next)
 
 - [ ] **Network Reconnection Alerts**: Implement an active network connectivity listener inside the app to show a clean offline banner when a student loses internet connection.
 - [ ] **Document Search Bar**: Add a search bar inside `DocumentsScreen` (`DocumentsAndPdfViewer.kt`) to allow students to search notes and question banks by title or source.
+
+### 39. Permanent Save System & Visual Studio API Persistence (v5.5 Build — New!)
+- **Permanent Layout Storage**: Created `portal/data/layout_config.json` and API endpoint `portal/app/api/layout/save/route.ts` (`GET`/`POST`) to permanently store element coordinates and image selections.
+- **Save Permanently Button**: Added a prominent **💾 SAVE PERMANENTLY** button to the Visual Studio control panel that writes exact layout coordinates to both `localStorage` and `portal/data/layout_config.json`.
+- **Image Selector Dropdown**: Built image picker select controls into the Visual Studio toolbar allowing user to swap any of the 17 available 3D character PNGs for any card in real time.
 
 ---
 
@@ -323,6 +311,17 @@
   - ViewModel: [StudentViewModel.kt](file:///C:/Users/mdjib/Desktop/legezt/legezt-student/app/src/main/java/com/example/services/StudentViewModel.kt)
   - API Service: [ApiService.kt](file:///C:/Users/mdjib/Desktop/legezt/legezt-student/app/src/main/java/com/example/services/ApiService.kt)
   - PDF & Documents UI: [DocumentsAndPdfViewer.kt](file:///C:/Users/mdjib/Desktop/legezt/legezt-student/app/src/main/java/com/example/ui/screens/DocumentsAndPdfViewer.kt)
+  - In-App Updater Overlay: [UpdateOverlay.kt](file:///C:/Users/mdjib/Desktop/legezt/legezt-student/app/src/main/java/com/example/ui/screens/UpdateOverlay.kt)
+  - Login & Registration UI: [SplashAndLoginScreens.kt](file:///C:/Users/mdjib/Desktop/legezt/legezt-student/app/src/main/java/com/example/ui/screens/SplashAndLoginScreens.kt)
+  - Chat Screen UI: [AdvisorMessagingAndServices.kt](file:///C:/Users/mdjib/Desktop/legezt/legezt-student/app/src/main/java/com/example/ui/screens/AdvisorMessagingAndServices.kt)
+- **Portal Backend Code**:
+  - App Version API: [route.ts](file:///C:/Users/mdjib/Desktop/legezt/portal/app/api/app-version/route.ts)
+  - Message Studio Web: [page.tsx](file:///C:/Users/mdjib/Desktop/legezt/portal/app/student/messages/page.tsx)
+- **Landing Page Code**:
+  - Main Page: [page.tsx](file:///C:/Users/mdjib/Desktop/legezt/frontend/src/app/page.tsx)
+  - CSS Styles: [globals.css](file:///C:/Users/mdjib/Desktop/legezt/frontend/src/app/globals.css)
+- **Deployment Tooling**:
+  - Drive Uploader: [gdrive_upload.py](file:///C:/Users/mdjib/Desktop/legezt/gdrive_upload.py)
   - In-App Updater Overlay: [UpdateOverlay.kt](file:///C:/Users/mdjib/Desktop/legezt/legezt-student/app/src/main/java/com/example/ui/screens/UpdateOverlay.kt)
   - Login & Registration UI: [SplashAndLoginScreens.kt](file:///C:/Users/mdjib/Desktop/legezt/legezt-student/app/src/main/java/com/example/ui/screens/SplashAndLoginScreens.kt)
   - Chat Screen UI: [AdvisorMessagingAndServices.kt](file:///C:/Users/mdjib/Desktop/legezt/legezt-student/app/src/main/java/com/example/ui/screens/AdvisorMessagingAndServices.kt)
