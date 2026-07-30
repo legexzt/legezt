@@ -77,25 +77,18 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-slate-900 text-slate-900 selection:bg-blue-600 selection:text-white overflow-x-hidden">
-      {/* Background Indian CS Engineering Lab Photography Overlay */}
-      <div 
-        className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-30 pointer-events-none mix-blend-overlay scale-105 transition-transform duration-1000"
-        style={{
-          backgroundImage: `url('/images/indian_cs_lab_students.png')`,
-        }}
-      />
+    <div className="relative min-h-screen bg-[#0b0f19] text-white selection:bg-blue-600 selection:text-white overflow-x-hidden">
       
-      {/* Rich Glowing Ambient Light Orbs to fill side gaps */}
-      <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-600/20 blur-[140px] pointer-events-none z-0" />
-      <div className="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-600/20 blur-[140px] pointer-events-none z-0" />
-      <div className="fixed top-[40%] right-[-5%] w-[35vw] h-[35vw] rounded-full bg-purple-600/15 blur-[120px] pointer-events-none z-0" />
+      {/* Rich Glowing Ambient Light Orbs for 3D Depth */}
+      <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-600/20 blur-[150px] pointer-events-none z-0" />
+      <div className="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-600/20 blur-[150px] pointer-events-none z-0" />
+      <div className="fixed top-[35%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-purple-600/15 blur-[140px] pointer-events-none z-0" />
 
-      {/* Main Gradient Canvas */}
-      <div className="fixed inset-0 z-0 bg-gradient-to-tr from-slate-950 via-slate-900/90 to-blue-950/80 pointer-events-none" />
+      {/* Main Canvas Background Mesh */}
+      <div className="fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0b0f19] to-black pointer-events-none" />
 
-      {/* Full-Bleed Header Navbar */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-900/80 border-b border-slate-800/80 px-6 lg:px-12 xl:px-16 py-4 shadow-xl shadow-black/20">
+      {/* Full-Bleed Top Header Navbar */}
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#0b0f19]/80 border-b border-slate-800/80 px-6 lg:px-12 xl:px-16 py-4 shadow-2xl shadow-black/40">
         <div className="max-w-[1700px] mx-auto flex items-center justify-between">
           {/* Logo & Emblem */}
           <div className="flex items-center space-x-3">
@@ -148,13 +141,13 @@ export default function LandingPage() {
       </header>
 
       {/* Main Full-Width Content Container */}
-      <main className="relative z-10 max-w-[1700px] mx-auto px-6 lg:px-12 xl:px-16 py-12 space-y-24">
+      <main className="relative z-10 max-w-[1700px] mx-auto px-6 lg:px-12 xl:px-16 py-12 space-y-28">
         
-        {/* HERO SECTION - Immersive Asymmetric Split Screen */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center pt-4">
+        {/* HERO SECTION - 3D Character Split Layout */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center pt-2 relative">
           
           {/* Hero Left Column */}
-          <div className="lg:col-span-7 space-y-8">
+          <div className="lg:col-span-5 space-y-8 z-10">
             <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-300 text-xs font-bold backdrop-blur-md">
               <ShieldCheck className="w-4 h-4 text-blue-400" />
               <span>Autonomous Intranet & 200m Geofenced Exam System</span>
@@ -167,13 +160,13 @@ export default function LandingPage() {
               </span>
             </h1>
 
-            <p className="text-base sm:text-xl text-slate-300 leading-relaxed font-normal max-w-3xl">
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
               Architected by <strong className="text-white font-semibold">Md Jibran</strong> for ultra-secure Indian college examinations. 
               Featuring 200m GPS geofence locking, randomized MCQ shuffling, un-bypassable 3-strike proctoring, and instant PDF marksheet dispatch.
             </p>
 
             {/* Quick Action Grid */}
-            <div className="flex flex-wrap gap-5 pt-2">
+            <div className="flex flex-wrap gap-4 pt-2">
               <a
                 href="#student-login"
                 className="btn-sapphire-crystal text-base px-8 py-4 flex items-center space-x-3 shadow-2xl shadow-blue-600/40"
@@ -183,7 +176,7 @@ export default function LandingPage() {
               </a>
               <a
                 href="#faculty-login"
-                className="btn-silver-glass text-base px-8 py-4 flex items-center space-x-3 bg-slate-800/90 text-white border-slate-700 hover:bg-slate-700"
+                className="btn-silver-glass text-base px-7 py-4 flex items-center space-x-3 bg-slate-800/90 text-white border-slate-700 hover:bg-slate-700"
               >
                 <Lock className="w-5 h-5 text-blue-400" />
                 <span>Faculty Studio</span>
@@ -197,28 +190,47 @@ export default function LandingPage() {
               </a>
             </div>
 
-            {/* Live Metrics Cards Spanning Full Width */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-4">
-              <div className="glass-card p-5 rounded-2xl bg-slate-800/60 border-slate-700/80">
-                <span className="text-3xl font-black text-blue-400 block">200m</span>
-                <span className="text-xs font-bold text-slate-400">GPS Geofence Radius</span>
+            {/* Live Metrics Pills */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+              <div className="glass-card p-4 rounded-2xl bg-slate-900/70 border-slate-800 flex items-center space-x-3">
+                <MapPin className="w-6 h-6 text-blue-400 shrink-0" />
+                <div>
+                  <span className="text-xl font-black text-white block leading-none">200m</span>
+                  <span className="text-[10px] font-bold text-slate-400">GPS Geofence</span>
+                </div>
               </div>
-              <div className="glass-card p-5 rounded-2xl bg-slate-800/60 border-slate-700/80">
-                <span className="text-3xl font-black text-indigo-400 block">3-Strike</span>
-                <span className="text-xs font-bold text-slate-400">Proctor Guard System</span>
+              <div className="glass-card p-4 rounded-2xl bg-slate-900/70 border-slate-800 flex items-center space-x-3">
+                <ShieldCheck className="w-6 h-6 text-indigo-400 shrink-0" />
+                <div>
+                  <span className="text-xl font-black text-white block leading-none">3-Strike</span>
+                  <span className="text-[10px] font-bold text-slate-400">Proctor Guard</span>
+                </div>
               </div>
-              <div className="glass-card p-5 rounded-2xl bg-slate-800/60 border-slate-700/80">
-                <span className="text-3xl font-black text-emerald-400 block">0.1s</span>
-                <span className="text-xs font-bold text-slate-400">PDF Marksheet Engine</span>
+              <div className="glass-card p-4 rounded-2xl bg-slate-900/70 border-slate-800 flex items-center space-x-3">
+                <Zap className="w-6 h-6 text-emerald-400 shrink-0" />
+                <div>
+                  <span className="text-xl font-black text-white block leading-none">0.1s</span>
+                  <span className="text-[10px] font-bold text-slate-400">PDF Dispatch</span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Hero Right Column - Interactive Card Preview */}
-          <div className="lg:col-span-5">
+          {/* Hero Center Column - 3D Student Character Overlay */}
+          <div className="lg:col-span-3 flex justify-center items-end relative z-20 min-h-[380px] lg:min-h-[500px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/3d/3d_character_1.png"
+              alt="3D Student at Laptop"
+              className="w-full max-w-[360px] lg:max-w-[420px] object-contain drop-shadow-[0_25px_35px_rgba(37,99,235,0.35)] hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+
+          {/* Hero Right Column - Live Workspace Card Preview */}
+          <div className="lg:col-span-4 z-10">
             {isLoading ? (
               /* Skeleton Shimmer Loading Card */
-              <div className="glass-card p-8 sm:p-10 rounded-3xl space-y-6 bg-slate-900/80 border-slate-800">
+              <div className="glass-card p-8 rounded-3xl space-y-6 bg-slate-900/80 border-slate-800">
                 <div className="h-6 w-1/3 rounded-lg skeleton-shimmer" />
                 <div className="h-10 w-3/4 rounded-xl skeleton-shimmer" />
                 <div className="space-y-3 pt-4">
@@ -230,7 +242,7 @@ export default function LandingPage() {
               </div>
             ) : (
               /* Live Workspace Card Preview */
-              <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/85 border-slate-700/80 space-y-6 relative overflow-hidden shadow-2xl shadow-black/50">
+              <div className="glass-card p-7 sm:p-8 rounded-3xl bg-slate-900/90 border-slate-800 space-y-6 relative overflow-hidden shadow-2xl shadow-black/70">
                 <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
                 
                 <div className="flex items-center justify-between pb-4 border-b border-slate-800">
@@ -243,7 +255,7 @@ export default function LandingPage() {
                   </span>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <h3 className="text-2xl font-black text-white">
                     CS-3A Mid-Term Examination
                   </h3>
@@ -260,18 +272,18 @@ export default function LandingPage() {
                 </div>
 
                 {/* Shuffled Question Box Preview */}
-                <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 text-xs font-medium space-y-3">
+                <div className="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 text-xs font-medium space-y-3">
                   <span className="font-bold text-blue-300 block">Q1 (Jumbled Seed #842):</span>
                   <p className="text-slate-200 text-sm">What is the time complexity of searching in a balanced Binary Search Tree?</p>
-                  <div className="grid grid-cols-2 gap-3 pt-2">
+                  <div className="grid grid-cols-2 gap-2.5 pt-1">
                     <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 font-semibold text-slate-300">A) O(N)</div>
-                    <div className="p-3 rounded-xl bg-blue-600/20 border border-blue-500/50 font-bold text-blue-200">B) O(log N) ✓</div>
+                    <div className="p-3 rounded-xl bg-blue-600/30 border border-blue-500/60 font-bold text-blue-200">B) O(log N) ✓</div>
                     <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 font-semibold text-slate-300">C) O(1)</div>
                     <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 font-semibold text-slate-300">D) O(N²)</div>
                   </div>
                 </div>
 
-                <div className="pt-2 flex items-center justify-between text-xs text-slate-400 font-semibold">
+                <div className="pt-1 flex items-center justify-between text-xs text-slate-400 font-semibold">
                   <span>Proctor Warnings: <strong className="text-emerald-400">0/3</strong></span>
                   <span className="flex items-center space-x-1 text-blue-300">
                     <CheckCircle2 className="w-3.5 h-3.5" />
@@ -283,8 +295,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* PORTALS & SERVICES GRID SECTION - Full Width Span */}
-        <section id="portals" className="space-y-10 pt-10">
+        {/* PORTALS & SERVICES GRID SECTION - 3D Character Stage Cards */}
+        <section id="portals" className="space-y-12 pt-10">
           <div className="text-center space-y-3">
             <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
               Student & Faculty Gateways
@@ -295,16 +307,31 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Student Hub Card */}
-            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative">
-              <div className="space-y-5">
-                <div className="w-14 h-14 rounded-2xl bg-blue-500/20 text-blue-400 border border-blue-400/30 flex items-center justify-center">
-                  <UserCheck className="w-7 h-7" />
+            {/* Student Hub Card with 3D Character Stage */}
+            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative group">
+              <div className="space-y-6">
+                {/* 3D Character Display Stage */}
+                <div className="h-52 w-full rounded-2xl bg-gradient-to-b from-slate-950/80 to-slate-900/40 border border-slate-800 flex items-center justify-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-colors" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/3d/3d_character_2.png"
+                    alt="3D Student Hub Character"
+                    className="h-44 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(37,99,235,0.3)] group-hover:scale-110 transition-transform duration-500"
+                  />
                 </div>
-                <h3 className="text-3xl font-black text-white">Student Hub</h3>
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-                  Access geofenced exams, instant PDF documents, WhatsApp-style classmate messaging, and NVIDIA AI Studio assistant.
-                </p>
+
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-400/30 flex items-center justify-center">
+                      <UserCheck className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-2xl font-black text-white">Student Hub</h3>
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                    Access geofenced exams, instant PDF documents, WhatsApp-style classmate messaging, and NVIDIA AI Studio assistant.
+                  </p>
+                </div>
               </div>
               <a
                 href="#student-login"
@@ -315,16 +342,31 @@ export default function LandingPage() {
               </a>
             </div>
 
-            {/* Faculty Hub Card */}
-            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative">
-              <div className="space-y-5">
-                <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 text-indigo-400 border border-indigo-400/30 flex items-center justify-center">
-                  <Lock className="w-7 h-7" />
+            {/* Faculty Hub Card with 3D Character Stage */}
+            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative group">
+              <div className="space-y-6">
+                {/* 3D Character Display Stage */}
+                <div className="h-52 w-full rounded-2xl bg-gradient-to-b from-slate-950/80 to-slate-900/40 border border-slate-800 flex items-center justify-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-colors" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/3d/3d_character_5.png"
+                    alt="3D Faculty Studio Character"
+                    className="h-44 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(99,102,241,0.3)] group-hover:scale-110 transition-transform duration-500"
+                  />
                 </div>
-                <h3 className="text-3xl font-black text-white">Faculty Studio</h3>
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-                  Schedule MCQ exams, generate AI questions from syllabus notes, set 6-digit PINs, and monitor live proctoring grids.
-                </p>
+
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-400/30 flex items-center justify-center">
+                      <Lock className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-2xl font-black text-white">Faculty Studio</h3>
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                    Schedule MCQ exams, generate AI questions from syllabus notes, set 6-digit PINs, and monitor live proctoring grids.
+                  </p>
+                </div>
               </div>
               <a
                 href="#faculty-login"
@@ -335,16 +377,31 @@ export default function LandingPage() {
               </a>
             </div>
 
-            {/* Android APK Card */}
-            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-emerald-500/40 space-y-8 flex flex-col justify-between overflow-hidden relative">
-              <div className="space-y-5">
-                <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30 flex items-center justify-center">
-                  <Download className="w-7 h-7" />
+            {/* Android APK Card with 3D Character Stage */}
+            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-emerald-500/40 space-y-8 flex flex-col justify-between overflow-hidden relative group">
+              <div className="space-y-6">
+                {/* 3D Character Display Stage */}
+                <div className="h-52 w-full rounded-2xl bg-gradient-to-b from-slate-950/80 to-slate-900/40 border border-emerald-500/30 flex items-center justify-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-colors" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/3d/3d_character_7.png"
+                    alt="3D Native APK Character"
+                    className="h-44 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(16,185,129,0.3)] group-hover:scale-110 transition-transform duration-500"
+                  />
                 </div>
-                <h3 className="text-3xl font-black text-white">Native APKs</h3>
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-                  Un-bypassable Student APK with screenshot block & 3-strike lock, plus portable Faculty Management APK.
-                </p>
+
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30 flex items-center justify-center">
+                      <Download className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-2xl font-black text-white">Native APKs</h3>
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                    Un-bypassable Student APK with screenshot block & 3-strike lock, plus portable Faculty Management APK.
+                  </p>
+                </div>
               </div>
               <a
                 href="#download-apk"
@@ -357,7 +414,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* INTERACTIVE SLIDE DECK SECTION - Full Width Span */}
+        {/* INTERACTIVE SLIDE DECK SECTION - 3D Graphic Integration */}
         <section id="deck" className="glass-card p-8 sm:p-12 rounded-3xl bg-slate-900/85 border-slate-800 space-y-8 shadow-2xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
             <div>
@@ -387,18 +444,24 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Active Slide Content */}
+          {/* Active Slide Content with 3D Graphic Stage */}
           {(() => {
             const SlideIcon = slides[activeSlide].icon;
             return (
               <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-4">
-                <div className="md:col-span-3 flex justify-center">
-                  <div className="w-28 h-28 rounded-3xl bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-800 text-white flex items-center justify-center shadow-2xl shadow-blue-600/40 border border-white/20">
-                    <SlideIcon className="w-14 h-14" />
+                <div className="md:col-span-4 flex justify-center">
+                  <div className="w-full h-56 rounded-3xl bg-slate-950/80 border border-slate-800 flex items-center justify-center p-4 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/images/3d/3d_character_6.png"
+                      alt="3D Security Radar"
+                      className="h-44 object-contain relative z-10 drop-shadow-[0_15px_30px_rgba(37,99,235,0.4)]"
+                    />
                   </div>
                 </div>
 
-                <div className="md:col-span-9 space-y-4">
+                <div className="md:col-span-8 space-y-4">
                   <div className="inline-flex items-center space-x-3">
                     <span className="px-3.5 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold border border-blue-400/30">
                       {slides[activeSlide].tag}
@@ -422,15 +485,15 @@ export default function LandingPage() {
           })()}
         </section>
 
-        {/* FOUNDER VISION & CREDITS SECTION - Full Width Span */}
-        <section id="vision" className="glass-card p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-blue-950/80 border-slate-800 space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            <div className="md:col-span-9 space-y-5">
+        {/* FOUNDER VISION & CREDITS SECTION - 3D University Building Integration */}
+        <section id="vision" className="glass-card p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-blue-950/80 border-slate-800 space-y-8 overflow-hidden relative">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
+            <div className="md:col-span-7 space-y-5">
               <span className="text-xs font-bold uppercase tracking-wider text-blue-400">Platform Blueprint & Vision</span>
               <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
                 Architected by Md Jibran
               </h2>
-              <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-4xl">
+              <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-3xl">
                 LeGeZt was conceived to deliver a transparent, autonomous, and offline-resilient college management platform. 
                 Combining high-concurrency Go services, Next.js web applications, and secure native Android APKs to elevate institutional academic standards.
               </p>
@@ -446,12 +509,14 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="md:col-span-3 flex justify-center">
-              <div className="w-36 h-36 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 p-1 shadow-2xl shadow-blue-500/30">
-                <div className="w-full h-full rounded-full bg-slate-950 flex items-center justify-center text-white">
-                  <GraduationCap className="w-20 h-20 text-blue-400" />
-                </div>
-              </div>
+            {/* Right Column - 3D Student & University Building Graphic Stage */}
+            <div className="md:col-span-5 flex justify-center items-center relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/3d/3d_character_10.png"
+                alt="3D Student with University Campus Building & Server"
+                className="w-full max-w-[480px] object-contain drop-shadow-[0_20px_40px_rgba(37,99,235,0.4)] hover:scale-105 transition-transform duration-500"
+              />
             </div>
           </div>
         </section>
