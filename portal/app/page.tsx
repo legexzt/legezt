@@ -141,7 +141,7 @@ export default function LandingPage() {
       </header>
 
       {/* Main Full-Width Content Container */}
-      <main className="relative z-10 max-w-[1700px] mx-auto px-6 lg:px-12 xl:px-16 py-12 space-y-28">
+      <main className="relative z-10 max-w-[1750px] mx-auto px-6 lg:px-12 xl:px-16 py-10 space-y-28">
         
         {/* HERO SECTION - 3D Character Split Layout */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-2 relative">
@@ -216,16 +216,20 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Hero Center Column - 3D Main Student Character (LARGE Hero Size) */}
-          <div className="lg:col-span-3 flex justify-center items-center relative z-20 min-h-[420px] lg:min-h-[550px]">
-            {/* Ambient Background Glow behind Character */}
-            <div className="absolute inset-0 bg-blue-600/25 rounded-full blur-3xl pointer-events-none" />
+          {/* Hero Center Column - HUGE 3D Student Character */}
+          <div className="lg:col-span-3 flex flex-col justify-center items-center relative z-20 min-h-[480px] lg:min-h-[620px]">
+            {/* Ambient Background Radial Glow behind Character */}
+            <div className="absolute inset-0 bg-blue-600/30 rounded-full blur-[100px] pointer-events-none scale-125" />
+            
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/3d/3d_character_1.png"
               alt="3D Hero Student at Laptop"
-              className="w-full max-w-[480px] lg:max-w-[580px] object-contain drop-shadow-[0_30px_45px_rgba(37,99,235,0.45)] hover:scale-105 transition-transform duration-500 relative z-10"
+              className="w-[125%] max-w-[580px] lg:max-w-[720px] object-contain drop-shadow-[0_35px_50px_rgba(37,99,235,0.5)] hover:scale-110 transition-transform duration-500 relative z-10 -my-8"
             />
+
+            {/* Grounded 3D Shadow Ring */}
+            <div className="w-[80%] h-8 bg-blue-500/20 rounded-[100%] blur-xl pointer-events-none -mt-4 relative z-0" />
           </div>
 
           {/* Hero Right Column - Live Workspace Card Preview */}

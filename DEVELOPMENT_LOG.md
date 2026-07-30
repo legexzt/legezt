@@ -278,6 +278,10 @@
 - **Card Mapping Correction**: Corrected gateway card stages to display `3d_character_2.png` (Student Hub study desk), `3d_character_3.png` (Faculty Studio professor workstation), and `3d_character_4.png` (Native APK student holding phone with security shield).
 - **Vision Card Alignment**: Ensured `3d_character_10.png` (Student standing proudly in front of 3D university building & server rack) is properly aligned in the Founder Vision section.
 
+### 33. Hero 3D Character Massive Scale Expansion (v4.7 Build — New!)
+- **Image Cropping**: Auto-cropped transparent alpha boundaries for all 17 PNG assets so zero empty padding surrounds character graphics.
+- **Massive Hero Scale**: Expanded Hero center student character (`3d_character_1.png`) to `max-w-[720px] scale-125` with a grounded 3D shadow ring and intense background radial glow (`bg-blue-600/30 blur-[100px]`).
+
 ---
 
 ## 📋 Backlog & Pending Tasks (To Be Addressed next)
