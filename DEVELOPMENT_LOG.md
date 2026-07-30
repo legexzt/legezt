@@ -249,6 +249,12 @@
 - **Asymmetric Split-Screen Layout**: Engineered responsive split hero banner, live exam preview card with shuffled question seed, Skeleton Shimmer state simulator, interactive Security & Geofence Slide Deck, and Founder Vision module.
 - **Local Dev Server**: Launched Next.js Turbopack dev server live at `http://localhost:3000` (and Remote Tunnel at `vscode.dev/tunnel/legezt-pc`).
 
+### 28. Full-Bleed Layout Expansion & Whitespace Elimination (v4.2 Build — New!)
+- **Layout Expansion**: Expanded maximum grid container width from constrained `max-w-7xl` to ultra-wide `max-w-[1700px]`, eliminating empty side margin gaps on wide desktop monitors.
+- **Ambient Lighting Depth**: Added multi-layer background ambient glow orbs (`bg-blue-600/20`, `bg-indigo-600/20`, `bg-purple-600/15`) with `blur-[140px]` to fill empty screen spaces with immersive agency-grade depth.
+- **Full-Bleed Header Navbar**: Upgraded sticky navbar to span full screen width with backdrop blur (`backdrop-blur-xl bg-slate-900/80`).
+- **Dark Glassmorphism UI**: Refined `.glass-card` and `.btn-sapphire-crystal` elements in `portal/app/globals.css` for high contrast, dark-slate background readability, and crisp 100% SVG alignment.
+
 ---
 
 ## 📋 Backlog & Pending Tasks (To Be Addressed next)
