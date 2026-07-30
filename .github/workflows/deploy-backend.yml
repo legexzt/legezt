@@ -1,0 +1,47 @@
+name: Deploy Express Backend to Azure
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**' # Only trigger when changes are made inside the backend folder
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-size: '20'
+          node-version: '20'
+
+      - name: Install & Build Backend
+        run: |
+          cd backend
+          npm install
+          npx prisma generate
+          npm run build
+
+      - name: Zip Backend Artifacts
+        run: |
+          # Create a deployment directory excluding node_modules
+          mkdir deploy_dir
+          cp -r backend/dist deploy_dir/
+          cp -r backend/prisma deploy_dir/
+          cp backend/package.json deploy_dir/
+          cd deploy_dir
+          zip -r ../deploy.zip .
+          cd ..
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'legezt-backend-api'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: './deploy.zip'

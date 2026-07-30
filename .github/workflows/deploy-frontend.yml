@@ -1,0 +1,53 @@
+name: Deploy Next.js Frontend to Azure
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**' # Only trigger when changes are made inside the frontend folder
+      - '.github/workflows/deploy-frontend.yml'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install & Build Frontend
+        env:
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || 'pk_test_c2FmZS1iaXJkLTc1LmNsZXJrLmFjY291bnRzLmRldiQ' }}
+          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY || 'sk_test_pZBSv24RnOFTn2LcgcMp80W5tME0f16MV9ZJ1I8aok' }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'mongodb+srv://legezt:iamlegezt09@cluster0.3lhyxop.mongodb.net/legezt?retryWrites=true&w=majority' }}
+          NEXT_PUBLIC_ADMIN_USER_ID: "legezt"
+          ADMIN_USER_ID: "legezt"
+          NEXT_PUBLIC_ADMIN_EMAIL: "mdjibjibran@gmail.com"
+          ADMIN_EMAIL: "mdjibjibran@gmail.com"
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+      - name: Package Standalone Build
+        run: |
+          cd frontend
+          # Copy public assets and static files into standalone folder
+          cp -r public .next/standalone/
+          cp -r .next/static .next/standalone/.next/
+          # Zip the standalone folder using forward slashes (native Linux zip)
+          cd .next/standalone
+          zip -r ../../../deploy.zip .
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'mrlegezt-frontend'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_FRONTEND_PUBLISH_PROFILE }}
+          package: './deploy.zip'

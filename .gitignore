@@ -1,0 +1,23 @@
+# Dependency directories
+node_modules/
+.next/
+build/
+dist/
+.gradle/
+.idea/
+.kotlin/
+
+# Secrets & Local credentials
+tools_and_credentials/
+*.json
+*.xml
+*.token
+*.db
+.env
+.env.local
+
+# Archive & Temp files
+*.tar.gz
+*.zip
+tmp/
+scratch/
