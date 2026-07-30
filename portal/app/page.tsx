@@ -78,11 +78,11 @@ export default function LandingPage() {
 
   return (
     <div className="relative min-h-screen bg-slate-900 text-slate-900 selection:bg-blue-600 selection:text-white overflow-x-hidden">
-      {/* Background CS Engineering Lab Photography Overlay */}
+      {/* Background Indian CS Engineering Lab Photography Overlay */}
       <div 
-        className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-25 pointer-events-none mix-blend-overlay scale-105 transition-transform duration-1000"
+        className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-30 pointer-events-none mix-blend-overlay scale-105 transition-transform duration-1000"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=2000')`,
+          backgroundImage: `url('/images/indian_cs_lab_students.png')`,
         }}
       />
       
@@ -168,7 +168,7 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-base sm:text-xl text-slate-300 leading-relaxed font-normal max-w-3xl">
-              Architected by <strong className="text-white font-semibold">Md Jibran</strong> for ultra-secure college examinations. 
+              Architected by <strong className="text-white font-semibold">Md Jibran</strong> for ultra-secure Indian college examinations. 
               Featuring 200m GPS geofence locking, randomized MCQ shuffling, un-bypassable 3-strike proctoring, and instant PDF marksheet dispatch.
             </p>
 
@@ -296,13 +296,24 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Student Hub Card */}
-            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between">
+            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative">
               <div className="space-y-5">
-                <div className="w-14 h-14 rounded-2xl bg-blue-500/20 text-blue-400 border border-blue-400/30 flex items-center justify-center">
-                  <UserCheck className="w-7 h-7" />
+                <div className="h-44 w-full rounded-2xl overflow-hidden border border-slate-700/80 relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img 
+                    src="/images/indian_student_hero.png" 
+                    alt="Indian Student Hub" 
+                    className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                 </div>
-                <h3 className="text-3xl font-black text-white">Student Hub</h3>
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-400/30 flex items-center justify-center">
+                    <UserCheck className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-2xl font-black text-white">Student Hub</h3>
+                </div>
+                <p className="text-sm text-slate-300 leading-relaxed font-normal">
                   Access geofenced exams, instant PDF documents, WhatsApp-style classmate messaging, and NVIDIA AI Studio assistant.
                 </p>
               </div>
@@ -316,13 +327,24 @@ export default function LandingPage() {
             </div>
 
             {/* Faculty Hub Card */}
-            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between">
+            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative">
               <div className="space-y-5">
-                <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 text-indigo-400 border border-indigo-400/30 flex items-center justify-center">
-                  <Lock className="w-7 h-7" />
+                <div className="h-44 w-full rounded-2xl overflow-hidden border border-slate-700/80 relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img 
+                    src="/images/indian_faculty_professor.png" 
+                    alt="Indian Faculty Studio" 
+                    className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                 </div>
-                <h3 className="text-3xl font-black text-white">Faculty Studio</h3>
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-400/30 flex items-center justify-center">
+                    <Lock className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-2xl font-black text-white">Faculty Studio</h3>
+                </div>
+                <p className="text-sm text-slate-300 leading-relaxed font-normal">
                   Schedule MCQ exams, generate AI questions from syllabus notes, set 6-digit PINs, and monitor live proctoring grids.
                 </p>
               </div>
@@ -336,13 +358,24 @@ export default function LandingPage() {
             </div>
 
             {/* Android APK Card */}
-            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-emerald-500/40 space-y-8 flex flex-col justify-between">
+            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-emerald-500/40 space-y-8 flex flex-col justify-between overflow-hidden relative">
               <div className="space-y-5">
-                <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30 flex items-center justify-center">
-                  <Download className="w-7 h-7" />
+                <div className="h-44 w-full rounded-2xl overflow-hidden border border-emerald-500/30 relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img 
+                    src="/images/indian_classroom_exam.png" 
+                    alt="Indian Exam Classroom APK" 
+                    className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                 </div>
-                <h3 className="text-3xl font-black text-white">Native APKs</h3>
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30 flex items-center justify-center">
+                    <Download className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-2xl font-black text-white">Native APKs</h3>
+                </div>
+                <p className="text-sm text-slate-300 leading-relaxed font-normal">
                   Un-bypassable Student APK with screenshot block & 3-strike lock, plus portable Faculty Management APK.
                 </p>
               </div>
