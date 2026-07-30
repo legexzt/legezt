@@ -308,6 +308,11 @@
 - **Universal Drag & Position Offsets**: Enabled mouse grab-and-drag and X/Y offset sliders for any selected element across the website.
 - **Production Persistence**: Integrated all universal text & element overrides into the `SAVE PERMANENTLY` backend API pipeline (`portal/app/api/layout/save/route.ts`).
 
+### 41. 100% Full-Page Element Inspector & Global Drag/Edit Coverage (v6.5 Build — New!)
+- **Total DOM Element Binding**: Bound every single section across the entire landing page (Student/Faculty Gateway cards, Core Architecture Deck, Founder Vision, 3D Images, Action Buttons, and Footer) to the Universal Inspector selection system.
+- **Global Click Selection**: Clicking on any card, text line, heading, button, or 3D graphic instantly activates its blue selection ring and opens text, scale, font size, and drag controls in the toolbar.
+- **Full-Page Permanent Save**: All edits made across all 4 sections of the website are saved permanently to `portal/data/layout_config.json` when `💾 SAVE PERMANENTLY` is clicked.
+
 ---
 
 ## 📂 Key Files Map

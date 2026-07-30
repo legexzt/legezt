@@ -687,20 +687,53 @@ export default function LandingPage() {
         {/* PORTALS & SERVICES GRID SECTION - 3D Character Stage Cards */}
         <section id="portals" className="space-y-12 pt-10">
           <div className="text-center space-y-3">
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-              Student & Faculty Gateways
+            <h2
+              onClick={(e) => { e.stopPropagation(); setSelectedId("portals_title"); }}
+              onMouseDown={(e) => handleMouseDown("portals_title", e)}
+              className={`text-3xl sm:text-5xl font-black text-white tracking-tight transition-all ${
+                isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400 p-2 rounded-2xl" : ""
+              } ${selectedId === "portals_title" ? "ring-2 ring-blue-500 bg-blue-500/10 p-2 rounded-2xl" : ""}`}
+              style={{
+                fontSize: getProp("portals_title", "fontSize", 100) !== 100 ? `${getProp("portals_title", "fontSize", 100) / 100}em` : undefined,
+                transform: `scale(${getProp("portals_title", "scale", 100) / 100}) translate(${getProp("portals_title", "x", 0)}px, ${getProp("portals_title", "y", 0)}px)`
+              }}
+            >
+              {getProp("portals_title", "text", "Student & Faculty Gateways")}
             </h2>
-            <p className="text-base sm:text-lg text-slate-400 font-medium max-w-2xl mx-auto">
-              Partitioned workspace hubs ensuring complete data isolation by Branch, Year, and Section.
+            <p
+              onClick={(e) => { e.stopPropagation(); setSelectedId("portals_desc"); }}
+              onMouseDown={(e) => handleMouseDown("portals_desc", e)}
+              className={`text-base sm:text-lg text-slate-400 font-medium max-w-2xl mx-auto transition-all ${
+                isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400 p-2 rounded-2xl" : ""
+              } ${selectedId === "portals_desc" ? "ring-2 ring-blue-500 bg-blue-500/10 p-2 rounded-2xl" : ""}`}
+              style={{
+                fontSize: getProp("portals_desc", "fontSize", 100) !== 100 ? `${getProp("portals_desc", "fontSize", 100) / 100}em` : undefined,
+                transform: `scale(${getProp("portals_desc", "scale", 100) / 100}) translate(${getProp("portals_desc", "x", 0)}px, ${getProp("portals_desc", "y", 0)}px)`
+              }}
+            >
+              {getProp("portals_desc", "text", "Partitioned workspace hubs ensuring complete data isolation by Branch, Year, and Section.")}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Student Hub Card with 3D Character Stage */}
-            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative group">
+            <div
+              onClick={(e) => { e.stopPropagation(); setSelectedId("student_hub_card"); }}
+              onMouseDown={(e) => handleMouseDown("student_hub_card", e)}
+              className={`glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative group transition-all ${
+                isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-blue-500/60" : ""
+              } ${selectedId === "student_hub_card" ? "ring-4 ring-blue-500 border-blue-400 bg-blue-950/40" : ""}`}
+              style={{
+                fontSize: getProp("student_hub_card", "fontSize", 100) !== 100 ? `${getProp("student_hub_card", "fontSize", 100) / 100}em` : undefined,
+                transform: `scale(${getProp("student_hub_card", "scale", 100) / 100}) translate(${getProp("student_hub_card", "x", 0)}px, ${getProp("student_hub_card", "y", 0)}px)`
+              }}
+            >
               <div className="space-y-6">
                 {/* 3D Character Display Stage */}
-                <div className="h-56 w-full rounded-2xl bg-gradient-to-b from-slate-950/90 to-slate-900/50 border border-slate-800 flex items-center justify-center relative overflow-hidden">
+                <div
+                  onClick={(e) => { e.stopPropagation(); setSelectedId("student_hub_img"); }}
+                  className="h-56 w-full rounded-2xl bg-gradient-to-b from-slate-950/90 to-slate-900/50 border border-slate-800 flex items-center justify-center relative overflow-hidden"
+                >
                   <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -715,10 +748,12 @@ export default function LandingPage() {
                     <div className="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-400/30 flex items-center justify-center">
                       <UserCheck className="w-5 h-5" />
                     </div>
-                    <h3 className="text-2xl font-black text-white">Student Hub</h3>
+                    <h3 className="text-2xl font-black text-white">
+                      {getProp("student_hub_title", "text", "Student Hub")}
+                    </h3>
                   </div>
                   <p className="text-sm text-slate-300 leading-relaxed font-normal">
-                    Access geofenced exams, instant PDF documents, WhatsApp-style classmate messaging, and NVIDIA AI Studio assistant.
+                    {getProp("student_hub_desc", "text", "Access geofenced exams, instant PDF documents, WhatsApp-style classmate messaging, and NVIDIA AI Studio assistant.")}
                   </p>
                 </div>
               </div>
@@ -726,16 +761,29 @@ export default function LandingPage() {
                 href="#student-login"
                 className="btn-sapphire-crystal text-sm py-4 w-full flex items-center justify-center space-x-2"
               >
-                <span>Launch Student Hub</span>
+                <span>{getProp("student_hub_btn", "text", "Launch Student Hub")}</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
             </div>
 
             {/* Faculty Hub Card with 3D Character Stage */}
-            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative group">
+            <div
+              onClick={(e) => { e.stopPropagation(); setSelectedId("faculty_studio_card"); }}
+              onMouseDown={(e) => handleMouseDown("faculty_studio_card", e)}
+              className={`glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative group transition-all ${
+                isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-indigo-500/60" : ""
+              } ${selectedId === "faculty_studio_card" ? "ring-4 ring-indigo-500 border-indigo-400 bg-indigo-950/40" : ""}`}
+              style={{
+                fontSize: getProp("faculty_studio_card", "fontSize", 100) !== 100 ? `${getProp("faculty_studio_card", "fontSize", 100) / 100}em` : undefined,
+                transform: `scale(${getProp("faculty_studio_card", "scale", 100) / 100}) translate(${getProp("faculty_studio_card", "x", 0)}px, ${getProp("faculty_studio_card", "y", 0)}px)`
+              }}
+            >
               <div className="space-y-6">
                 {/* 3D Character Display Stage */}
-                <div className="h-56 w-full rounded-2xl bg-gradient-to-b from-slate-950/90 to-slate-900/50 border border-slate-800 flex items-center justify-center relative overflow-hidden">
+                <div
+                  onClick={(e) => { e.stopPropagation(); setSelectedId("faculty_studio_img"); }}
+                  className="h-56 w-full rounded-2xl bg-gradient-to-b from-slate-950/90 to-slate-900/50 border border-slate-800 flex items-center justify-center relative overflow-hidden"
+                >
                   <div className="absolute inset-0 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -750,10 +798,12 @@ export default function LandingPage() {
                     <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-400/30 flex items-center justify-center">
                       <Lock className="w-5 h-5" />
                     </div>
-                    <h3 className="text-2xl font-black text-white">Faculty Studio</h3>
+                    <h3 className="text-2xl font-black text-white">
+                      {getProp("faculty_studio_title", "text", "Faculty Studio")}
+                    </h3>
                   </div>
                   <p className="text-sm text-slate-300 leading-relaxed font-normal">
-                    Schedule MCQ exams, generate AI questions from syllabus notes, set 6-digit PINs, and monitor live proctoring grids.
+                    {getProp("faculty_studio_desc", "text", "Schedule MCQ exams, generate AI questions from syllabus notes, set 6-digit PINs, and monitor live proctoring grids.")}
                   </p>
                 </div>
               </div>
@@ -761,16 +811,29 @@ export default function LandingPage() {
                 href="#faculty-login"
                 className="btn-silver-glass text-sm py-4 w-full flex items-center justify-center space-x-2 bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
               >
-                <span>Open Faculty Studio</span>
+                <span>{getProp("faculty_studio_btn", "text", "Open Faculty Studio")}</span>
                 <ArrowRight className="w-4 h-4 text-blue-400" />
               </a>
             </div>
 
             {/* Android APK Card with 3D Character Stage */}
-            <div className="glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-emerald-500/40 space-y-8 flex flex-col justify-between overflow-hidden relative group">
+            <div
+              onClick={(e) => { e.stopPropagation(); setSelectedId("native_apk_card"); }}
+              onMouseDown={(e) => handleMouseDown("native_apk_card", e)}
+              className={`glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-emerald-500/40 space-y-8 flex flex-col justify-between overflow-hidden relative group transition-all ${
+                isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-emerald-500/60" : ""
+              } ${selectedId === "native_apk_card" ? "ring-4 ring-emerald-500 border-emerald-400 bg-emerald-950/40" : ""}`}
+              style={{
+                fontSize: getProp("native_apk_card", "fontSize", 100) !== 100 ? `${getProp("native_apk_card", "fontSize", 100) / 100}em` : undefined,
+                transform: `scale(${getProp("native_apk_card", "scale", 100) / 100}) translate(${getProp("native_apk_card", "x", 0)}px, ${getProp("native_apk_card", "y", 0)}px)`
+              }}
+            >
               <div className="space-y-6">
                 {/* 3D Character Display Stage */}
-                <div className="h-56 w-full rounded-2xl bg-gradient-to-b from-slate-950/90 to-slate-900/50 border border-emerald-500/30 flex items-center justify-center relative overflow-hidden">
+                <div
+                  onClick={(e) => { e.stopPropagation(); setSelectedId("native_apk_img"); }}
+                  className="h-56 w-full rounded-2xl bg-gradient-to-b from-slate-950/90 to-slate-900/50 border border-emerald-500/30 flex items-center justify-center relative overflow-hidden"
+                >
                   <div className="absolute inset-0 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -785,10 +848,12 @@ export default function LandingPage() {
                     <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30 flex items-center justify-center">
                       <Download className="w-5 h-5" />
                     </div>
-                    <h3 className="text-2xl font-black text-white">Native APKs</h3>
+                    <h3 className="text-2xl font-black text-white">
+                      {getProp("native_apk_title", "text", "Native APKs")}
+                    </h3>
                   </div>
                   <p className="text-sm text-slate-300 leading-relaxed font-normal">
-                    Un-bypassable Student APK with screenshot block & 3-strike lock, plus portable Faculty Management APK.
+                    {getProp("native_apk_desc", "text", "Un-bypassable Student APK with screenshot block & 3-strike lock, plus portable Faculty Management APK.")}
                   </p>
                 </div>
               </div>
@@ -797,19 +862,32 @@ export default function LandingPage() {
                 className="btn-silver-glass text-sm py-4 w-full flex items-center justify-center space-x-2 border-emerald-400/40 text-emerald-300 bg-emerald-950/60 hover:bg-emerald-900/80"
               >
                 <Download className="w-4 h-4 text-emerald-400" />
-                <span>Download Student APK</span>
+                <span>{getProp("native_apk_btn", "text", "Download Student APK")}</span>
               </a>
             </div>
           </div>
         </section>
 
         {/* INTERACTIVE SLIDE DECK SECTION - 3D Graphic Integration */}
-        <section id="deck" className="glass-card p-8 sm:p-12 rounded-3xl bg-slate-900/85 border-slate-800 space-y-8 shadow-2xl">
+        <section
+          id="deck"
+          onClick={(e) => { e.stopPropagation(); setSelectedId("deck_section"); }}
+          onMouseDown={(e) => handleMouseDown("deck_section", e)}
+          className={`glass-card p-8 sm:p-12 rounded-3xl bg-slate-900/85 border-slate-800 space-y-8 shadow-2xl transition-all ${
+            isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400/60" : ""
+          } ${selectedId === "deck_section" ? "ring-4 ring-blue-500 border-blue-400" : ""}`}
+          style={{
+            fontSize: getProp("deck_section", "fontSize", 100) !== 100 ? `${getProp("deck_section", "fontSize", 100) / 100}em` : undefined,
+            transform: `scale(${getProp("deck_section", "scale", 100) / 100}) translate(${getProp("deck_section", "x", 0)}px, ${getProp("deck_section", "y", 0)}px)`
+          }}
+        >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-blue-400">Platform Architecture Deck</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-blue-400">
+                {getProp("deck_tag", "text", "Platform Architecture Deck")}
+              </span>
               <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight mt-1">
-                Core Security & Autonomy Modules
+                {getProp("deck_title", "text", "Core Security & Autonomy Modules")}
               </h2>
             </div>
 
@@ -846,7 +924,10 @@ export default function LandingPage() {
             return (
               <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-4">
                 <div className="md:col-span-4 flex justify-center">
-                  <div className="w-full h-56 rounded-3xl bg-slate-950/80 border border-slate-800 flex items-center justify-center p-4 relative overflow-hidden">
+                  <div
+                    onClick={(e) => { e.stopPropagation(); setSelectedId("deck_img"); }}
+                    className="w-full h-56 rounded-3xl bg-slate-950/80 border border-slate-800 flex items-center justify-center p-4 relative overflow-hidden"
+                  >
                     <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -882,35 +963,68 @@ export default function LandingPage() {
         </section>
 
         {/* FOUNDER VISION & CREDITS SECTION - 3D University Building Integration */}
-        <section id="vision" className="glass-card p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-blue-950/80 border-slate-800 space-y-8 overflow-hidden relative">
+        <section
+          id="vision"
+          onClick={(e) => { e.stopPropagation(); setSelectedId("vision_section"); }}
+          onMouseDown={(e) => handleMouseDown("vision_section", e)}
+          className={`glass-card p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-blue-950/80 border-slate-800 space-y-8 overflow-hidden relative transition-all ${
+            isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400/60" : ""
+          } ${selectedId === "vision_section" ? "ring-4 ring-blue-500 border-blue-400" : ""}`}
+          style={{
+            fontSize: getProp("vision_section", "fontSize", 100) !== 100 ? `${getProp("vision_section", "fontSize", 100) / 100}em` : undefined,
+            transform: `scale(${getProp("vision_section", "scale", 100) / 100}) translate(${getProp("vision_section", "x", 0)}px, ${getProp("vision_section", "y", 0)}px)`
+          }}
+        >
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
             <div className="md:col-span-7 space-y-5">
-              <span className="text-xs font-bold uppercase tracking-wider text-blue-400">Platform Blueprint & Vision</span>
-              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-                Architected by Md Jibran
+              <span
+                onClick={(e) => { e.stopPropagation(); setSelectedId("vision_tag"); }}
+                className="text-xs font-bold uppercase tracking-wider text-blue-400 block cursor-pointer"
+              >
+                {getProp("vision_tag", "text", "Platform Blueprint & Vision")}
+              </span>
+              <h2
+                onClick={(e) => { e.stopPropagation(); setSelectedId("vision_title"); }}
+                className="text-3xl sm:text-5xl font-black text-white tracking-tight cursor-pointer"
+              >
+                {getProp("vision_title", "text", "Architected by Md Jibran")}
               </h2>
-              <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-3xl">
-                LeGeZt was conceived to deliver a transparent, autonomous, and offline-resilient college management platform.
-                Combining high-concurrency Go services, Next.js web applications, and secure native Android APKs to elevate institutional academic standards.
+              <p
+                onClick={(e) => { e.stopPropagation(); setSelectedId("vision_desc"); }}
+                className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-3xl cursor-pointer"
+              >
+                {getProp(
+                  "vision_desc",
+                  "text",
+                  "LeGeZt was conceived to deliver a transparent, autonomous, and offline-resilient college management platform. Combining high-concurrency Go services, Next.js web applications, and secure native Android APKs to elevate institutional academic standards."
+                )}
               </p>
 
               <div className="pt-4 flex items-center space-x-4">
                 <a
                   href="#buy-coffee"
+                  onClick={(e) => { e.stopPropagation(); setSelectedId("support_btn"); }}
                   className="btn-sapphire-crystal text-sm px-6 py-3.5 flex items-center space-x-2 bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 border-amber-300 text-white shadow-amber-500/30"
                 >
                   <Coffee className="w-5 h-5" />
-                  <span>Support Development</span>
+                  <span>{getProp("support_btn", "text", "Support Development")}</span>
                 </a>
               </div>
             </div>
 
             {/* Right Column - 3D Student & University Building Graphic Stage */}
-            <div className="md:col-span-5 flex justify-center items-center relative">
+            <div
+              onClick={(e) => { e.stopPropagation(); setSelectedId("vision_img"); }}
+              onMouseDown={(e) => handleMouseDown("vision_img", e)}
+              className="md:col-span-5 flex justify-center items-center relative cursor-grab"
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/3d/vision_campus_building.png"
-                alt="3D Student with University Campus Building & Server"
+                src={getProp("vision_img", "image", "/images/3d/campus_student_lifestyle.png")}
+                alt="3D Student sitting on books"
+                style={{
+                  transform: `scale(${getProp("vision_img", "scale", 100) / 100}) translate(${getProp("vision_img", "x", 0)}px, ${getProp("vision_img", "y", 0)}px)`
+                }}
                 className="w-full max-w-[480px] object-contain drop-shadow-[0_20px_40px_rgba(37,99,235,0.4)] hover:scale-105 transition-transform duration-500"
               />
             </div>
@@ -920,9 +1034,16 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-slate-800 bg-slate-950/90 backdrop-blur-xl py-10 px-6 text-center text-xs font-semibold text-slate-400 space-y-2">
-        <p className="text-slate-300 font-bold">© 2026 LeGeZt Academic Ecosystem. Created by Md Jibran.</p>
-        <p className="text-slate-500">All rights reserved. Powered by Next.js 15, Tailwind, and Golang Microservices.</p>
+      <footer
+        onClick={(e) => { e.stopPropagation(); setSelectedId("footer_section"); }}
+        className="relative z-10 border-t border-slate-800 bg-slate-950/90 backdrop-blur-xl py-10 px-6 text-center text-xs font-semibold text-slate-400 space-y-2 cursor-pointer"
+      >
+        <p className="text-slate-300 font-bold">
+          {getProp("footer_text", "text", "© 2026 LeGeZt Academic Ecosystem. Created by Md Jibran.")}
+        </p>
+        <p className="text-slate-500">
+          {getProp("footer_sub", "text", "All rights reserved. Powered by Next.js 15, Tailwind, and Golang Microservices.")}
+        </p>
       </footer>
     </div>
   );
