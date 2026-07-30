@@ -157,6 +157,14 @@ export default function LandingPage() {
     loadSavedLayout();
   }, []);
 
+  // Autoplay Slide Deck (Cycles every 5 seconds with smooth 3D animations)
+  React.useEffect(() => {
+    const slideTimer = setInterval(() => {
+      setActiveSlide((prev) => (prev < 4 - 1 ? prev + 1 : 0));
+    }, 5000);
+    return () => clearInterval(slideTimer);
+  }, []);
+
   // Save Layout Permanently to API & localStorage
   const saveLayoutPermanently = async () => {
     setSaveStatus("saving");
@@ -911,7 +919,7 @@ export default function LandingPage() {
             const current3DImg = slideImages[activeSlide] || "/images/3d/proctor_warning_shield.png";
 
             return (
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-6">
+              <div key={activeSlide} className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-6">
                 <div className="md:col-span-4 flex justify-center">
                   <div
                     onClick={(e) => { e.stopPropagation(); setSelectedId("deck_img"); }}
@@ -920,14 +928,15 @@ export default function LandingPage() {
                     <div className="absolute inset-0 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
+                      key={current3DImg}
                       src={current3DImg}
                       alt={slides[activeSlide].title}
-                      className="h-56 object-contain relative z-20 -mt-8 sm:-mt-10 scale-110 drop-shadow-[0_20px_40px_rgba(37,99,235,0.45)] hover:scale-120 transition-transform duration-500"
+                      className="h-56 object-contain relative z-20 -mt-8 sm:-mt-10 scale-110 drop-shadow-[0_20px_40px_rgba(37,99,235,0.45)] animate-pop-in hover:scale-120 transition-transform duration-500"
                     />
                   </div>
                 </div>
 
-                <div className="md:col-span-8 space-y-4">
+                <div className="md:col-span-8 space-y-4 animate-fade-up">
                   <div className="inline-flex items-center space-x-3">
                     <span className="px-3.5 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold border border-blue-400/30">
                       {slides[activeSlide].tag}

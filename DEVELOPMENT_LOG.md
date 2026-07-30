@@ -329,6 +329,11 @@
 ### 44. Vision Section 3D Image Lock (v7.8 Build — New!)
 - **Vision Image Fix**: Updated the "Architected by Md Jibran" (Platform Blueprint & Vision) section to render `vision_campus_building.png` (3D student with university campus building & server) on the right stage.
 
+### 45. Slide Deck 5-Second Autoplay & Smooth 3D Pop-in Animations (v8.0 Build — New!)
+- **Automatic 5-Second Slide Carousel**: Integrated a background `setInterval` autoplay timer cycling through all 4 slides every 5000ms.
+- **Smooth 3D Character Pop-in Animation**: Added `@keyframes slidePopIn` and `.animate-pop-in` in `globals.css` so 3D characters smoothly pop up and float into view on each slide transition.
+- **Smooth Text Fade-Up Animation**: Added `@keyframes slideFadeUp` and `.animate-fade-up` so slide titles, subtitles, and descriptions slide upward gracefully.
+
 ---
 
 ## 📂 Key Files Map
