@@ -313,6 +313,11 @@
 - **Global Click Selection**: Clicking on any card, text line, heading, button, or 3D graphic instantly activates its blue selection ring and opens text, scale, font size, and drag controls in the toolbar.
 - **Full-Page Permanent Save**: All edits made across all 4 sections of the website are saved permanently to `portal/data/layout_config.json` when `💾 SAVE PERMANENTLY` is clicked.
 
+### 42. Visual Studio Toolbar Cleanup & Production Layout Lock (v7.0 Build — New!)
+- **Visual Editor Toolbar Removal**: Removed the bottom Visual Studio toolbar overlay and floating toggle buttons as requested after final user customization.
+- **Production Clean Rendering**: Disabled edit selection rings and drag cursors (`isEditMode = false`), restoring clean, pristine production UI.
+- **Layout Config Active**: Maintained automatic loading of saved layout coordinates, 3D character images, and text overrides from `portal/data/layout_config.json` via `/api/layout/save`.
+
 ---
 
 ## 📂 Key Files Map

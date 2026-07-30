@@ -32,10 +32,10 @@ export default function LandingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
 
-  // Visual Studio Editor Mode State (ON by default until production deployment)
-  const [isEditMode, setIsEditMode] = useState(true);
+  // Visual Studio Editor Mode State (OFF - Final Production Layout Saved)
+  const [isEditMode, setIsEditMode] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"" | "saving" | "saved" | "error">("");
-  const [selectedId, setSelectedId] = useState<string | null>("hero_title");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   // Universal Element Custom Overrides Map (Text, Font Size, Scale, X, Y, Image)
   const [overrides, setOverrides] = useState<Record<string, {
@@ -411,17 +411,6 @@ export default function LandingPage() {
             </div>
           )}
         </div>
-      )}
-
-      {/* Floating Re-enable Editor Toggle (Shown when toolbar is closed) */}
-      {!isEditMode && (
-        <button
-          onClick={() => setIsEditMode(true)}
-          className="fixed bottom-5 right-5 z-50 px-5 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-black shadow-2xl border border-blue-300/40 flex items-center space-x-2 backdrop-blur-md transition-all scale-105"
-        >
-          <Sparkles className="w-4 h-4 text-blue-300" />
-          <span>🎨 Open Visual Studio</span>
-        </button>
       )}
 
       {/* Rich Glowing Ambient Light Orbs for 3D Depth */}
