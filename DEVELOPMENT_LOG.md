@@ -290,6 +290,12 @@
 - **Stage Swap**: Swapped the Hero middle and right columns so that the **3D Hero Student Character** (`hero_student_laptop.png`) takes the main right stage (`lg:col-span-7`, `max-w-[820px]`).
 - **Floating Badge Overlay**: Transformed the CS-3A Mid-Term Examination card into a sleek, floating 3D glass widget floating over the top-right of the 3D student character with backdrop blur and glowing hover state.
 
+### 36. Interactive Live Visual Layout Adjuster Overlay (v5.0 Build — New!)
+- **Live User Control Access**: Built a real-time floating **Visual Layout Adjuster Toolbar** directly into `http://localhost:3000` giving user interactive sliders to adjust:
+  - **3D Hero Student Character**: Size scale (50%–200%), Position X (-250px to +250px), Position Y (-250px to +250px).
+  - **CS-3A Mid-Term Floating Card**: Size scale (50%–180%), Position X (-350px to +350px), Position Y (-300px to +300px).
+- **Toggle Control**: Included real-time live coordinate display, Reset button, and Hide/Show Adjuster toggle button per user request.
+
 ---
 
 ## 📋 Backlog & Pending Tasks (To Be Addressed next)

@@ -32,6 +32,19 @@ export default function LandingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
 
+  // Interactive Visual Layout Controls State (User live editing access)
+  const [isEditMode, setIsEditMode] = useState(true);
+  
+  // Hero 3D Character Adjustments
+  const [heroScale, setHeroScale] = useState(100);
+  const [heroX, setHeroX] = useState(0);
+  const [heroY, setHeroY] = useState(0);
+
+  // Floating CS-3A Card Adjustments
+  const [cardScale, setCardScale] = useState(100);
+  const [cardX, setCardX] = useState(0);
+  const [cardY, setCardY] = useState(0);
+
   const slides = [
     {
       title: "200m GPS Geofencing Lock",
@@ -76,16 +89,149 @@ export default function LandingPage() {
     setTimeout(() => setIsLoading(false), 1200);
   };
 
-  return (
-    <div className="relative min-h-screen bg-[#0b0f19] text-white selection:bg-blue-600 selection:text-white overflow-x-hidden">
-      
-      {/* Rich Glowing Ambient Light Orbs for 3D Depth */}
-      <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-600/20 blur-[150px] pointer-events-none z-0" />
-      <div className="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-600/20 blur-[150px] pointer-events-none z-0" />
-      <div className="fixed top-[35%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-purple-600/15 blur-[140px] pointer-events-none z-0" />
+  const resetLayoutAdjuster = () => {
+    setHeroScale(100);
+    setHeroX(0);
+    setHeroY(0);
+    setCardScale(100);
+    setCardX(0);
+    setCardY(0);
+  };
 
-      {/* Main Canvas Background Mesh */}
-      <div className="fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0b0f19] to-black pointer-events-none" />
+  return (
+    <div className="relative min-h-screen bg-[#0b0f19] text-white selection:bg-blue-600 selection:text-white overflow-x-hidden pb-24">
+      {/* Dynamic Background Mesh Gradients */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-blue-600/20 rounded-full blur-[140px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-indigo-600/15 rounded-full blur-[140px] animate-pulse" style={{ animationDelay: "2s" }} />
+        <div className="absolute top-[40%] left-[30%] w-[35vw] h-[35vw] bg-cyan-600/10 rounded-full blur-[160px]" />
+      </div>
+
+      {/* INTERACTIVE VISUAL LAYOUT ADJUSTMENT OVERLAY TOOLBAR */}
+      {isEditMode && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl bg-slate-900/95 backdrop-blur-2xl border-2 border-blue-500/60 rounded-3xl p-4 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.8)] space-y-3 transition-all">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div className="flex items-center space-x-2 text-blue-400 font-black text-sm">
+              <Sparkles className="w-5 h-5 text-blue-400 animate-spin" />
+              <span>🎨 Live Visual Adjuster Mode (Active)</span>
+            </div>
+            <div className="flex items-center space-x-3 text-xs">
+              <button
+                onClick={resetLayoutAdjuster}
+                className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold border border-slate-700 transition-colors flex items-center space-x-1"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Reset Default</span>
+              </button>
+              <button
+                onClick={() => setIsEditMode(false)}
+                className="px-3.5 py-1.5 rounded-lg bg-red-600/20 text-red-300 hover:bg-red-600/40 font-bold border border-red-500/40 transition-colors"
+              >
+                ✖ Hide Adjuster
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs font-semibold">
+            {/* 3D Student Character Size & Position Controls */}
+            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+              <div className="flex justify-between text-blue-300 font-bold">
+                <span>3D Character Size:</span>
+                <span>{heroScale}%</span>
+              </div>
+              <input
+                type="range"
+                min="50"
+                max="200"
+                value={heroScale}
+                onChange={(e) => setHeroScale(Number(e.target.value))}
+                className="w-full accent-blue-500 cursor-pointer"
+              />
+              <div className="flex justify-between text-[10px] text-slate-400">
+                <span>X Offset: {heroX}px</span>
+                <span>Y Offset: {heroY}px</span>
+              </div>
+              <div className="flex space-x-2">
+                <input
+                  type="range"
+                  min="-250"
+                  max="250"
+                  value={heroX}
+                  onChange={(e) => setHeroX(Number(e.target.value))}
+                  className="w-1/2 accent-blue-400"
+                />
+                <input
+                  type="range"
+                  min="-250"
+                  max="250"
+                  value={heroY}
+                  onChange={(e) => setHeroY(Number(e.target.value))}
+                  className="w-1/2 accent-blue-400"
+                />
+              </div>
+            </div>
+
+            {/* Floating CS-3A Card Size & Position Controls */}
+            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+              <div className="flex justify-between text-indigo-300 font-bold">
+                <span>CS-3A Card Size:</span>
+                <span>{cardScale}%</span>
+              </div>
+              <input
+                type="range"
+                min="50"
+                max="180"
+                value={cardScale}
+                onChange={(e) => setCardScale(Number(e.target.value))}
+                className="w-full accent-indigo-500 cursor-pointer"
+              />
+              <div className="flex justify-between text-[10px] text-slate-400">
+                <span>X Offset: {cardX}px</span>
+                <span>Y Offset: {cardY}px</span>
+              </div>
+              <div className="flex space-x-2">
+                <input
+                  type="range"
+                  min="-350"
+                  max="350"
+                  value={cardX}
+                  onChange={(e) => setCardX(Number(e.target.value))}
+                  className="w-1/2 accent-indigo-400"
+                />
+                <input
+                  type="range"
+                  min="-300"
+                  max="300"
+                  value={cardY}
+                  onChange={(e) => setCardY(Number(e.target.value))}
+                  className="w-1/2 accent-indigo-400"
+                />
+              </div>
+            </div>
+
+            {/* Summary & Live CSS Code Output */}
+            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5 flex flex-col justify-between">
+              <span className="font-bold text-emerald-400 block">Live Coordinates Output:</span>
+              <code className="text-[10px] text-slate-300 bg-slate-900 p-2 rounded block overflow-x-auto">
+                Character: size({heroScale}%), pos({heroX}px, {heroY}px)<br />
+                Floating Card: size({cardScale}%), pos({cardX}px, {cardY}px)
+              </code>
+              <span className="text-[10px] text-slate-400 italic">Adjust sliders to find perfect balance!</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Re-enable Editor Toggle (Shown when toolbar is hidden) */}
+      {!isEditMode && (
+        <button
+          onClick={() => setIsEditMode(true)}
+          className="fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-2xl border border-blue-400/40 flex items-center space-x-2 backdrop-blur-md"
+        >
+          <Sparkles className="w-4 h-4" />
+          <span>Open Visual Adjuster</span>
+        </button>
+      )}
 
       {/* Full-Bleed Top Header Navbar */}
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#0b0f19]/80 border-b border-slate-800/80 px-6 lg:px-12 xl:px-16 py-4 shadow-2xl shadow-black/40">
@@ -227,14 +373,24 @@ export default function LandingPage() {
             <img
               src="/images/3d/hero_student_laptop.png"
               alt="3D Hero Student at Laptop"
-              className="w-[120%] max-w-[650px] lg:max-w-[820px] object-contain drop-shadow-[0_40px_60px_rgba(37,99,235,0.55)] hover:scale-105 transition-transform duration-500 relative z-10"
+              style={{
+                transform: `scale(${heroScale / 100}) translate(${heroX}px, ${heroY}px)`,
+                transition: "transform 0.1s ease-out"
+              }}
+              className="w-[120%] max-w-[650px] lg:max-w-[820px] object-contain drop-shadow-[0_40px_60px_rgba(37,99,235,0.55)] hover:scale-105 relative z-10"
             />
 
             {/* Grounded 3D Shadow Ring */}
             <div className="w-[85%] h-10 bg-blue-500/25 rounded-[100%] blur-xl pointer-events-none -mt-6 relative z-0" />
 
             {/* FLOATING COMPACT CS-3A MID-TERM LIVE WORKSPACE GLASS CARD (Swapped to Float over Character) */}
-            <div className="absolute top-2 sm:top-6 right-0 sm:right-4 z-30 max-w-[340px] sm:max-w-[380px] w-full">
+            <div
+              style={{
+                transform: `scale(${cardScale / 100}) translate(${cardX}px, ${cardY}px)`,
+                transition: "transform 0.1s ease-out"
+              }}
+              className="absolute top-2 sm:top-6 right-0 sm:right-4 z-30 max-w-[340px] sm:max-w-[380px] w-full"
+            >
               {isLoading ? (
                 <div className="glass-card p-5 rounded-2xl space-y-4 bg-slate-900/90 border-slate-800">
                   <div className="h-4 w-1/3 rounded skeleton-shimmer" />
