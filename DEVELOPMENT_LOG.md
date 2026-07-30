@@ -318,6 +318,14 @@
 - **Production Clean Rendering**: Disabled edit selection rings and drag cursors (`isEditMode = false`), restoring clean, pristine production UI.
 - **Layout Config Active**: Maintained automatic loading of saved layout coordinates, 3D character images, and text overrides from `portal/data/layout_config.json` via `/api/layout/save`.
 
+### 43. 4-Slide Architecture Deck 3D Images & Frame Pop-out Effect (v7.5 Build — New!)
+- **Specific 3D Image Mapping**:
+  - **Slide 1 (200m GPS Geofence Lock)**: Mapped to `proctor_warning_shield.png`.
+  - **Slide 2 (6-Digit Faculty Entry PIN)**: Temporary placeholder `student_login_badge.png` until user generates custom 3D PIN graphic.
+  - **Slide 3 (3-Strike Anti-Cheating Guard)**: Mapped to `student_hub_study_desk.png`.
+  - **Slide 4 (Instant PDF Marksheet Dispatch)**: Mapped to `faculty_female_professor.png`.
+- **3D Pop-out Frame Overflow**: Updated the image stage container styling (`overflow-visible`, `-mt-8`, `scale-110`) so 3D characters float slightly past the top card frame for a high-end 3D visual pop effect.
+
 ---
 
 ## 📂 Key Files Map

@@ -900,29 +900,29 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Active Slide Content with 3D Graphic Stage */}
+          {/* Active Slide Content with 3D Pop-out Graphic Stage */}
           {(() => {
             const slideImages = [
-              "/images/3d/geofence_gps_radar.png",
-              "/images/3d/faculty_classroom_whiteboard.png",
-              "/images/3d/proctor_warning_shield.png",
-              "/images/3d/pdf_marksheet_dispatch.png"
+              "/images/3d/proctor_warning_shield.png", // Slide 1: 200m GPS Geofence Lock
+              "/images/3d/student_login_badge.png",    // Slide 2: 6-Digit Faculty Entry PIN (Placeholder until generated)
+              "/images/3d/student_hub_study_desk.png",   // Slide 3: 3-Strike Anti-Cheating Guard
+              "/images/3d/faculty_female_professor.png"  // Slide 4: Instant PDF Marksheet Dispatch
             ];
-            const current3DImg = slideImages[activeSlide] || "/images/3d/geofence_gps_radar.png";
+            const current3DImg = slideImages[activeSlide] || "/images/3d/proctor_warning_shield.png";
 
             return (
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-6">
                 <div className="md:col-span-4 flex justify-center">
                   <div
                     onClick={(e) => { e.stopPropagation(); setSelectedId("deck_img"); }}
-                    className="w-full h-56 rounded-3xl bg-slate-950/80 border border-slate-800 flex items-center justify-center p-4 relative overflow-hidden"
+                    className="w-full h-56 rounded-3xl bg-slate-950/80 border border-slate-800 flex items-center justify-center p-4 relative overflow-visible"
                   >
-                    <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+                    <div className="absolute inset-0 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={current3DImg}
                       alt={slides[activeSlide].title}
-                      className="h-44 object-contain relative z-10 drop-shadow-[0_15px_30px_rgba(37,99,235,0.4)]"
+                      className="h-56 object-contain relative z-20 -mt-8 sm:-mt-10 scale-110 drop-shadow-[0_20px_40px_rgba(37,99,235,0.45)] hover:scale-120 transition-transform duration-500"
                     />
                   </div>
                 </div>
