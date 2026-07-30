@@ -326,6 +326,9 @@
   - **Slide 4 (Instant PDF Marksheet Dispatch)**: Mapped to `faculty_female_professor.png`.
 - **3D Pop-out Frame Overflow**: Updated the image stage container styling (`overflow-visible`, `-mt-8`, `scale-110`) so 3D characters float slightly past the top card frame for a high-end 3D visual pop effect.
 
+### 44. Vision Section 3D Image Lock (v7.8 Build — New!)
+- **Vision Image Fix**: Updated the "Architected by Md Jibran" (Platform Blueprint & Vision) section to render `vision_campus_building.png` (3D student with university campus building & server) on the right stage.
+
 ---
 
 ## 📂 Key Files Map

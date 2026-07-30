@@ -1002,18 +1002,11 @@ export default function LandingPage() {
             </div>
 
             {/* Right Column - 3D Student & University Building Graphic Stage */}
-            <div
-              onClick={(e) => { e.stopPropagation(); setSelectedId("vision_img"); }}
-              onMouseDown={(e) => handleMouseDown("vision_img", e)}
-              className="md:col-span-5 flex justify-center items-center relative cursor-grab"
-            >
+            <div className="md:col-span-5 flex justify-center items-center relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={getProp("vision_img", "image", "/images/3d/campus_student_lifestyle.png")}
-                alt="3D Student sitting on books"
-                style={{
-                  transform: `scale(${getProp("vision_img", "scale", 100) / 100}) translate(${getProp("vision_img", "x", 0)}px, ${getProp("vision_img", "y", 0)}px)`
-                }}
+                src="/images/3d/vision_campus_building.png"
+                alt="3D Student with University Campus Building & Server"
                 className="w-full max-w-[480px] object-contain drop-shadow-[0_20px_40px_rgba(37,99,235,0.4)] hover:scale-105 transition-transform duration-500"
               />
             </div>
