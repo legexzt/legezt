@@ -32,28 +32,37 @@ export default function LandingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
 
-  // Visual Studio Editor Mode State (ON by default for user customization)
+  // Visual Studio Editor Mode State (ON by default until production deployment)
   const [isEditMode, setIsEditMode] = useState(true);
   const [saveStatus, setSaveStatus] = useState<"" | "saving" | "saved" | "error">("");
+  const [selectedId, setSelectedId] = useState<string | null>("hero_title");
 
-  // Hero 3D Character Adjustments
+  // Universal Element Custom Overrides Map (Text, Font Size, Scale, X, Y, Image)
+  const [overrides, setOverrides] = useState<Record<string, {
+    text?: string;
+    fontSize?: number;
+    scale?: number;
+    x?: number;
+    y?: number;
+    image?: string;
+  }>>({});
+
+  // Legacy state fallbacks for top hero character & CS-3A card
   const [heroImage, setHeroImage] = useState("/images/3d/hero_student_laptop.png");
   const [heroScale, setHeroScale] = useState(100);
   const [heroX, setHeroX] = useState(0);
   const [heroY, setHeroY] = useState(0);
 
-  // Floating CS-3A Card Adjustments
   const [cardScale, setCardScale] = useState(100);
   const [cardX, setCardX] = useState(0);
   const [cardY, setCardY] = useState(0);
 
-  // Gateway Cards Images
   const [studentHubImage, setStudentHubImage] = useState("/images/3d/student_login_badge.png");
   const [facultyStudioImage, setFacultyStudioImage] = useState("/images/3d/peer_chat_students.png");
   const [nativeApkImage, setNativeApkImage] = useState("/images/3d/notes_library_books.png");
 
   // Mouse Grab-and-Drag State
-  const [activeDragTarget, setActiveDragTarget] = useState<"hero" | "card" | null>(null);
+  const [activeDragTarget, setActiveDragTarget] = useState<string | null>(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [initialPos, setInitialPos] = useState({ x: 0, y: 0 });
 
@@ -78,14 +87,29 @@ export default function LandingPage() {
     { label: "LeGeZt 3D Emblem Shield", value: "/images/3d/legezt_3d_emblem_shield.png" }
   ];
 
+  // Helper to read override property for any element
+  const getProp = (id: string, field: "text" | "fontSize" | "scale" | "x" | "y" | "image", defaultVal: any) => {
+    if (overrides[id] && overrides[id][field] !== undefined) {
+      return overrides[id][field];
+    }
+    return defaultVal;
+  };
+
+  const updateProp = (id: string, field: string, value: any) => {
+    setOverrides((prev) => ({
+      ...prev,
+      [id]: { ...(prev[id] || {}), [field]: value }
+    }));
+  };
+
   // Load Saved Layout on Initial Render
   React.useEffect(() => {
     const loadSavedLayout = async () => {
       try {
-        // Try reading from backend API first
         const res = await fetch("/api/layout/save");
         if (res.ok) {
           const config = await res.json();
+          if (config.overrides) setOverrides(config.overrides);
           if (config.hero) {
             setHeroImage(config.hero.image || "/images/3d/hero_student_laptop.png");
             setHeroScale(config.hero.scale || 100);
@@ -103,14 +127,14 @@ export default function LandingPage() {
           return;
         }
       } catch (e) {
-        console.log("Loading layout fallback from localStorage");
+        console.log("Fallback loading from localStorage");
       }
 
-      // Fallback to localStorage
       const local = localStorage.getItem("legezt_layout_config");
       if (local) {
         try {
           const config = JSON.parse(local);
+          if (config.overrides) setOverrides(config.overrides);
           if (config.hero) {
             setHeroImage(config.hero.image);
             setHeroScale(config.hero.scale);
@@ -137,6 +161,7 @@ export default function LandingPage() {
   const saveLayoutPermanently = async () => {
     setSaveStatus("saving");
     const layoutConfig = {
+      overrides,
       hero: { image: heroImage, scale: heroScale, x: heroX, y: heroY },
       card: { scale: cardScale, x: cardX, y: cardY },
       studentHub: { image: studentHubImage },
@@ -160,20 +185,27 @@ export default function LandingPage() {
       }
     } catch (e) {
       console.error(e);
-      setSaveStatus("saved"); // Fallback saved via localStorage
+      setSaveStatus("saved");
       setTimeout(() => setSaveStatus(""), 3500);
     }
   };
 
-  const handleMouseDown = (target: "hero" | "card", e: React.MouseEvent) => {
+  const handleMouseDown = (target: string, e: React.MouseEvent) => {
     if (!isEditMode) return;
     e.preventDefault();
+    setSelectedId(target);
     setActiveDragTarget(target);
     setDragStart({ x: e.clientX, y: e.clientY });
+
     if (target === "hero") {
       setInitialPos({ x: heroX, y: heroY });
-    } else {
+    } else if (target === "card") {
       setInitialPos({ x: cardX, y: cardY });
+    } else {
+      setInitialPos({
+        x: getProp(target, "x", 0),
+        y: getProp(target, "y", 0)
+      });
     }
   };
 
@@ -187,6 +219,9 @@ export default function LandingPage() {
     } else if (activeDragTarget === "card") {
       setCardX(initialPos.x + deltaX);
       setCardY(initialPos.y + deltaY);
+    } else {
+      updateProp(activeDragTarget, "x", initialPos.x + deltaX);
+      updateProp(activeDragTarget, "y", initialPos.y + deltaY);
     }
   };
 
@@ -264,18 +299,18 @@ export default function LandingPage() {
         <div className="absolute top-[40%] left-[30%] w-[35vw] h-[35vw] bg-cyan-600/10 rounded-full blur-[160px]" />
       </div>
 
-      {/* ADVANCED VISUAL STUDIO EDITOR TOOLBAR (WITH PERMANENT SAVE & IMAGE PICKER) */}
+      {/* UNIVERSAL VISUAL STUDIO INSPECTOR TOOLBAR (Active Page Builder) */}
       {isEditMode && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl bg-slate-900/95 backdrop-blur-2xl border-2 border-blue-500/70 rounded-3xl p-4 sm:p-5 shadow-[0_25px_60px_rgba(0,0,0,0.9)] space-y-4 transition-all">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl bg-slate-900/95 backdrop-blur-2xl border-2 border-blue-500/70 rounded-3xl p-4 sm:p-5 shadow-[0_25px_60px_rgba(0,0,0,0.9)] space-y-3 transition-all">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
             <div className="flex items-center space-x-3">
               <Sparkles className="w-5 h-5 text-blue-400 animate-spin" />
               <div>
                 <span className="text-blue-400 font-black text-sm block leading-none">
-                  🎨 LeGeZt Visual Studio (Active Editor)
+                  ⚡ Universal Visual Page Builder (Active Inspector)
                 </span>
                 <span className="text-[10px] text-slate-400 font-medium">
-                  Drag elements with mouse or use sliders below, then click &quot;Save Permanently&quot;
+                  Click any element on the website to select & edit text, font size, scale, or drag position!
                 </span>
               </div>
             </div>
@@ -284,12 +319,12 @@ export default function LandingPage() {
             <div className="flex items-center space-x-3 text-xs">
               {saveStatus === "saved" && (
                 <span className="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40 animate-pulse">
-                  ✓ Layout Saved Permanently!
+                  ✓ Layout & Text Saved Permanently!
                 </span>
               )}
               {saveStatus === "saving" && (
                 <span className="px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-300 font-bold border border-blue-500/40 animate-pulse">
-                  ⏳ Saving Layout...
+                  ⏳ Saving...
                 </span>
               )}
               
@@ -307,115 +342,74 @@ export default function LandingPage() {
                 <RefreshCw className="w-3.5 h-3.5" />
                 <span>Reset</span>
               </button>
-              
-              <button
-                onClick={() => setIsEditMode(false)}
-                className="px-3 py-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white font-bold border border-slate-700 transition-colors"
-              >
-                ✖ Close Toolbar
-              </button>
             </div>
           </div>
 
-          {/* SLIDERS & IMAGE SELECTOR DROPDOWNS */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs font-semibold">
-            {/* Hero Character Controls */}
-            <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-2">
-              <div className="flex justify-between text-blue-300 font-bold">
-                <span>3D Hero Character:</span>
-                <span>{heroScale}%</span>
-              </div>
-              <select
-                value={heroImage}
-                onChange={(e) => setHeroImage(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-[11px] text-slate-200 font-medium cursor-pointer"
-              >
-                {all3DImages.map((img) => (
-                  <option key={img.value} value={img.value}>{img.label}</option>
-                ))}
-              </select>
-              <input
-                type="range" min="50" max="200" value={heroScale}
-                onChange={(e) => setHeroScale(Number(e.target.value))}
-                className="w-full accent-blue-500 cursor-pointer"
-              />
-              <div className="flex justify-between text-[10px] text-slate-400">
-                <span>X: {heroX}px</span>
-                <span>Y: {heroY}px</span>
-              </div>
-            </div>
-
-            {/* Floating CS-3A Card Controls */}
-            <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-2">
-              <div className="flex justify-between text-indigo-300 font-bold">
-                <span>CS-3A Floating Card:</span>
-                <span>{cardScale}%</span>
-              </div>
-              <div className="text-[10px] text-slate-400">Drag with mouse anywhere on screen</div>
-              <input
-                type="range" min="50" max="180" value={cardScale}
-                onChange={(e) => setCardScale(Number(e.target.value))}
-                className="w-full accent-indigo-500 cursor-pointer"
-              />
-              <div className="flex justify-between text-[10px] text-slate-400">
-                <span>X: {cardX}px</span>
-                <span>Y: {cardY}px</span>
-              </div>
-            </div>
-
-            {/* Student Hub & Faculty Cards Selectors */}
-            <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-2">
-              <span className="text-emerald-300 font-bold block">Gateway Cards Images:</span>
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between text-[10px] text-slate-400">
-                  <span>Student Hub:</span>
+          {/* INSPECTOR PANEL FOR SELECTED ELEMENT */}
+          {selectedId ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs font-semibold">
+              {/* Selected Element Label & Text Editor */}
+              <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-1.5 md:col-span-2">
+                <div className="flex items-center justify-between text-blue-300 font-bold">
+                  <span>Selected Element: <code className="text-white bg-slate-800 px-1.5 py-0.5 rounded">{selectedId}</code></span>
+                  <span className="text-[10px] text-slate-400">Click any text or image on page to switch</span>
                 </div>
-                <select
-                  value={studentHubImage}
-                  onChange={(e) => setStudentHubImage(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1 text-[10px] text-slate-200 cursor-pointer"
-                >
-                  {all3DImages.map((img) => (
-                    <option key={img.value} value={img.value}>{img.label}</option>
-                  ))}
-                </select>
-                <div className="flex items-center justify-between text-[10px] text-slate-400 pt-0.5">
-                  <span>Faculty Studio:</span>
-                </div>
-                <select
-                  value={facultyStudioImage}
-                  onChange={(e) => setFacultyStudioImage(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1 text-[10px] text-slate-200 cursor-pointer"
-                >
-                  {all3DImages.map((img) => (
-                    <option key={img.value} value={img.value}>{img.label}</option>
-                  ))}
-                </select>
+                <input
+                  type="text"
+                  placeholder="Edit text content here..."
+                  value={getProp(selectedId, "text", "")}
+                  onChange={(e) => updateProp(selectedId, "text", e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-white font-medium focus:ring-2 focus:ring-blue-500 outline-none"
+                />
               </div>
-            </div>
 
-            {/* Native APK Card & Permanent Save Summary */}
-            <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-2 flex flex-col justify-between">
-              <div>
-                <span className="text-cyan-300 font-bold block">Native APK Image:</span>
-                <select
-                  value={nativeApkImage}
-                  onChange={(e) => setNativeApkImage(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1 text-[10px] text-slate-200 cursor-pointer mt-1"
-                >
-                  {all3DImages.map((img) => (
-                    <option key={img.value} value={img.value}>{img.label}</option>
-                  ))}
-                </select>
+              {/* Font Size & Element Scale Controls */}
+              <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-1.5">
+                <div className="flex justify-between text-indigo-300 font-bold">
+                  <span>Font Size: {getProp(selectedId, "fontSize", 100)}%</span>
+                  <span>Scale: {getProp(selectedId, "scale", 100)}%</span>
+                </div>
+                <div className="flex space-x-2 pt-1">
+                  <input
+                    type="range" min="50" max="250" value={getProp(selectedId, "fontSize", 100)}
+                    onChange={(e) => updateProp(selectedId, "fontSize", Number(e.target.value))}
+                    className="w-1/2 accent-indigo-500 cursor-pointer"
+                    title="Font Size"
+                  />
+                  <input
+                    type="range" min="50" max="200" value={getProp(selectedId, "scale", 100)}
+                    onChange={(e) => updateProp(selectedId, "scale", Number(e.target.value))}
+                    className="w-1/2 accent-blue-500 cursor-pointer"
+                    title="Element Scale"
+                  />
+                </div>
               </div>
-              <button
-                onClick={saveLayoutPermanently}
-                className="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center space-x-1 shadow"
-              >
-                <span>💾 Click to Save Config</span>
-              </button>
+
+              {/* Position Offsets & Quick Actions */}
+              <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-1.5 flex flex-col justify-between">
+                <div className="flex justify-between text-[10px] text-slate-400">
+                  <span>X: {getProp(selectedId, "x", 0)}px</span>
+                  <span>Y: {getProp(selectedId, "y", 0)}px</span>
+                </div>
+                <div className="flex space-x-2">
+                  <input
+                    type="range" min="-300" max="300" value={getProp(selectedId, "x", 0)}
+                    onChange={(e) => updateProp(selectedId, "x", Number(e.target.value))}
+                    className="w-1/2 accent-blue-400 cursor-pointer"
+                  />
+                  <input
+                    type="range" min="-300" max="300" value={getProp(selectedId, "y", 0)}
+                    onChange={(e) => updateProp(selectedId, "y", Number(e.target.value))}
+                    className="w-1/2 accent-blue-400 cursor-pointer"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="text-center py-2 text-xs text-slate-400 font-medium italic">
+              👈 Click on any heading, paragraph, card, or image on the webpage to inspect and edit it live!
+            </div>
+          )}
         </div>
       )}
 
@@ -499,21 +493,52 @@ export default function LandingPage() {
 
           {/* Hero Left Column - Copy & Action Buttons */}
           <div className="lg:col-span-5 space-y-8 z-10">
-            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-300 text-xs font-bold backdrop-blur-md">
+            <div
+              onClick={() => setSelectedId("hero_badge")}
+              className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-blue-500/10 border text-blue-300 text-xs font-bold backdrop-blur-md transition-all ${
+                isEditMode ? "cursor-pointer hover:border-blue-400" : "border-blue-400/30"
+              } ${selectedId === "hero_badge" ? "ring-2 ring-blue-400 border-blue-400" : ""}`}
+              style={{
+                fontSize: getProp("hero_badge", "fontSize", 100) !== 100 ? `${getProp("hero_badge", "fontSize", 100) / 100}em` : undefined,
+                transform: `scale(${getProp("hero_badge", "scale", 100) / 100}) translate(${getProp("hero_badge", "x", 0)}px, ${getProp("hero_badge", "y", 0)}px)`
+              }}
+            >
               <ShieldCheck className="w-4 h-4 text-blue-400" />
-              <span>Autonomous Intranet & 200m Geofenced Exam System</span>
+              <span>{getProp("hero_badge", "text", "Autonomous Intranet & 200m Geofenced Exam System")}</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl xl:text-7xl font-black text-white tracking-tight leading-[1.08]">
-              The Next-Gen <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-cyan-400">
-                Academic & Exam Portal
-              </span>
+            <h1
+              onClick={() => setSelectedId("hero_title")}
+              onMouseDown={(e) => handleMouseDown("hero_title", e)}
+              className={`text-4xl sm:text-6xl xl:text-7xl font-black text-white tracking-tight leading-[1.08] transition-all ${
+                isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400/80 p-2 rounded-2xl" : ""
+              } ${selectedId === "hero_title" ? "ring-2 ring-blue-500 p-2 rounded-2xl bg-blue-500/5" : ""}`}
+              style={{
+                fontSize: getProp("hero_title", "fontSize", 100) !== 100 ? `${getProp("hero_title", "fontSize", 100) / 100}em` : undefined,
+                transform: `scale(${getProp("hero_title", "scale", 100) / 100}) translate(${getProp("hero_title", "x", 0)}px, ${getProp("hero_title", "y", 0)}px)`,
+                transition: activeDragTarget === "hero_title" ? "none" : "transform 0.1s ease-out"
+              }}
+            >
+              {getProp("hero_title", "text", "The Next-Gen Academic & Exam Portal")}
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
-              Architected by <strong className="text-white font-semibold">Md Jibran</strong> for ultra-secure Indian college examinations.
-              Featuring 200m GPS geofence locking, randomized MCQ shuffling, un-bypassable 3-strike proctoring, and instant PDF marksheet dispatch.
+            <p
+              onClick={() => setSelectedId("hero_desc")}
+              onMouseDown={(e) => handleMouseDown("hero_desc", e)}
+              className={`text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl transition-all ${
+                isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400/80 p-2 rounded-2xl" : ""
+              } ${selectedId === "hero_desc" ? "ring-2 ring-blue-500 p-2 rounded-2xl bg-blue-500/5" : ""}`}
+              style={{
+                fontSize: getProp("hero_desc", "fontSize", 100) !== 100 ? `${getProp("hero_desc", "fontSize", 100) / 100}em` : undefined,
+                transform: `scale(${getProp("hero_desc", "scale", 100) / 100}) translate(${getProp("hero_desc", "x", 0)}px, ${getProp("hero_desc", "y", 0)}px)`,
+                transition: activeDragTarget === "hero_desc" ? "none" : "transform 0.1s ease-out"
+              }}
+            >
+              {getProp(
+                "hero_desc",
+                "text",
+                "Architected by Md Jibran for ultra-secure Indian college examinations. Featuring 200m GPS geofence locking, randomized MCQ shuffling, un-bypassable 3-strike proctoring, and instant PDF marksheet dispatch."
+              )}
             </p>
 
             {/* Quick Action Grid */}

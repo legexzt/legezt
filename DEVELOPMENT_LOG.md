@@ -302,6 +302,12 @@
 - **Save Permanently Button**: Added a prominent **💾 SAVE PERMANENTLY** button to the Visual Studio control panel that writes exact layout coordinates to both `localStorage` and `portal/data/layout_config.json`.
 - **Image Selector Dropdown**: Built image picker select controls into the Visual Studio toolbar allowing user to swap any of the 17 available 3D character PNGs for any card in real time.
 
+### 40. Universal Visual Page Builder & WYSIWYG Inspector (v6.0 Build — New!)
+- **Universal Element Selection**: Clicking any text heading, paragraph, button, badge, or image highlights it with an active glowing selection ring.
+- **Inline Text & Font Size Controls**: Added live text editor input and font size scaler (50% to 250%) directly in the bottom inspector toolbar.
+- **Universal Drag & Position Offsets**: Enabled mouse grab-and-drag and X/Y offset sliders for any selected element across the website.
+- **Production Persistence**: Integrated all universal text & element overrides into the `SAVE PERMANENTLY` backend API pipeline (`portal/app/api/layout/save/route.ts`).
+
 ---
 
 ## 📂 Key Files Map
