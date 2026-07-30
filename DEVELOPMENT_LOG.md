@@ -286,6 +286,10 @@
 - **Semantic Naming Catalog**: Analyzed all 17 transparent 3D PNG assets and renamed them with descriptive semantic names (`hero_student_laptop.png`, `student_hub_study_desk.png`, `faculty_female_professor.png`, `native_apk_student_shield.png`, `geofence_gps_radar.png`, `proctor_warning_shield.png`, `pdf_marksheet_dispatch.png`, `vision_campus_building.png`).
 - **Codebase Mapping**: Updated `portal/app/page.tsx` to reference all images by their semantic names, ensuring clean code readability and bulletproof section placement.
 
+### 35. Hero 3D Character Stage & Floating Mid-Term Badge Layout Swap (v4.9 Build — New!)
+- **Stage Swap**: Swapped the Hero middle and right columns so that the **3D Hero Student Character** (`hero_student_laptop.png`) takes the main right stage (`lg:col-span-7`, `max-w-[820px]`).
+- **Floating Badge Overlay**: Transformed the CS-3A Mid-Term Examination card into a sleek, floating 3D glass widget floating over the top-right of the 3D student character with backdrop blur and glowing hover state.
+
 ---
 
 ## 📋 Backlog & Pending Tasks (To Be Addressed next)
