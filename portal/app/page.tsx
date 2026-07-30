@@ -223,7 +223,7 @@ export default function LandingPage() {
             
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/3d/3d_character_1.png"
+              src="/images/3d/hero_student_laptop.png"
               alt="3D Hero Student at Laptop"
               className="w-[125%] max-w-[580px] lg:max-w-[720px] object-contain drop-shadow-[0_35px_50px_rgba(37,99,235,0.5)] hover:scale-110 transition-transform duration-500 relative z-10 -my-8"
             />
@@ -321,7 +321,7 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/3d/3d_character_2.png"
+                    src="/images/3d/student_hub_study_desk.png"
                     alt="3D Student Hub Character"
                     className="h-48 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(37,99,235,0.3)] group-hover:scale-110 transition-transform duration-500"
                   />
@@ -356,7 +356,7 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/3d/3d_character_3.png"
+                    src="/images/3d/faculty_female_professor.png"
                     alt="3D Faculty Studio Character"
                     className="h-48 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(99,102,241,0.3)] group-hover:scale-110 transition-transform duration-500"
                   />
@@ -391,7 +391,7 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/3d/3d_character_4.png"
+                    src="/images/3d/native_apk_student_shield.png"
                     alt="3D Native APK Character"
                     className="h-48 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(16,185,129,0.3)] group-hover:scale-110 transition-transform duration-500"
                   />
@@ -452,7 +452,14 @@ export default function LandingPage() {
 
           {/* Active Slide Content with 3D Graphic Stage */}
           {(() => {
-            const SlideIcon = slides[activeSlide].icon;
+            const slideImages = [
+              "/images/3d/geofence_gps_radar.png",
+              "/images/3d/faculty_classroom_whiteboard.png",
+              "/images/3d/proctor_warning_shield.png",
+              "/images/3d/pdf_marksheet_dispatch.png"
+            ];
+            const current3DImg = slideImages[activeSlide] || "/images/3d/geofence_gps_radar.png";
+
             return (
               <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-4">
                 <div className="md:col-span-4 flex justify-center">
@@ -460,8 +467,8 @@ export default function LandingPage() {
                     <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src="/images/3d/3d_character_6.png"
-                      alt="3D Security Radar"
+                      src={current3DImg}
+                      alt={slides[activeSlide].title}
                       className="h-44 object-contain relative z-10 drop-shadow-[0_15px_30px_rgba(37,99,235,0.4)]"
                     />
                   </div>
@@ -519,7 +526,7 @@ export default function LandingPage() {
             <div className="md:col-span-5 flex justify-center items-center relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/3d/3d_character_10.png"
+                src="/images/3d/vision_campus_building.png"
                 alt="3D Student with University Campus Building & Server"
                 className="w-full max-w-[480px] object-contain drop-shadow-[0_20px_40px_rgba(37,99,235,0.4)] hover:scale-105 transition-transform duration-500"
               />

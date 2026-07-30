@@ -282,6 +282,10 @@
 - **Image Cropping**: Auto-cropped transparent alpha boundaries for all 17 PNG assets so zero empty padding surrounds character graphics.
 - **Massive Hero Scale**: Expanded Hero center student character (`3d_character_1.png`) to `max-w-[720px] scale-125` with a grounded 3D shadow ring and intense background radial glow (`bg-blue-600/30 blur-[100px]`).
 
+### 34. Semantic Image Renaming & Role-Based Placement (v4.8 Build — New!)
+- **Semantic Naming Catalog**: Analyzed all 17 transparent 3D PNG assets and renamed them with descriptive semantic names (`hero_student_laptop.png`, `student_hub_study_desk.png`, `faculty_female_professor.png`, `native_apk_student_shield.png`, `geofence_gps_radar.png`, `proctor_warning_shield.png`, `pdf_marksheet_dispatch.png`, `vision_campus_building.png`).
+- **Codebase Mapping**: Updated `portal/app/page.tsx` to reference all images by their semantic names, ensuring clean code readability and bulletproof section placement.
+
 ---
 
 ## 📋 Backlog & Pending Tasks (To Be Addressed next)
