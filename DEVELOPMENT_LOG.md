@@ -300,6 +300,13 @@
 - **Mouse Drag-and-Drop**: Integrated `onMouseDown`, `onMouseMove`, and `onMouseUp` event handlers allowing user to click, grab, and drag the 3D Student Character and CS-3A Floating Card directly with their mouse anywhere on screen.
 - **Grab Cursor & Hover Ring**: Added `cursor-grab`, `active:cursor-grabbing`, and active glowing outline ring indicators when hovering over draggable elements in Edit Mode.
 
+### 38. Gateway Grid 3D Character PNG Update & Edit Mode Freeze (v5.2 Build — New!)
+- **3-Card Gateway Integration**: Mapped user-selected 3D character PNGs to the 3 Gateway cards:
+  - **Student Hub Card**: `student_login_badge.png` (Student holding digital campus login ID badge).
+  - **Faculty Studio Card**: `peer_chat_students.png` (Students communicating with floating speech bubbles).
+  - **Native APKs Card**: `notes_library_books.png` (Student studying on stack of textbooks).
+- **Edit Overlay Removal**: Disabled interactive live edit mode overlay toolbar to freeze and lock the clean production layout.
+
 ---
 
 ## 📋 Backlog & Pending Tasks (To Be Addressed next)

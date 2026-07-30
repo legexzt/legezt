@@ -32,15 +32,15 @@ export default function LandingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
 
-  // Interactive Visual Layout Controls State (User live editing access)
-  const [isEditMode, setIsEditMode] = useState(true);
+  // Interactive Visual Layout Controls State (Editing Finished - Saved Final State)
+  const [isEditMode, setIsEditMode] = useState(false);
   
-  // Hero 3D Character Adjustments
+  // Hero 3D Character Adjustments (Saved Default Layout)
   const [heroScale, setHeroScale] = useState(100);
   const [heroX, setHeroX] = useState(0);
   const [heroY, setHeroY] = useState(0);
 
-  // Floating CS-3A Card Adjustments
+  // Floating CS-3A Card Adjustments (Saved Default Layout)
   const [cardScale, setCardScale] = useState(100);
   const [cardX, setCardX] = useState(0);
   const [cardY, setCardY] = useState(0);
@@ -512,8 +512,8 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/3d/student_hub_study_desk.png"
-                    alt="3D Student Hub Character"
+                    src="/images/3d/student_login_badge.png"
+                    alt="3D Student Hub Badge Character"
                     className="h-48 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(37,99,235,0.3)] group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
@@ -547,7 +547,7 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/3d/faculty_female_professor.png"
+                    src="/images/3d/peer_chat_students.png"
                     alt="3D Faculty Studio Character"
                     className="h-48 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(99,102,241,0.3)] group-hover:scale-110 transition-transform duration-500"
                   />
@@ -582,7 +582,7 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/3d/native_apk_student_shield.png"
+                    src="/images/3d/notes_library_books.png"
                     alt="3D Native APK Character"
                     className="h-48 object-contain relative z-10 drop-shadow-[0_15px_25px_rgba(16,185,129,0.3)] group-hover:scale-110 transition-transform duration-500"
                   />
