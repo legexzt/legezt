@@ -242,6 +242,7 @@
 - **Workspace Cleanup**: Deleted ~87 MB of obsolete build archives (`code.tar.gz`, `portal/deploy.zip`, `secure-team-chat.zip`) and organized loose scratch/test scripts into `portal/scripts/archive/`.
 - **Root Directory Standardization**: Moved all loose credentials, python scripts (`gdrive_upload.py`), token JSONs, XML profiles, and dev database files into a single `tools_and_credentials/` directory. Added a root `.gitignore` to keep the root directory 100% clean.
 - **Clean Workspace Reset**: Purged legacy source code directories (`frontend`, `portal`, `backend`, `legezt-student`) upon explicit user request to prepare a clean slate for the upcoming new remake build.
+- **Real-Time Remote Tunnel Setup**: Registered and started Microsoft VS Code Remote Tunnel background service (`legezt-pc`). Enabled 24/7 direct web editor access from any device via `vscode.dev/tunnel/legezt-pc` without requiring manual git clone or push commands.
 
 ---
 
