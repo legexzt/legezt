@@ -371,6 +371,10 @@
 - **Interactive Header Adjuster Toolbar**: Added a `[🎛️ Adjust Header]` toggle button in the navbar opening a live floating glass control panel with presets (`Compact 38px`, `Medium 52px`, `Large 66px`, `XL 82px`) and precision `Height`, `X-Shift`, and `Y-Shift` sliders.
 - **Live Persistence Integration**: Connected the adjuster toolbar to `saveLayoutPermanently()` and `/api/layout/save` so user adjustments save directly to `portal/data/layout_config.json`.
 
+### 54. Ultra High-Res 3D Metallic Blue Logo Replacement (v12.5 Build — New!)
+- **New 3D Logo File Update**: Processed user's updated ultra high-res 3D metallic blue LeGeZt wordmark logo into a pixel-tight transparent PNG (`863x172`) and saved as `portal/public/images/3d/legezt_main_logo.png`.
+- **Layout & Control Preservation**: Maintained all custom header slider adjustments, position coordinates, backlight glow effects, and live save persistence.
+
 ---
 
 ## 📂 Key Files Map
