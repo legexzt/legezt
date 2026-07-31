@@ -755,12 +755,12 @@ export default function LandingPage() {
           </div>
 
           {/* Hero Right Column - MASSIVE 3D Student Character Stage with Floating Mid-Term Card Overlay */}
-          <div className="lg:col-span-7 flex flex-col justify-center items-center relative z-20 min-h-[520px] lg:min-h-[660px]">
+          <div className="lg:col-span-7 flex flex-col justify-center items-center relative z-20 min-h-[480px] lg:min-h-[580px] xl:min-h-[660px] w-full overflow-hidden lg:overflow-visible">
 
             {/* Ambient Background Radial Glow behind Main Character */}
-            <div className="absolute inset-0 bg-blue-600/35 rounded-full blur-[110px] pointer-events-none scale-125" />
+            <div className="absolute inset-0 bg-blue-600/30 rounded-full blur-[110px] pointer-events-none scale-110" />
 
-            {/* MAIN MASSIVE 3D HERO STUDENT CHARACTER (Mouse Grab-and-Drag enabled) */}
+            {/* MAIN MASSIVE 3D HERO STUDENT CHARACTER (Responsive & Clamped) */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={heroImage}
@@ -770,7 +770,7 @@ export default function LandingPage() {
                 transform: `scale(${heroScale / 100}) translate(${heroX}px, ${heroY}px)`,
                 transition: activeDragTarget === "hero" ? "none" : "transform 0.1s ease-out"
               }}
-              className={`w-[120%] max-w-[650px] lg:max-w-[820px] object-contain drop-shadow-[0_40px_60px_rgba(37,99,235,0.55)] relative z-10 ${
+              className={`w-full max-w-[540px] lg:max-w-[620px] xl:max-w-[760px] object-contain drop-shadow-[0_30px_50px_rgba(37,99,235,0.45)] relative z-10 shrink-0 ${
                 isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-blue-500/50 rounded-3xl" : ""
               }`}
             />
@@ -778,14 +778,14 @@ export default function LandingPage() {
             {/* Grounded 3D Shadow Ring */}
             <div className="w-[85%] h-10 bg-blue-500/25 rounded-[100%] blur-xl pointer-events-none -mt-6 relative z-0" />
 
-            {/* FLOATING COMPACT CS-3A MID-TERM LIVE WORKSPACE GLASS CARD (Mouse Grab-and-Drag enabled) */}
+            {/* FLOATING COMPACT CS-3A MID-TERM LIVE WORKSPACE GLASS CARD (Responsive Positioning) */}
             <div
               onMouseDown={(e) => handleMouseDown("card", e)}
               style={{
                 transform: `scale(${cardScale / 100}) translate(${cardX}px, ${cardY}px)`,
                 transition: activeDragTarget === "card" ? "none" : "transform 0.1s ease-out"
               }}
-              className={`absolute top-2 sm:top-6 right-0 sm:right-4 z-30 max-w-[340px] sm:max-w-[380px] w-full ${
+              className={`absolute top-0 sm:top-4 left-0 sm:left-2 lg:left-4 z-30 max-w-[320px] sm:max-w-[350px] w-full ${
                 isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-indigo-500/60 rounded-2xl" : ""
               }`}
             >

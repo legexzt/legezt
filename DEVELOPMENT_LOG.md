@@ -380,6 +380,11 @@
 - **3D Glass-Metal Specular Reflection**: Boosted silver/white specular highlights on the top 35% edge and deepened royal navy shadows on the bottom 35% for a realistic glass-metal finish.
 - **Crisp Edge & Glow Radius Reduction**: Reduced glow radius by 35% (`drop-shadow-[0_4px_14px_rgba(37,99,235,0.4)]`), lowered ambient backlight beam opacity to a subtle 35%, and increased default logo size by 15% (`62px`).
 
+### 56. Multi-Screen Responsive Hero Alignment & Overlap Fix (v13.5 Build — New!)
+- **Coordinate Reset**: Reset manual drag offsets in `portal/data/layout_config.json` (`card.x: 0, hero.x: 0`) to eliminate forced text collisions.
+- **CS-3A Exam Card Separation**: Positioned floating CS-3A Live Workspace Card with responsive top/left anchoring (`top-0 sm:top-4 left-0 sm:left-2 lg:left-4 max-w-[350px]`) ensuring a 48px+ safety gap from left headline text.
+- **3D Character Container Clamp**: Replaced `w-[120%]` with responsive container clamping `max-w-[540px] lg:max-w-[620px] xl:max-w-[760px]`, eliminating graphic cut-offs across 1024px, 1366px, 1440px, 1536px, 1680px, and 1920px 4K laptop screens.
+
 ---
 
 ## 📂 Key Files Map
