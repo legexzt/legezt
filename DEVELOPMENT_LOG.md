@@ -348,6 +348,10 @@
 - **3D White Glass Button Theme**: Created `.btn-white-glass-3d` CSS class featuring crisp white/slate gradient fill, 3D top highlights, subtle dark drop shadows, and dark navy bold text.
 - **Header Spacing & Icons**: Converted `Services`, `Portals`, `Platform Deck`, and `Vision` into 3D White Glass Pill Buttons with matching vector icons (`Cpu`, `Layers`, `BarChart3`, `Sparkles`) evenly spread across the navbar.
 
+### 49. Dynamic 3D Image Logo Integration with Fallback (v10.0 Build — New!)
+- **Dynamic 3D Header Logo**: Replaced static icon text badge with a high-res image logo container looking for `portal/public/images/3d/legezt_main_logo.png` (`h-12 w-auto object-contain drop-shadow`).
+- **Seamless Fallback**: Added `onError` handler so if `legezt_main_logo.png` is not present, the 3D text emblem badge displays seamlessly without layout shift.
+
 ---
 
 ## 📂 Key Files Map

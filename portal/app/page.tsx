@@ -432,18 +432,34 @@ export default function LandingPage() {
       {/* Full-Bleed Top Header Navbar */}
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#0b0f19]/80 border-b border-slate-800/80 px-6 lg:px-12 xl:px-16 py-4 shadow-2xl shadow-black/40">
         <div className="max-w-[1700px] mx-auto flex items-center justify-between">
-          {/* Logo & Emblem */}
-          <div className="flex items-center space-x-3">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-800 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 border border-white/20">
-              <GraduationCap className="w-6 h-6" />
-            </div>
-            <div>
-              <span className="text-2xl font-black tracking-tight text-white block leading-none">
-                LeGeZt
-              </span>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 mt-1 inline-block">
-                v4.0 Enterprise
-              </span>
+          {/* Logo & Emblem (Supports Custom High-Res 3D Image Logo) */}
+          <div className="flex items-center space-x-3 cursor-pointer group">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/3d/legezt_main_logo.png"
+              alt="LeGeZt 3D Logo"
+              onError={(e) => {
+                // If custom image is missing, show fallback badge
+                (e.target as HTMLElement).style.display = 'none';
+                const fallback = document.getElementById('logo-fallback-badge');
+                if (fallback) fallback.style.display = 'flex';
+              }}
+              className="h-12 w-auto max-w-[220px] object-contain drop-shadow-[0_8px_25px_rgba(37,99,235,0.6)] group-hover:scale-105 transition-all duration-300"
+            />
+
+            {/* Fallback Text Badge */}
+            <div id="logo-fallback-badge" className="flex items-center space-x-3">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-800 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 border border-white/20">
+                <GraduationCap className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="text-2xl font-black tracking-tight text-white block leading-none">
+                  LeGeZt
+                </span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 mt-1 inline-block">
+                  v4.0 Enterprise
+                </span>
+              </div>
             </div>
           </div>
 
