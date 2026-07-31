@@ -447,12 +447,39 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-10 text-sm font-semibold text-slate-300">
-            <a href="#services" className="hover:text-blue-400 transition-colors">Services</a>
-            <a href="#portals" className="hover:text-blue-400 transition-colors">Portals</a>
-            <a href="#deck" className="hover:text-blue-400 transition-colors">Platform Deck</a>
-            <a href="#vision" className="hover:text-blue-400 transition-colors">Vision</a>
+          {/* Navigation Links - 3D White Glass Pill Buttons Evenly Spread */}
+          <nav className="hidden lg:flex items-center space-x-3.5 xl:space-x-5 text-xs font-bold">
+            <a
+              href="#services"
+              className="btn-white-glass-3d px-4 py-2 flex items-center space-x-1.5 shadow-md shadow-white/10"
+            >
+              <Cpu className="w-3.5 h-3.5 text-blue-600" />
+              <span>Services</span>
+            </a>
+
+            <a
+              href="#portals"
+              className="btn-white-glass-3d px-4 py-2 flex items-center space-x-1.5 shadow-md shadow-white/10"
+            >
+              <Layers className="w-3.5 h-3.5 text-indigo-600" />
+              <span>Portals</span>
+            </a>
+
+            <a
+              href="#deck"
+              className="btn-white-glass-3d px-4 py-2 flex items-center space-x-1.5 shadow-md shadow-white/10"
+            >
+              <BarChart3 className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Platform Deck</span>
+            </a>
+
+            <a
+              href="#vision"
+              className="btn-white-glass-3d px-4 py-2 flex items-center space-x-1.5 shadow-md shadow-white/10"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+              <span>Vision</span>
+            </a>
           </nav>
 
           {/* Action CTAs - 3D Light Green & Sapphire Buttons Level Aligned */}

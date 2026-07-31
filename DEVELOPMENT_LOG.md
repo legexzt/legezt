@@ -344,6 +344,10 @@
 - **Header Button Alignment**: Aligned `Student Login`, `Faculty Studio`, `Install APK`, and `Refresh` simulation buttons on the exact same horizontal baseline with clean, even spacing.
 - **3D Depth & Hover Physics**: Added tactile press animations (`active:scale-98`) and glowing green shadow rings (`shadow-emerald-600/30`) for maximum visual pop.
 
+### 48. 3D White Glass Navigation Pill Buttons & Spacing (v9.5 Build — New!)
+- **3D White Glass Button Theme**: Created `.btn-white-glass-3d` CSS class featuring crisp white/slate gradient fill, 3D top highlights, subtle dark drop shadows, and dark navy bold text.
+- **Header Spacing & Icons**: Converted `Services`, `Portals`, `Platform Deck`, and `Vision` into 3D White Glass Pill Buttons with matching vector icons (`Cpu`, `Layers`, `BarChart3`, `Sparkles`) evenly spread across the navbar.
+
 ---
 
 ## 📂 Key Files Map
