@@ -398,6 +398,11 @@
 - **Production Navbar Polish**: Completely removed the `[🎛️ Adjust Header]` toggle button and floating slider control panel from `portal/app/page.tsx`.
 - **Finalized Layout Lock**: The header layout is now locked in production mode with pixel-perfect responsive logo scaling and ultra-clean navbar CTAs.
 
+### 60. Interactive White Particle Constellation Canvas (v16.0 Build — New!)
+- **Interactive Background Animation**: Created `portal/app/components/ParticleCanvas.tsx` rendering floating white/cyan glowing particles with dynamic constellation lines.
+- **Mouse Cursor Reaction Physics**: Implemented physics dampening where particles react to mouse movement (140px interaction radius), gently repelling and drawing cyan laser beams to the cursor in real time.
+- **60FPS GPU Acceleration**: Non-blocking `requestAnimationFrame` canvas rendering with mobile density auto-scaling (75 particles on desktop, 35 on mobile).
+
 ---
 
 ## 📂 Key Files Map

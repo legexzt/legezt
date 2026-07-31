@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import ParticleCanvas from "./components/ParticleCanvas";
 import {
   ShieldCheck,
   Cpu,
@@ -447,8 +448,9 @@ export default function LandingPage() {
       <div className="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-600/20 blur-[150px] pointer-events-none z-0" />
       <div className="fixed top-[35%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-purple-600/15 blur-[140px] pointer-events-none z-0" />
 
-      {/* Main Canvas Background Mesh */}
+      {/* Main Canvas Background Mesh & Interactive White Particle Constellation Layer */}
       <div className="fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0b0f19] to-black pointer-events-none" />
+      <ParticleCanvas />
 
       {/* Full-Bleed Top Header Navbar */}
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#0b0f19]/85 border-b border-slate-800/80 px-4 sm:px-6 lg:px-12 xl:px-16 py-3 sm:py-4 shadow-2xl shadow-black/40">
