@@ -444,7 +444,7 @@ export default function LandingPage() {
                 const fallback = document.getElementById('logo-fallback-badge');
                 if (fallback) fallback.style.display = 'flex';
               }}
-              className="h-12 w-auto max-w-[220px] object-contain drop-shadow-[0_8px_25px_rgba(37,99,235,0.6)] group-hover:scale-105 transition-all duration-300"
+              className="h-14 lg:h-16 w-auto max-w-[320px] object-contain drop-shadow-[0_10px_25px_rgba(37,99,235,0.7)] group-hover:scale-105 transition-all duration-300"
             />
 
             {/* Fallback Text Badge */}

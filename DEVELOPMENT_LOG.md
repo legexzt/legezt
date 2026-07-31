@@ -352,6 +352,10 @@
 - **Dynamic 3D Header Logo**: Replaced static icon text badge with a high-res image logo container looking for `portal/public/images/3d/legezt_main_logo.png` (`h-12 w-auto object-contain drop-shadow`).
 - **Seamless Fallback**: Added `onError` handler so if `legezt_main_logo.png` is not present, the 3D text emblem badge displays seamlessly without layout shift.
 
+### 50. Wide 3D Horizontal Laptop + VR Headset Logo Banner (v10.5 Build — New!)
+- **Wide Horizontal 3D Logo Banner**: Rendered and integrated a wide horizontal 3D logo banner (`legezt_main_logo.png`) featuring "LeGeZt" wordmark alongside a 3D Laptop + VR Machine + Graduation Cap emblem.
+- **Header Bar Scaling**: Increased container scaling to `h-14 lg:h-16 max-w-[320px]` with transparent background trimming and glowing blue shadow (`drop-shadow-[0_10px_25px_rgba(37,99,235,0.7)]`).
+
 ---
 
 ## 📂 Key Files Map
