@@ -28,6 +28,8 @@ import {
   Zap,
   Sliders,
   Save,
+  Menu,
+  X,
 } from "lucide-react";
 
 export default function LandingPage() {
@@ -63,11 +65,12 @@ export default function LandingPage() {
   const [facultyStudioImage, setFacultyStudioImage] = useState("/images/3d/peer_chat_students.png");
   const [nativeApkImage, setNativeApkImage] = useState("/images/3d/notes_library_books.png");
 
-  // Header Logo Interactive Adjuster State (10/10 Perfect Tuning)
+  // Header Logo Interactive Adjuster & Mobile Menu State (10/10 Perfect Tuning)
   const [logoHeight, setLogoHeight] = useState(62); // 10-15% larger logo (62px default)
   const [logoX, setLogoX] = useState(0);
   const [logoY, setLogoY] = useState(0);
   const [isHeaderAdjusterOpen, setIsHeaderAdjusterOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Mouse Grab-and-Drag State
   const [activeDragTarget, setActiveDragTarget] = useState<string | null>(null);
@@ -449,11 +452,11 @@ export default function LandingPage() {
       <div className="fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0b0f19] to-black pointer-events-none" />
 
       {/* Full-Bleed Top Header Navbar */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#0b0f19]/80 border-b border-slate-800/80 px-6 lg:px-12 xl:px-16 py-4 shadow-2xl shadow-black/40">
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#0b0f19]/85 border-b border-slate-800/80 px-4 sm:px-6 lg:px-12 xl:px-16 py-3 sm:py-4 shadow-2xl shadow-black/40">
         <div className="max-w-[1700px] mx-auto flex items-center justify-between">
           {/* Single High-Res 3D Image Logo with Dynamic Height & Backlight Glow */}
           <div
-            className="relative group flex items-center cursor-pointer py-1 transition-all duration-200"
+            className="relative group flex items-center cursor-pointer py-1 transition-all duration-200 shrink-0"
             style={{
               transform: `translate(${logoX}px, ${logoY}px)`
             }}
@@ -461,17 +464,17 @@ export default function LandingPage() {
             {/* Refined Ambient Backlight Glow Beam (Glow Radius Reduced 35%, Crisp & Subtle 40% Opacity) */}
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/35 via-cyan-500/25 to-indigo-600/35 rounded-2xl blur-md opacity-35 group-hover:opacity-65 transition-all duration-300 pointer-events-none" />
 
-            {/* 10/10 Crisp 3D Metallic Logo with Controlled Dynamic Height */}
+            {/* 10/10 Crisp 3D Metallic Logo with Controlled Dynamic Height & Mobile Scaling */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/3d/legezt_main_logo.png"
               alt="LeGeZt 3D Logo"
               style={{ height: `${logoHeight}px` }}
-              className="relative z-10 w-auto max-w-[540px] object-contain drop-shadow-[0_4px_14px_rgba(37,99,235,0.4)] group-hover:scale-[1.02] transition-transform duration-300"
+              className="relative z-10 w-auto max-w-[280px] xs:max-w-[360px] sm:max-w-[540px] max-h-[46px] sm:max-h-none object-contain drop-shadow-[0_4px_14px_rgba(37,99,235,0.4)] group-hover:scale-[1.02] transition-transform duration-300"
             />
           </div>
 
-          {/* Navigation Links - 3D White Glass Pill Buttons Evenly Spread */}
+          {/* Navigation Links - 3D White Glass Pill Buttons (Desktop) */}
           <nav className="hidden lg:flex items-center space-x-3.5 xl:space-x-5 text-xs font-bold">
             <a
               href="#services"
@@ -506,12 +509,12 @@ export default function LandingPage() {
             </a>
           </nav>
 
-          {/* Action CTAs - 3D Light Green & Sapphire Buttons Level Aligned */}
-          <div className="flex items-center space-x-3 sm:space-x-4">
+          {/* Action CTAs & Mobile Controls Level Aligned */}
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {/* Header Logo Adjuster Toggle Button */}
             <button
               onClick={() => setIsHeaderAdjusterOpen(!isHeaderAdjusterOpen)}
-              className={`p-2.5 rounded-full transition-all border flex items-center justify-center shrink-0 ${
+              className={`p-2 sm:p-2.5 rounded-full transition-all border flex items-center justify-center shrink-0 ${
                 isHeaderAdjusterOpen
                   ? "bg-blue-600 text-white border-blue-400 shadow-lg shadow-blue-500/50"
                   : "text-slate-300 hover:text-white hover:bg-slate-800/80 border-slate-700/80"
@@ -523,7 +526,7 @@ export default function LandingPage() {
 
             <button
               onClick={handleRefreshSim}
-              className="p-2.5 rounded-full text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all border border-slate-700/80 flex items-center justify-center shrink-0"
+              className="p-2 sm:p-2.5 rounded-full text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all border border-slate-700/80 flex items-center justify-center shrink-0"
               title="Simulate Skeleton Refresh"
             >
               <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin text-emerald-400" : ""}`} />
@@ -531,9 +534,9 @@ export default function LandingPage() {
 
             <a
               href="#student-login"
-              className="btn-emerald-3d text-xs sm:text-sm px-5 py-2.5 flex items-center space-x-2 shrink-0 shadow-lg shadow-emerald-600/30"
+              className="btn-emerald-3d text-xs sm:text-sm px-3.5 sm:px-5 py-2 sm:py-2.5 flex items-center space-x-1.5 sm:space-x-2 shrink-0 shadow-lg shadow-emerald-600/30"
             >
-              <UserCheck className="w-4 h-4 text-white" />
+              <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
               <span className="text-white font-black tracking-wide">Student Login</span>
             </a>
 
@@ -552,8 +555,88 @@ export default function LandingPage() {
               <Download className="w-4 h-4 text-emerald-400" />
               <span className="text-white font-bold">Install APK</span>
             </a>
+
+            {/* Mobile Menu Navigation Drawer Toggle Button (Visible on Mobile/Tablet) */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 sm:p-2.5 rounded-full text-slate-200 hover:text-white bg-slate-800/90 border border-slate-700 lg:hidden flex items-center justify-center shrink-0"
+              title="Toggle Mobile Navigation Menu"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5 text-red-400" /> : <Menu className="w-5 h-5 text-blue-400" />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Navigation Glass Drawer Sheet */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden mt-3 p-5 rounded-2xl bg-[#0b0f19]/95 border border-slate-800 backdrop-blur-2xl shadow-2xl shadow-black/80 text-white space-y-4 animate-fade-in z-50">
+            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 pb-1 border-b border-slate-800/80">
+              Mobile Navigation & Portals
+            </div>
+            
+            <nav className="grid grid-cols-2 gap-2.5 text-xs font-bold">
+              <a
+                href="#services"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="btn-white-glass-3d p-3 flex items-center space-x-2 justify-center shadow-md"
+              >
+                <Cpu className="w-4 h-4 text-blue-500" />
+                <span>Services</span>
+              </a>
+              <a
+                href="#portals"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="btn-white-glass-3d p-3 flex items-center space-x-2 justify-center shadow-md"
+              >
+                <Layers className="w-4 h-4 text-indigo-500" />
+                <span>Portals</span>
+              </a>
+              <a
+                href="#deck"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="btn-white-glass-3d p-3 flex items-center space-x-2 justify-center shadow-md"
+              >
+                <BarChart3 className="w-4 h-4 text-emerald-500" />
+                <span>Platform Deck</span>
+              </a>
+              <a
+                href="#vision"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="btn-white-glass-3d p-3 flex items-center space-x-2 justify-center shadow-md"
+              >
+                <Sparkles className="w-4 h-4 text-amber-500" />
+                <span>Vision</span>
+              </a>
+            </nav>
+
+            <div className="flex flex-col space-y-2.5 pt-3 border-t border-slate-800/80">
+              <a
+                href="#student-login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="btn-emerald-3d text-xs py-3 flex items-center justify-center space-x-2 w-full shadow-lg shadow-emerald-600/30"
+              >
+                <UserCheck className="w-4 h-4 text-white" />
+                <span className="text-white font-black tracking-wide">Student Hub Access</span>
+              </a>
+              <a
+                href="#faculty-login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="btn-sapphire-3d text-xs py-3 flex items-center justify-center space-x-2 w-full"
+              >
+                <Lock className="w-4 h-4 text-white" />
+                <span className="text-white font-black tracking-wide">Faculty Studio Portal</span>
+              </a>
+              <a
+                href="#download-apk"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="btn-slate-3d text-xs py-3 flex items-center justify-center space-x-2 w-full text-emerald-300 border-emerald-500/40"
+              >
+                <Download className="w-4 h-4 text-emerald-400" />
+                <span className="text-white font-bold">Download Student APK</span>
+              </a>
+            </div>
+          </div>
+        )}
 
         {/* Floating Header Logo Adjuster Control Panel */}
         {isHeaderAdjusterOpen && (
@@ -648,16 +731,16 @@ export default function LandingPage() {
       </header>
 
       {/* Main Full-Width Content Container */}
-      <main className="relative z-10 max-w-[1750px] mx-auto px-6 lg:px-12 xl:px-16 py-10 space-y-28">
+      <main className="relative z-10 max-w-[1750px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 py-6 sm:py-10 space-y-16 sm:space-y-28 overflow-x-hidden">
 
-        {/* HERO SECTION - 3D Character & Floating Status Widget Layout */}
+        {/* HERO SECTION - 3D Character Stage Layout */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-2 relative">
 
           {/* Hero Left Column - Copy & Action Buttons */}
-          <div className="lg:col-span-5 space-y-8 z-10">
+          <div className="lg:col-span-5 space-y-6 sm:space-y-8 z-10 text-left">
             <div
               onClick={() => setSelectedId("hero_badge")}
-              className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-blue-500/10 border text-blue-300 text-xs font-bold backdrop-blur-md transition-all ${
+              className={`inline-flex items-center space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-blue-500/10 border text-blue-300 text-[11px] sm:text-xs font-bold backdrop-blur-md transition-all ${
                 isEditMode ? "cursor-pointer hover:border-blue-400" : "border-blue-400/30"
               } ${selectedId === "hero_badge" ? "ring-2 ring-blue-400 border-blue-400" : ""}`}
               style={{
@@ -665,14 +748,14 @@ export default function LandingPage() {
                 transform: `scale(${getProp("hero_badge", "scale", 100) / 100}) translate(${getProp("hero_badge", "x", 0)}px, ${getProp("hero_badge", "y", 0)}px)`
               }}
             >
-              <ShieldCheck className="w-4 h-4 text-blue-400" />
-              <span>{getProp("hero_badge", "text", "Autonomous Intranet & 200m Geofenced Exam System")}</span>
+              <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-400 shrink-0" />
+              <span className="truncate">{getProp("hero_badge", "text", "Autonomous Intranet & 200m Geofenced Exam System")}</span>
             </div>
 
             <h1
               onClick={() => setSelectedId("hero_title")}
               onMouseDown={(e) => handleMouseDown("hero_title", e)}
-              className={`text-4xl sm:text-6xl xl:text-7xl font-black text-white tracking-tight leading-[1.08] transition-all ${
+              className={`text-3xl xs:text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white tracking-tight leading-[1.12] transition-all ${
                 isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400/80 p-2 rounded-2xl" : ""
               } ${selectedId === "hero_title" ? "ring-2 ring-blue-500 p-2 rounded-2xl bg-blue-500/5" : ""}`}
               style={{
@@ -687,7 +770,7 @@ export default function LandingPage() {
             <p
               onClick={() => setSelectedId("hero_desc")}
               onMouseDown={(e) => handleMouseDown("hero_desc", e)}
-              className={`text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl transition-all ${
+              className={`text-sm sm:text-base lg:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl transition-all ${
                 isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400/80 p-2 rounded-2xl" : ""
               } ${selectedId === "hero_desc" ? "ring-2 ring-blue-500 p-2 rounded-2xl bg-blue-500/5" : ""}`}
               style={{
@@ -703,64 +786,64 @@ export default function LandingPage() {
               )}
             </p>
 
-            {/* Quick Action Grid */}
-            <div className="flex flex-wrap gap-4 pt-2">
+            {/* Quick Action Grid - Responsive Mobile Touch Targets */}
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-1">
               <a
                 href="#student-login"
-                className="btn-sapphire-crystal text-base px-8 py-4 flex items-center space-x-3 shadow-2xl shadow-blue-600/40"
+                className="btn-sapphire-crystal text-sm sm:text-base px-6 sm:px-8 py-3.5 sm:py-4 flex items-center justify-center space-x-2.5 sm:space-x-3 shadow-2xl shadow-blue-600/40 w-full sm:w-auto"
               >
                 <span>Student Hub Access</span>
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
               <a
                 href="#faculty-login"
-                className="btn-silver-glass text-base px-7 py-4 flex items-center space-x-3 bg-slate-800/90 text-white border-slate-700 hover:bg-slate-700"
+                className="btn-silver-glass text-sm sm:text-base px-5 sm:px-7 py-3.5 sm:py-4 flex items-center justify-center space-x-2.5 sm:space-x-3 bg-slate-800/90 text-white border-slate-700 hover:bg-slate-700 w-full sm:w-auto"
               >
-                <Lock className="w-5 h-5 text-blue-400" />
+                <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                 <span>Faculty Studio</span>
               </a>
               <a
                 href="#download-apk"
-                className="btn-silver-glass text-base px-6 py-4 flex items-center space-x-3 border-emerald-500/40 text-emerald-300 bg-emerald-950/40 hover:bg-emerald-900/60"
+                className="btn-silver-glass text-sm sm:text-base px-5 sm:px-6 py-3.5 sm:py-4 flex items-center justify-center space-x-2.5 sm:space-x-3 border-emerald-500/40 text-emerald-300 bg-emerald-950/40 hover:bg-emerald-900/60 w-full sm:w-auto"
               >
-                <Download className="w-5 h-5 text-emerald-400" />
+                <Download className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
                 <span>Install APK</span>
               </a>
             </div>
 
-            {/* Live Metrics Pills */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-              <div className="glass-card p-4 rounded-2xl bg-slate-900/70 border-slate-800 flex items-center space-x-3">
-                <MapPin className="w-6 h-6 text-blue-400 shrink-0" />
+            {/* Live Metrics Pills - 3 Column Compact Mobile Layout */}
+            <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-2 sm:pt-4">
+              <div className="glass-card p-2 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900/70 border-slate-800 flex flex-col sm:flex-row items-center text-center sm:text-left space-y-1 sm:space-y-0 sm:space-x-3">
+                <MapPin className="w-4 h-4 sm:w-6 sm:h-6 text-blue-400 shrink-0" />
                 <div>
-                  <span className="text-xl font-black text-white block leading-none">200m</span>
-                  <span className="text-[10px] font-bold text-slate-400">GPS Geofence</span>
+                  <span className="text-sm sm:text-xl font-black text-white block leading-none">200m</span>
+                  <span className="text-[8px] sm:text-[10px] font-bold text-slate-400 block mt-0.5 sm:mt-0">GPS Geofence</span>
                 </div>
               </div>
-              <div className="glass-card p-4 rounded-2xl bg-slate-900/70 border-slate-800 flex items-center space-x-3">
-                <ShieldCheck className="w-6 h-6 text-indigo-400 shrink-0" />
+              <div className="glass-card p-2 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900/70 border-slate-800 flex flex-col sm:flex-row items-center text-center sm:text-left space-y-1 sm:space-y-0 sm:space-x-3">
+                <ShieldCheck className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-400 shrink-0" />
                 <div>
-                  <span className="text-xl font-black text-white block leading-none">3-Strike</span>
-                  <span className="text-[10px] font-bold text-slate-400">Proctor Guard</span>
+                  <span className="text-sm sm:text-xl font-black text-white block leading-none">3-Strike</span>
+                  <span className="text-[8px] sm:text-[10px] font-bold text-slate-400 block mt-0.5 sm:mt-0">Proctor Guard</span>
                 </div>
               </div>
-              <div className="glass-card p-4 rounded-2xl bg-slate-900/70 border-slate-800 flex items-center space-x-3">
-                <Zap className="w-6 h-6 text-emerald-400 shrink-0" />
+              <div className="glass-card p-2 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900/70 border-slate-800 flex flex-col sm:flex-row items-center text-center sm:text-left space-y-1 sm:space-y-0 sm:space-x-3">
+                <Zap className="w-4 h-4 sm:w-6 sm:h-6 text-emerald-400 shrink-0" />
                 <div>
-                  <span className="text-xl font-black text-white block leading-none">0.1s</span>
-                  <span className="text-[10px] font-bold text-slate-400">PDF Dispatch</span>
+                  <span className="text-sm sm:text-xl font-black text-white block leading-none">0.1s</span>
+                  <span className="text-[8px] sm:text-[10px] font-bold text-slate-400 block mt-0.5 sm:mt-0">PDF Dispatch</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Hero Right Column - MASSIVE 3D Student Character Stage with Floating Mid-Term Card Overlay */}
-          <div className="lg:col-span-7 flex flex-col justify-center items-center relative z-20 min-h-[480px] lg:min-h-[580px] xl:min-h-[660px] w-full overflow-hidden lg:overflow-visible">
+          {/* Hero Right Column - MASSIVE 3D Student Character Stage */}
+          <div className="lg:col-span-7 flex flex-col justify-center items-center relative z-20 min-h-[300px] xs:min-h-[380px] sm:min-h-[480px] lg:min-h-[580px] xl:min-h-[660px] w-full overflow-hidden lg:overflow-visible">
 
             {/* Ambient Background Radial Glow behind Main Character */}
-            <div className="absolute inset-0 bg-blue-600/30 rounded-full blur-[110px] pointer-events-none scale-110" />
+            <div className="absolute inset-0 bg-blue-600/30 rounded-full blur-[90px] sm:blur-[110px] pointer-events-none scale-100 sm:scale-110" />
 
-            {/* MAIN MASSIVE 3D HERO STUDENT CHARACTER (Responsive & Clamped) */}
+            {/* MAIN MASSIVE 3D HERO STUDENT CHARACTER (Responsive & Clamped for Mobile) */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={heroImage}
@@ -770,7 +853,7 @@ export default function LandingPage() {
                 transform: `scale(${heroScale / 100}) translate(${heroX}px, ${heroY}px)`,
                 transition: activeDragTarget === "hero" ? "none" : "transform 0.1s ease-out"
               }}
-              className={`w-full max-w-[540px] lg:max-w-[620px] xl:max-w-[760px] object-contain drop-shadow-[0_30px_50px_rgba(37,99,235,0.45)] relative z-10 shrink-0 ${
+              className={`w-full max-w-[320px] xs:max-w-[420px] sm:max-w-[540px] lg:max-w-[620px] xl:max-w-[760px] object-contain drop-shadow-[0_30px_50px_rgba(37,99,235,0.45)] relative z-10 shrink-0 ${
                 isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-blue-500/50 rounded-3xl" : ""
               }`}
             />

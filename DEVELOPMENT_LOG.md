@@ -389,6 +389,11 @@
 - **Clean Hero Layout**: Completely removed the CS-3A Mid-Term Live Workspace glass card component from `portal/app/page.tsx` as requested by user.
 - **Hero Stage Unification**: The 3D Student Character + College Server Building stage now renders cleanly with maximum focus on the main headline copy, action CTAs, and live metric pills.
 
+### 58. 100% Mobile Responsive Layout & Glass Navigation Drawer (v15.0 Build — New!)
+- **3D Glass Mobile Navigation Drawer**: Added a responsive mobile menu toggle (`Menu`/`X` icon) opening a floating 3D glass sheet with quick links (`Services`, `Portals`, `Platform Deck`, `Vision`) and full-width action CTAs (`Student Login`, `Faculty Studio`, `Install APK`).
+- **Responsive Logo Scaling**: Set `max-h-[46px]` mobile logo clamping so headers render cleanly on small 360px-420px mobile displays.
+- **Mobile Hero & Touch Target Optimization**: Upgraded Hero typography (`text-3xl xs:text-4xl`), full-width stacked mobile action buttons (`w-full sm:w-auto`), 3-column compact metric pills (`200m`, `3-Strike`, `0.1s`), and centered 3D character stage with zero horizontal overflow (`scrollWidth <= innerWidth`).
+
 ---
 
 ## 📂 Key Files Map
