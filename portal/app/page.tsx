@@ -69,7 +69,6 @@ export default function LandingPage() {
   const [logoHeight, setLogoHeight] = useState(62); // 10-15% larger logo (62px default)
   const [logoX, setLogoX] = useState(0);
   const [logoY, setLogoY] = useState(0);
-  const [isHeaderAdjusterOpen, setIsHeaderAdjusterOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Mouse Grab-and-Drag State
@@ -511,19 +510,6 @@ export default function LandingPage() {
 
           {/* Action CTAs & Mobile Controls Level Aligned */}
           <div className="flex items-center space-x-2 sm:space-x-4">
-            {/* Header Logo Adjuster Toggle Button */}
-            <button
-              onClick={() => setIsHeaderAdjusterOpen(!isHeaderAdjusterOpen)}
-              className={`p-2 sm:p-2.5 rounded-full transition-all border flex items-center justify-center shrink-0 ${
-                isHeaderAdjusterOpen
-                  ? "bg-blue-600 text-white border-blue-400 shadow-lg shadow-blue-500/50"
-                  : "text-slate-300 hover:text-white hover:bg-slate-800/80 border-slate-700/80"
-              }`}
-              title="Adjust Header Logo Size & Alignment"
-            >
-              <Sliders className="w-4 h-4" />
-            </button>
-
             <button
               onClick={handleRefreshSim}
               className="p-2 sm:p-2.5 rounded-full text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all border border-slate-700/80 flex items-center justify-center shrink-0"
@@ -638,96 +624,7 @@ export default function LandingPage() {
           </div>
         )}
 
-        {/* Floating Header Logo Adjuster Control Panel */}
-        {isHeaderAdjusterOpen && (
-          <div className="max-w-[1700px] mx-auto mt-3 p-4 rounded-2xl bg-slate-900/95 border border-blue-500/40 backdrop-blur-2xl shadow-2xl shadow-blue-500/20 text-white flex flex-wrap items-center justify-between gap-4 animate-fade-in z-50">
-            <div className="flex items-center space-x-3">
-              <span className="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
-                <Sliders className="w-4 h-4" /> Header Logo Adjuster:
-              </span>
-              
-              {/* Quick Size Presets */}
-              <div className="flex items-center space-x-1.5 bg-slate-800/90 p-1 rounded-xl border border-slate-700">
-                <button
-                  onClick={() => setLogoHeight(38)}
-                  className={`px-2.5 py-1 text-xs font-semibold rounded-lg transition-all ${logoHeight === 38 ? "bg-blue-600 text-white shadow" : "text-slate-400 hover:text-white"}`}
-                >
-                  Compact (38px)
-                </button>
-                <button
-                  onClick={() => setLogoHeight(52)}
-                  className={`px-2.5 py-1 text-xs font-semibold rounded-lg transition-all ${logoHeight === 52 ? "bg-blue-600 text-white shadow" : "text-slate-400 hover:text-white"}`}
-                >
-                  Medium (52px)
-                </button>
-                <button
-                  onClick={() => setLogoHeight(66)}
-                  className={`px-2.5 py-1 text-xs font-semibold rounded-lg transition-all ${logoHeight === 66 ? "bg-blue-600 text-white shadow" : "text-slate-400 hover:text-white"}`}
-                >
-                  Large (66px)
-                </button>
-                <button
-                  onClick={() => setLogoHeight(82)}
-                  className={`px-2.5 py-1 text-xs font-semibold rounded-lg transition-all ${logoHeight === 82 ? "bg-blue-600 text-white shadow" : "text-slate-400 hover:text-white"}`}
-                >
-                  XL (82px)
-                </button>
-              </div>
-            </div>
 
-            {/* Precision Range Sliders */}
-            <div className="flex items-center space-x-6 text-xs">
-              <div className="flex items-center space-x-2">
-                <span className="text-slate-400">Height:</span>
-                <input
-                  type="range"
-                  min="24"
-                  max="110"
-                  value={logoHeight}
-                  onChange={(e) => setLogoHeight(Number(e.target.value))}
-                  className="w-28 accent-blue-500 cursor-pointer"
-                />
-                <span className="font-mono text-blue-300 w-8">{logoHeight}px</span>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <span className="text-slate-400">X-Shift:</span>
-                <input
-                  type="range"
-                  min="-100"
-                  max="100"
-                  value={logoX}
-                  onChange={(e) => setLogoX(Number(e.target.value))}
-                  className="w-20 accent-blue-500 cursor-pointer"
-                />
-                <span className="font-mono text-blue-300 w-8">{logoX}px</span>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <span className="text-slate-400">Y-Shift:</span>
-                <input
-                  type="range"
-                  min="-30"
-                  max="30"
-                  value={logoY}
-                  onChange={(e) => setLogoY(Number(e.target.value))}
-                  className="w-20 accent-blue-500 cursor-pointer"
-                />
-                <span className="font-mono text-blue-300 w-8">{logoY}px</span>
-              </div>
-            </div>
-
-            {/* Save Layout Action Button */}
-            <button
-              onClick={saveLayoutPermanently}
-              disabled={saveStatus === "saving"}
-              className="btn-emerald-3d text-xs px-4 py-2 flex items-center space-x-2 shadow-lg shadow-emerald-500/30"
-            >
-              <Save className="w-3.5 h-3.5 text-white" />
-              <span>{saveStatus === "saving" ? "Saving..." : saveStatus === "saved" ? "Saved!" : "Save Layout"}</span>
-            </button>
-          </div>
-        )}
       </header>
 
       {/* Main Full-Width Content Container */}

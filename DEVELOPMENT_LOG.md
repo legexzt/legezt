@@ -394,6 +394,10 @@
 - **Responsive Logo Scaling**: Set `max-h-[46px]` mobile logo clamping so headers render cleanly on small 360px-420px mobile displays.
 - **Mobile Hero & Touch Target Optimization**: Upgraded Hero typography (`text-3xl xs:text-4xl`), full-width stacked mobile action buttons (`w-full sm:w-auto`), 3-column compact metric pills (`200m`, `3-Strike`, `0.1s`), and centered 3D character stage with zero horizontal overflow (`scrollWidth <= innerWidth`).
 
+### 59. Removal of Header Logo Adjuster Toolbar (v15.5 Build — New!)
+- **Production Navbar Polish**: Completely removed the `[🎛️ Adjust Header]` toggle button and floating slider control panel from `portal/app/page.tsx`.
+- **Finalized Layout Lock**: The header layout is now locked in production mode with pixel-perfect responsive logo scaling and ultra-clean navbar CTAs.
+
 ---
 
 ## 📂 Key Files Map
