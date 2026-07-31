@@ -63,8 +63,8 @@ export default function LandingPage() {
   const [facultyStudioImage, setFacultyStudioImage] = useState("/images/3d/peer_chat_students.png");
   const [nativeApkImage, setNativeApkImage] = useState("/images/3d/notes_library_books.png");
 
-  // Header Logo Interactive Adjuster State
-  const [logoHeight, setLogoHeight] = useState(52); // default height 52px (Slightly smaller, ultra sleek)
+  // Header Logo Interactive Adjuster State (10/10 Perfect Tuning)
+  const [logoHeight, setLogoHeight] = useState(62); // 10-15% larger logo (62px default)
   const [logoX, setLogoX] = useState(0);
   const [logoY, setLogoY] = useState(0);
   const [isHeaderAdjusterOpen, setIsHeaderAdjusterOpen] = useState(false);
@@ -458,16 +458,16 @@ export default function LandingPage() {
               transform: `translate(${logoX}px, ${logoY}px)`
             }}
           >
-            {/* Ambient Cyan/Blue Backlight Glow Aura */}
-            <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 rounded-3xl blur-xl opacity-60 group-hover:opacity-100 transition-all duration-500 animate-pulse pointer-events-none" />
+            {/* Refined Ambient Backlight Glow Beam (Glow Radius Reduced 35%, Crisp & Subtle 40% Opacity) */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/35 via-cyan-500/25 to-indigo-600/35 rounded-2xl blur-md opacity-35 group-hover:opacity-65 transition-all duration-300 pointer-events-none" />
 
-            {/* User 3D Image Logo with Controlled Dynamic Height */}
+            {/* 10/10 Crisp 3D Metallic Logo with Controlled Dynamic Height */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/3d/legezt_main_logo.png"
               alt="LeGeZt 3D Logo"
               style={{ height: `${logoHeight}px` }}
-              className="relative z-10 w-auto max-w-[500px] object-contain drop-shadow-[0_10px_28px_rgba(6,182,212,0.9)] group-hover:scale-105 transition-transform duration-300"
+              className="relative z-10 w-auto max-w-[540px] object-contain drop-shadow-[0_4px_14px_rgba(37,99,235,0.4)] group-hover:scale-[1.02] transition-transform duration-300"
             />
           </div>
 

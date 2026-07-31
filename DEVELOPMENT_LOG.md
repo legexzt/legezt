@@ -375,6 +375,11 @@
 - **New 3D Logo File Update**: Processed user's updated ultra high-res 3D metallic blue LeGeZt wordmark logo into a pixel-tight transparent PNG (`863x172`) and saved as `portal/public/images/3d/legezt_main_logo.png`.
 - **Layout & Control Preservation**: Maintained all custom header slider adjustments, position coordinates, backlight glow effects, and live save persistence.
 
+### 55. 10/10 Perfect Logo Refinement & Specular Glass-Metal Finish (v13.0 Build — New!)
+- **Compact Un-Stretched Typography**: Applied a 6% width compact squeeze (`811px x 172px`) eliminating letter stretching for an engineered typographic look.
+- **3D Glass-Metal Specular Reflection**: Boosted silver/white specular highlights on the top 35% edge and deepened royal navy shadows on the bottom 35% for a realistic glass-metal finish.
+- **Crisp Edge & Glow Radius Reduction**: Reduced glow radius by 35% (`drop-shadow-[0_4px_14px_rgba(37,99,235,0.4)]`), lowered ambient backlight beam opacity to a subtle 35%, and increased default logo size by 15% (`62px`).
+
 ---
 
 ## 📂 Key Files Map
