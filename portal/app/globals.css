@@ -41,6 +41,79 @@
     inset 0 1px 2px rgba(255, 255, 255, 0.25);
 }
 
+/* 3D Light Green / Emerald Crystal Button */
+.btn-emerald-3d {
+  background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+  border: 1px solid rgba(167, 243, 208, 0.6);
+  box-shadow: 
+    0 10px 25px -4px rgba(16, 185, 129, 0.55),
+    0 4px 12px rgba(5, 150, 105, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.35);
+  color: #ffffff !important;
+  font-weight: 800;
+  border-radius: 9999px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-emerald-3d:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 
+    0 16px 35px -4px rgba(16, 185, 129, 0.75),
+    0 8px 20px rgba(5, 150, 105, 0.5),
+    inset 0 1px 3px rgba(255, 255, 255, 0.8);
+}
+
+.btn-emerald-3d:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 
+    0 4px 12px rgba(16, 185, 129, 0.4),
+    inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* 3D Sapphire Blue Crystal Button */
+.btn-sapphire-3d {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
+  border: 1px solid rgba(191, 219, 254, 0.6);
+  box-shadow: 
+    0 10px 25px -4px rgba(37, 99, 235, 0.55),
+    0 4px 12px rgba(29, 78, 216, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.35);
+  color: #ffffff !important;
+  font-weight: 800;
+  border-radius: 9999px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-sapphire-3d:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 
+    0 16px 35px -4px rgba(37, 99, 235, 0.75),
+    0 8px 20px rgba(29, 78, 216, 0.5),
+    inset 0 1px 3px rgba(255, 255, 255, 0.8);
+}
+
+/* 3D Dark Slate Glass Button */
+.btn-slate-3d {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: 
+    0 8px 20px -4px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+  color: #ffffff !important;
+  font-weight: 700;
+  border-radius: 9999px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-slate-3d:hover {
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+  transform: translateY(-2px) scale(1.02);
+  border-color: rgba(148, 163, 184, 0.5);
+}
+
 /* Sapphire Crystal 3D Glow Button */
 .btn-sapphire-crystal {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);

@@ -455,28 +455,38 @@ export default function LandingPage() {
             <a href="#vision" className="hover:text-blue-400 transition-colors">Vision</a>
           </nav>
 
-          {/* Action CTAs */}
-          <div className="flex items-center space-x-4">
+          {/* Action CTAs - 3D Light Green & Sapphire Buttons Level Aligned */}
+          <div className="flex items-center space-x-3 sm:space-x-4">
             <button
               onClick={handleRefreshSim}
-              className="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-slate-800 transition-all border border-slate-800"
+              className="p-2.5 rounded-full text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all border border-slate-700/80 flex items-center justify-center shrink-0"
               title="Simulate Skeleton Refresh"
             >
-              <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin text-blue-400" : ""}`} />
+              <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin text-emerald-400" : ""}`} />
             </button>
+
             <a
               href="#student-login"
-              className="btn-sapphire-crystal text-xs sm:text-sm px-6 py-2.5 flex items-center space-x-2"
+              className="btn-emerald-3d text-xs sm:text-sm px-5 py-2.5 flex items-center space-x-2 shrink-0 shadow-lg shadow-emerald-600/30"
             >
-              <UserCheck className="w-4 h-4" />
-              <span>Student Login</span>
+              <UserCheck className="w-4 h-4 text-white" />
+              <span className="text-white font-black tracking-wide">Student Login</span>
             </a>
+
             <a
               href="#faculty-login"
-              className="btn-silver-glass text-xs sm:text-sm px-6 py-2.5 hidden sm:flex items-center space-x-2 bg-slate-800/90 text-white border-slate-700 hover:bg-slate-700"
+              className="btn-sapphire-3d text-xs sm:text-sm px-5 py-2.5 hidden sm:flex items-center space-x-2 shrink-0"
             >
-              <Lock className="w-4 h-4 text-blue-400" />
-              <span>Faculty Studio</span>
+              <Lock className="w-4 h-4 text-white" />
+              <span className="text-white font-black tracking-wide">Faculty Studio</span>
+            </a>
+
+            <a
+              href="#download-apk"
+              className="btn-slate-3d text-xs sm:text-sm px-4 py-2.5 hidden md:flex items-center space-x-2 shrink-0 border-emerald-500/30 text-emerald-300 hover:border-emerald-400"
+            >
+              <Download className="w-4 h-4 text-emerald-400" />
+              <span className="text-white font-bold">Install APK</span>
             </a>
           </div>
         </div>
