@@ -432,35 +432,18 @@ export default function LandingPage() {
       {/* Full-Bleed Top Header Navbar */}
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#0b0f19]/80 border-b border-slate-800/80 px-6 lg:px-12 xl:px-16 py-4 shadow-2xl shadow-black/40">
         <div className="max-w-[1700px] mx-auto flex items-center justify-between">
-          {/* Logo & Emblem (Supports Custom High-Res 3D Image Logo) */}
-          <div className="flex items-center space-x-3 cursor-pointer group">
+          {/* Single High-Res 3D Image Logo with Ambient Backlight Glow */}
+          <div className="relative group flex items-center cursor-pointer py-1">
+            {/* Ambient Cyan/Blue Backlight Glow Aura */}
+            <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 rounded-3xl blur-xl opacity-60 group-hover:opacity-100 transition-all duration-500 animate-pulse pointer-events-none" />
+
+            {/* User 3D Image Logo */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/3d/legezt_main_logo.png"
               alt="LeGeZt 3D Logo"
-              onError={(e) => {
-                // If custom image is missing, show fallback badge
-                (e.target as HTMLElement).style.display = 'none';
-                const fallback = document.getElementById('logo-fallback-badge');
-                if (fallback) fallback.style.display = 'flex';
-              }}
-              className="h-14 lg:h-16 w-auto max-w-[320px] object-contain drop-shadow-[0_10px_25px_rgba(37,99,235,0.7)] group-hover:scale-105 transition-all duration-300"
+              className="relative z-10 h-12 lg:h-14 xl:h-16 w-auto max-w-[280px] sm:max-w-[340px] object-contain drop-shadow-[0_12px_28px_rgba(6,182,212,0.8)] group-hover:scale-105 transition-transform duration-300"
             />
-
-            {/* Fallback Text Badge */}
-            <div id="logo-fallback-badge" className="flex items-center space-x-3">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-800 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 border border-white/20">
-                <GraduationCap className="w-6 h-6" />
-              </div>
-              <div>
-                <span className="text-2xl font-black tracking-tight text-white block leading-none">
-                  LeGeZt
-                </span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 mt-1 inline-block">
-                  v4.0 Enterprise
-                </span>
-              </div>
-            </div>
           </div>
 
           {/* Navigation Links - 3D White Glass Pill Buttons Evenly Spread */}

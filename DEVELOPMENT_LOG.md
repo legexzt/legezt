@@ -356,6 +356,11 @@
 - **Wide Horizontal 3D Logo Banner**: Rendered and integrated a wide horizontal 3D logo banner (`legezt_main_logo.png`) featuring "LeGeZt" wordmark alongside a 3D Laptop + VR Machine + Graduation Cap emblem.
 - **Header Bar Scaling**: Increased container scaling to `h-14 lg:h-16 max-w-[320px]` with transparent background trimming and glowing blue shadow (`drop-shadow-[0_10px_25px_rgba(37,99,235,0.7)]`).
 
+### 51. User 3D Metallic Wordmark Logo & Ambient Backlight Glow (v11.0 Build — New!)
+- **User 3D Logo Integration**: Processed user's high-res 3D metallic blue "LeGeZt" wordmark logo (with LK Laptop + Graduation Cap emblem) into a transparent PNG and saved as `portal/public/images/3d/legezt_main_logo.png`.
+- **Double Logo Removal**: Removed text badge fallback to render ONLY the single 3D image logo in the header bar.
+- **Ambient Backlight Halo Glow**: Added a pulsating cyan/blue backlight aura (`absolute -inset-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 blur-xl opacity-60`) behind the logo for a glowing 3D aesthetic effect.
+
 ---
 
 ## 📂 Key Files Map
