@@ -366,6 +366,11 @@
 - **Enlarged Responsive Sizing**: Scaled header logo image container to `h-14 md:h-16 lg:h-18 xl:h-20 max-w-[480px]` (`399px x 80px` rendered area).
 - **Intense Cyan-Blue Glow & Visual Verification**: Upgraded drop shadow to `drop-shadow-[0_12px_32px_rgba(6,182,212,0.95)]` and visually verified live in Chrome browser via subagent screenshot.
 
+### 53. Interactive Header Logo Adjuster & Live Save Persistence (v12.0 Build — New!)
+- **Default Height Optimization**: Tuned default logo height to a sleek `52px` (`Medium`), giving the header an elegant, perfectly balanced proportion.
+- **Interactive Header Adjuster Toolbar**: Added a `[🎛️ Adjust Header]` toggle button in the navbar opening a live floating glass control panel with presets (`Compact 38px`, `Medium 52px`, `Large 66px`, `XL 82px`) and precision `Height`, `X-Shift`, and `Y-Shift` sliders.
+- **Live Persistence Integration**: Connected the adjuster toolbar to `saveLayoutPermanently()` and `/api/layout/save` so user adjustments save directly to `portal/data/layout_config.json`.
+
 ---
 
 ## 📂 Key Files Map
