@@ -778,70 +778,7 @@ export default function LandingPage() {
             {/* Grounded 3D Shadow Ring */}
             <div className="w-[85%] h-10 bg-blue-500/25 rounded-[100%] blur-xl pointer-events-none -mt-6 relative z-0" />
 
-            {/* FLOATING COMPACT CS-3A MID-TERM LIVE WORKSPACE GLASS CARD (Responsive Positioning) */}
-            <div
-              onMouseDown={(e) => handleMouseDown("card", e)}
-              style={{
-                transform: `scale(${cardScale / 100}) translate(${cardX}px, ${cardY}px)`,
-                transition: activeDragTarget === "card" ? "none" : "transform 0.1s ease-out"
-              }}
-              className={`absolute top-0 sm:top-4 left-0 sm:left-2 lg:left-4 z-30 max-w-[320px] sm:max-w-[350px] w-full ${
-                isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-indigo-500/60 rounded-2xl" : ""
-              }`}
-            >
-              {isLoading ? (
-                <div className="glass-card p-5 rounded-2xl space-y-4 bg-slate-900/90 border-slate-800">
-                  <div className="h-4 w-1/3 rounded skeleton-shimmer" />
-                  <div className="h-6 w-3/4 rounded skeleton-shimmer" />
-                </div>
-              ) : (
-                <div className="glass-card p-5 sm:p-6 rounded-2xl bg-slate-900/90 backdrop-blur-xl border border-slate-700/80 space-y-4 shadow-2xl shadow-blue-950/80 hover:border-blue-400/60 transition-all duration-300 group">
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                    <div className="flex items-center space-x-2.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300">Live Workspace Status</span>
-                    </div>
-                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
-                      Exam Ready
-                    </span>
-                  </div>
 
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-black text-white group-hover:text-blue-300 transition-colors">
-                      CS-3A Mid-Term Examination
-                    </h3>
-                    <div className="flex items-center space-x-3 text-[11px] font-semibold text-slate-300">
-                      <span className="flex items-center space-x-1">
-                        <Clock className="w-3.5 h-3.5 text-blue-400" />
-                        <span>45 Minutes</span>
-                      </span>
-                      <span className="flex items-center space-x-1">
-                        <MapPin className="w-3.5 h-3.5 text-red-400" />
-                        <span>Classroom 302 (18m)</span>
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Compact MCQ Preview Box */}
-                  <div className="p-3 rounded-xl bg-slate-950/90 border border-slate-800/80 text-[11px] font-medium space-y-2">
-                    <span className="font-bold text-blue-300 block">Q1 (Jumbled Seed #842):</span>
-                    <p className="text-slate-300 text-xs">What is the time complexity of searching in a BST?</p>
-                    <div className="grid grid-cols-2 gap-2 pt-0.5">
-                      <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-[10px] text-slate-400">A) O(N)</div>
-                      <div className="p-2 rounded-lg bg-blue-600/30 border border-blue-500/60 font-bold text-[10px] text-blue-200">B) O(log N) ✓</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 font-semibold pt-0.5">
-                    <span>Warnings: <strong className="text-emerald-400">0/3</strong></span>
-                    <span className="flex items-center space-x-1 text-blue-300">
-                      <CheckCircle2 className="w-3 h-3" />
-                      <span>Auto-Saved</span>
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
 
           </div>
         </section>

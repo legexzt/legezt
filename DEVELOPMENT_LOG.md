@@ -385,6 +385,10 @@
 - **CS-3A Exam Card Separation**: Positioned floating CS-3A Live Workspace Card with responsive top/left anchoring (`top-0 sm:top-4 left-0 sm:left-2 lg:left-4 max-w-[350px]`) ensuring a 48px+ safety gap from left headline text.
 - **3D Character Container Clamp**: Replaced `w-[120%]` with responsive container clamping `max-w-[540px] lg:max-w-[620px] xl:max-w-[760px]`, eliminating graphic cut-offs across 1024px, 1366px, 1440px, 1536px, 1680px, and 1920px 4K laptop screens.
 
+### 57. Complete Removal of CS-3A Exam Workspace Card (v14.0 Build — New!)
+- **Clean Hero Layout**: Completely removed the CS-3A Mid-Term Live Workspace glass card component from `portal/app/page.tsx` as requested by user.
+- **Hero Stage Unification**: The 3D Student Character + College Server Building stage now renders cleanly with maximum focus on the main headline copy, action CTAs, and live metric pills.
+
 ---
 
 ## 📂 Key Files Map
