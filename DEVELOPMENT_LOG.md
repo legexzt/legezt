@@ -361,6 +361,11 @@
 - **Double Logo Removal**: Removed text badge fallback to render ONLY the single 3D image logo in the header bar.
 - **Ambient Backlight Halo Glow**: Added a pulsating cyan/blue backlight aura (`absolute -inset-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 blur-xl opacity-60`) behind the logo for a glowing 3D aesthetic effect.
 
+### 52. Pixel-Tight Crop & Large Glowing 3D Metallic Logo (v11.5 Build — New!)
+- **Tight Pixel Bounding Crop**: Built a threshold-based Python image processing script to strip outer black/gray canvas margins, trimming `legezt_main_logo.png` tightly to `(867, 174)` true logo pixels.
+- **Enlarged Responsive Sizing**: Scaled header logo image container to `h-14 md:h-16 lg:h-18 xl:h-20 max-w-[480px]` (`399px x 80px` rendered area).
+- **Intense Cyan-Blue Glow & Visual Verification**: Upgraded drop shadow to `drop-shadow-[0_12px_32px_rgba(6,182,212,0.95)]` and visually verified live in Chrome browser via subagent screenshot.
+
 ---
 
 ## 📂 Key Files Map

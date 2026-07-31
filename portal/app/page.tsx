@@ -442,7 +442,7 @@ export default function LandingPage() {
             <img
               src="/images/3d/legezt_main_logo.png"
               alt="LeGeZt 3D Logo"
-              className="relative z-10 h-12 lg:h-14 xl:h-16 w-auto max-w-[280px] sm:max-w-[340px] object-contain drop-shadow-[0_12px_28px_rgba(6,182,212,0.8)] group-hover:scale-105 transition-transform duration-300"
+              className="relative z-10 h-14 md:h-16 lg:h-18 xl:h-20 w-auto max-w-[340px] md:max-w-[420px] xl:max-w-[480px] object-contain drop-shadow-[0_12px_32px_rgba(6,182,212,0.95)] group-hover:scale-105 transition-transform duration-300"
             />
           </div>
 
