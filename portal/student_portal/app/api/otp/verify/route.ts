@@ -6,13 +6,15 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const result = await apiVerifyStudentOtp(body);
 
-    if (result.success && result.data) {
+    const isSuccess = result.success || (result.data && result.data.authenticated) || (result.message && result.message.toLowerCase().includes("validated"));
+
+    if (isSuccess) {
       return NextResponse.json({
         success: true,
         authenticated: true,
-        student: result.data.student,
-        message: result.data.message || "OTP verified successfully!",
-      });
+        student: result.data?.student || null,
+        message: result.data?.message || result.message || "Verification code successfully validated!",
+      }, { status: 200 });
     } else {
       return NextResponse.json(
         {

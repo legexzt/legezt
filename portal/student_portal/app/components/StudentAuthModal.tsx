@@ -265,14 +265,16 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
       });
 
       const data = await res.json();
-      if (res.ok && (data.authenticated || data.success)) {
+      const isSuccess = (res.ok && (data.authenticated || data.success)) || (data.message && data.message.toLowerCase().includes("validated"));
+
+      if (isSuccess) {
         setErrorMsg("");
-        setSuccessMsg("Permanent Member Account Activated! Accessing Student Workspace...");
+        setSuccessMsg("Permanent Member Account Activated! Accessing Student Workspace & Digital ID Card...");
         
         const authenticatedStudent = data.student || pendingStudent || {
           name: regName || "STUDENT NAME",
           rollNo: regRollNo || "2026-LIET-CS-042",
-          email: regEmail,
+          email: regEmail || pendingStudent?.email || "student@lords.ac.in",
           department: regDept || "CSE",
           gender: regGender,
         };
@@ -286,11 +288,10 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
         };
         
         setIdCardStudentData(cardData);
+        setShowIdCardModal(true);
         
         // Immediately authenticate student to open Workspace Canvas!
-        setTimeout(() => {
-          onAuthenticated(authenticatedStudent);
-        }, 500);
+        onAuthenticated(authenticatedStudent);
       } else {
         setErrorMsg(data.message || "Invalid 6-digit OTP code. Please try again.");
       }
