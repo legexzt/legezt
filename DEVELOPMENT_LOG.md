@@ -778,6 +778,12 @@
   - Direct Download: `https://drive.google.com/uc?export=download&id=1Arl3EwZskuUPzoJsjOdRUQTV653keq7G`
   - Web View: `https://drive.google.com/file/d/1Arl3EwZskuUPzoJsjOdRUQTV653keq7G/view?usp=sharing`
 
+### 88. GitHub Primary Collaboration Repository & Smart Auto-Sync Setup (v30.0 Build — New!)
+- **GitHub Repository Linked**: Connected workspace to GitHub account `legexzt` (`https://github.com/legexzt/legezt.git`).
+- **Automated GitHub Sync Tool (`smart_git_sync.py`)**: Created `tools_and_credentials/smart_git_sync.py` to handle staging, committing, pulling (`git pull --rebase origin master`), and pushing (`git push origin master`).
+- **Linux GitHub Setup Helper (`setup_linux_github_sync.sh`)**: Created `tools_and_credentials/setup_linux_github_sync.sh` for one-click clone, sync, and pull on Linux systems.
+- **Verification**: Successfully pushed complete workspace codebase to `origin master`.
+
 ---
 
 ## 📂 Key Files Map
