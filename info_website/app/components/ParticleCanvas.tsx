@@ -12,8 +12,17 @@ interface Particle {
   alpha: number;
 }
 
-export default function ParticleCanvas() {
+interface ParticleCanvasProps {
+  theme?: "dark" | "light";
+}
+
+export default function ParticleCanvas({ theme = "dark" }: ParticleCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const themeRef = useRef(theme);
+
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -85,6 +94,8 @@ export default function ParticleCanvas() {
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
+      const isLight = themeRef.current === "light";
+
       // Update and Draw Particles
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
@@ -113,12 +124,14 @@ export default function ParticleCanvas() {
           p.alpha += (p.baseAlpha - p.alpha) * 0.05;
         }
 
-        // Draw Particle Glow Dot
+        // Draw Particle Glow Dot (Adapts to Dark vs Light Theme)
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+        ctx.fillStyle = isLight
+          ? `rgba(37, 99, 235, ${p.alpha * 0.85})` // Royal Blue for Light Mode
+          : `rgba(255, 255, 255, ${p.alpha})`;    // White for Dark Mode;
         ctx.shadowBlur = 8;
-        ctx.shadowColor = "rgba(59, 130, 246, 0.8)"; // Electric Blue/Cyan Glow
+        ctx.shadowColor = isLight ? "rgba(37, 99, 235, 0.5)" : "rgba(59, 130, 246, 0.8)";
         ctx.fill();
         ctx.shadowBlur = 0; // Reset blur for lines
 
@@ -134,7 +147,9 @@ export default function ParticleCanvas() {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(147, 197, 253, ${lineAlpha})`; // Soft Cyan/Blue Line
+            ctx.strokeStyle = isLight
+              ? `rgba(59, 130, 246, ${lineAlpha * 0.9})`  // Vibrant Blue for Light Mode
+              : `rgba(147, 197, 253, ${lineAlpha})`;     // Soft Cyan for Dark Mode
             ctx.lineWidth = 0.6;
             ctx.stroke();
           }
@@ -146,7 +161,9 @@ export default function ParticleCanvas() {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = `rgba(96, 165, 250, ${cursorLineAlpha})`; // Vibrant Blue Cursor Beam Line
+          ctx.strokeStyle = isLight
+            ? `rgba(29, 78, 216, ${cursorLineAlpha})` // Deep Cobalt Beam for Light Mode
+            : `rgba(96, 165, 250, ${cursorLineAlpha})`;// Electric Blue Beam for Dark Mode
           ctx.lineWidth = 0.8;
           ctx.stroke();
         }

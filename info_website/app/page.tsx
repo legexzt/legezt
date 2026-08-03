@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ParticleCanvas from "./components/ParticleCanvas";
 import {
   ShieldCheck,
@@ -31,11 +31,29 @@ import {
   Save,
   Menu,
   X,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 export default function LandingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
+
+  // Light / Dark Theme Mode State & localStorage Persistence
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("legezt_theme") as "dark" | "light" | null;
+    if (savedTheme === "light" || savedTheme === "dark") {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    localStorage.setItem("legezt_theme", nextTheme);
+  };
 
   // Visual Studio Editor Mode State (OFF - Final Production Layout Saved)
   const [isEditMode, setIsEditMode] = useState(false);
@@ -320,7 +338,9 @@ export default function LandingPage() {
     <div
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
-      className="relative min-h-screen bg-[#0b0f19] text-white selection:bg-blue-600 selection:text-white overflow-x-hidden pb-32 select-none"
+      className={`relative min-h-screen font-sans selection:bg-blue-500 selection:text-white overflow-x-hidden pb-32 select-none transition-colors duration-500 ${
+        theme === "light" ? "bg-slate-50 text-slate-900" : "bg-[#0b0f19] text-white"
+      }`}
     >
       {/* Dynamic Background Mesh Gradients */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -444,16 +464,30 @@ export default function LandingPage() {
       )}
 
       {/* Rich Glowing Ambient Light Orbs for 3D Depth */}
-      <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-600/20 blur-[150px] pointer-events-none z-0" />
-      <div className="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-600/20 blur-[150px] pointer-events-none z-0" />
-      <div className="fixed top-[35%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-purple-600/15 blur-[140px] pointer-events-none z-0" />
+      <div className={`fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[150px] pointer-events-none z-0 transition-opacity duration-500 ${
+        theme === "light" ? "bg-blue-400/20" : "bg-blue-600/20"
+      }`} />
+      <div className={`fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full blur-[150px] pointer-events-none z-0 transition-opacity duration-500 ${
+        theme === "light" ? "bg-indigo-400/20" : "bg-indigo-600/20"
+      }`} />
+      <div className={`fixed top-[35%] right-[-5%] w-[40vw] h-[40vw] rounded-full blur-[140px] pointer-events-none z-0 transition-opacity duration-500 ${
+        theme === "light" ? "bg-purple-400/15" : "bg-purple-600/15"
+      }`} />
 
-      {/* Main Canvas Background Mesh & Interactive White Particle Constellation Layer */}
-      <div className="fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0b0f19] to-black pointer-events-none" />
-      <ParticleCanvas />
+      {/* Main Canvas Background Mesh & Interactive Particle Constellation Layer */}
+      <div className={`fixed inset-0 z-0 transition-all duration-500 pointer-events-none ${
+        theme === "light"
+          ? "bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50/90 via-slate-100 to-indigo-100/80"
+          : "bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0b0f19] to-black"
+      }`} />
+      <ParticleCanvas theme={theme} />
 
       {/* Full-Bleed Top Header Navbar */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#0b0f19]/85 border-b border-slate-800/80 px-4 sm:px-6 lg:px-12 xl:px-16 py-3 sm:py-4 shadow-2xl shadow-black/40">
+      <header className={`sticky top-0 z-50 backdrop-blur-xl border-b px-4 sm:px-6 lg:px-12 xl:px-16 py-3 sm:py-4 shadow-2xl transition-colors duration-300 ${
+        theme === "light"
+          ? "bg-white/90 border-slate-200/90 text-slate-900 shadow-slate-200/60"
+          : "bg-[#0b0f19]/85 border-slate-800/80 text-white shadow-black/40"
+      }`}>
         <div className="max-w-[1700px] mx-auto flex items-center justify-between">
           {/* Single High-Res 3D Image Logo with Dynamic Height & Backlight Glow */}
           <div
@@ -462,10 +496,10 @@ export default function LandingPage() {
               transform: `translate(${logoX}px, ${logoY}px)`
             }}
           >
-            {/* Refined Ambient Backlight Glow Beam (Glow Radius Reduced 35%, Crisp & Subtle 40% Opacity) */}
+            {/* Refined Ambient Backlight Glow Beam */}
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/35 via-cyan-500/25 to-indigo-600/35 rounded-2xl blur-md opacity-35 group-hover:opacity-65 transition-all duration-300 pointer-events-none" />
 
-            {/* 10/10 Crisp 3D Metallic Logo with Controlled Dynamic Height & Mobile Scaling */}
+            {/* 10/10 Crisp 3D Metallic Logo */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/3d/legezt_main_logo.png"
@@ -510,14 +544,29 @@ export default function LandingPage() {
             </a>
           </nav>
 
-          {/* Action CTAs & Mobile Controls Level Aligned */}
+          {/* Action CTAs & Theme Switcher Controls Level Aligned */}
           <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* Light / Dark Theme Switcher Button */}
             <button
-              onClick={handleRefreshSim}
-              className="p-2 sm:p-2.5 rounded-full text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all border border-slate-700/80 flex items-center justify-center shrink-0"
-              title="Simulate Skeleton Refresh"
+              onClick={toggleTheme}
+              className={`p-2 sm:px-3.5 sm:py-2.5 rounded-full transition-all border flex items-center space-x-1.5 shrink-0 font-extrabold text-xs shadow-md ${
+                theme === "light"
+                  ? "bg-indigo-600 text-white border-indigo-400 hover:bg-indigo-700 shadow-indigo-500/30"
+                  : "bg-amber-500/20 text-amber-300 border-amber-400/40 hover:bg-amber-500/30 shadow-amber-500/20"
+              }`}
+              title={theme === "light" ? "Switch to Dark Theme Mode" : "Switch to Light Theme Mode"}
             >
-              <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin text-emerald-400" : ""}`} />
+              {theme === "light" ? (
+                <>
+                  <Moon className="w-4 h-4 text-indigo-100 fill-indigo-100" />
+                  <span className="hidden sm:inline">Dark Theme</span>
+                </>
+              ) : (
+                <>
+                  <Sun className="w-4 h-4 text-amber-400 fill-amber-400" />
+                  <span className="hidden sm:inline">Light Theme</span>
+                </>
+              )}
             </button>
 
             <a
@@ -538,28 +587,40 @@ export default function LandingPage() {
 
             <a
               href="#download-apk"
-              className="btn-slate-3d text-xs sm:text-sm px-4 py-2.5 hidden md:flex items-center space-x-2 shrink-0 border-emerald-500/30 text-emerald-300 hover:border-emerald-400"
+              className={`btn-slate-3d text-xs sm:text-sm px-4 py-2.5 hidden md:flex items-center space-x-2 shrink-0 ${
+                theme === "light" ? "border-emerald-600/50 text-emerald-800" : "border-emerald-500/30 text-emerald-300"
+              }`}
             >
               <Download className="w-4 h-4 text-emerald-400" />
               <span className="text-white font-bold">Install APK</span>
             </a>
 
-            {/* Mobile Menu Navigation Drawer Toggle Button (Visible on Mobile/Tablet) */}
+            {/* Mobile Menu Navigation Drawer Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 sm:p-2.5 rounded-full text-slate-200 hover:text-white bg-slate-800/90 border border-slate-700 lg:hidden flex items-center justify-center shrink-0"
+              className={`p-2 sm:p-2.5 rounded-full border lg:hidden flex items-center justify-center shrink-0 ${
+                theme === "light"
+                  ? "text-slate-800 bg-slate-100 border-slate-300"
+                  : "text-slate-200 bg-slate-800/90 border-slate-700"
+              }`}
               title="Toggle Mobile Navigation Menu"
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5 text-red-400" /> : <Menu className="w-5 h-5 text-blue-400" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5 text-red-400" /> : <Menu className="w-5 h-5 text-blue-500" />}
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation Glass Drawer Sheet */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden mt-3 p-5 rounded-2xl bg-[#0b0f19]/95 border border-slate-800 backdrop-blur-2xl shadow-2xl shadow-black/80 text-white space-y-4 animate-fade-in z-50">
-            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 pb-1 border-b border-slate-800/80">
-              Mobile Navigation & Portals
+          <div className={`lg:hidden mt-3 p-5 rounded-2xl border backdrop-blur-2xl shadow-2xl space-y-4 animate-fade-in z-50 ${
+            theme === "light"
+              ? "bg-white/98 border-slate-200 text-slate-900 shadow-slate-300/80"
+              : "bg-[#0b0f19]/95 border-slate-800 text-white shadow-black/80"
+          }`}>
+            <div className={`text-[10px] font-bold uppercase tracking-wider pb-1 border-b ${
+              theme === "light" ? "text-slate-500 border-slate-200" : "text-slate-400 border-slate-800/80"
+            }`}>
+              Mobile Navigation & Theme Controls
             </div>
             
             <nav className="grid grid-cols-2 gap-2.5 text-xs font-bold">
@@ -597,7 +658,31 @@ export default function LandingPage() {
               </a>
             </nav>
 
-            <div className="flex flex-col space-y-2.5 pt-3 border-t border-slate-800/80">
+            {/* Mobile Theme Toggle Button */}
+            <button
+              onClick={() => { toggleTheme(); setIsMobileMenuOpen(false); }}
+              className={`w-full py-3 px-4 rounded-2xl border font-black text-xs flex items-center justify-center space-x-2 shadow-md ${
+                theme === "light"
+                  ? "bg-indigo-600 text-white border-indigo-400 shadow-indigo-500/30"
+                  : "bg-amber-500/20 text-amber-300 border-amber-400/40"
+              }`}
+            >
+              {theme === "light" ? (
+                <>
+                  <Moon className="w-4 h-4 text-indigo-100 fill-indigo-100" />
+                  <span>Switch to Dark Theme Mode</span>
+                </>
+              ) : (
+                <>
+                  <Sun className="w-4 h-4 text-amber-400 fill-amber-400" />
+                  <span>Switch to Light Theme Mode</span>
+                </>
+              )}
+            </button>
+
+            <div className={`flex flex-col space-y-2.5 pt-3 border-t ${
+              theme === "light" ? "border-slate-200" : "border-slate-800/80"
+            }`}>
               <a
                 href="#student-login"
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -639,22 +724,26 @@ export default function LandingPage() {
           <div className="lg:col-span-5 space-y-6 sm:space-y-8 z-10 text-left">
             <div
               onClick={() => setSelectedId("hero_badge")}
-              className={`inline-flex items-center space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-blue-500/10 border text-blue-300 text-[11px] sm:text-xs font-bold backdrop-blur-md transition-all ${
-                isEditMode ? "cursor-pointer hover:border-blue-400" : "border-blue-400/30"
+              className={`inline-flex items-center space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border text-[11px] sm:text-xs font-bold backdrop-blur-md transition-all ${
+                theme === "light"
+                  ? "bg-blue-600/10 border-blue-500/40 text-blue-800 font-extrabold"
+                  : "bg-blue-500/10 border-blue-400/30 text-blue-300"
               } ${selectedId === "hero_badge" ? "ring-2 ring-blue-400 border-blue-400" : ""}`}
               style={{
                 fontSize: getProp("hero_badge", "fontSize", 100) !== 100 ? `${getProp("hero_badge", "fontSize", 100) / 100}em` : undefined,
                 transform: `scale(${getProp("hero_badge", "scale", 100) / 100}) translate(${getProp("hero_badge", "x", 0)}px, ${getProp("hero_badge", "y", 0)}px)`
               }}
             >
-              <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-400 shrink-0" />
+              <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500 shrink-0" />
               <span className="truncate">{getProp("hero_badge", "text", "Autonomous Intranet & 200m Geofenced Exam System")}</span>
             </div>
 
             <h1
               onClick={() => setSelectedId("hero_title")}
               onMouseDown={(e) => handleMouseDown("hero_title", e)}
-              className={`text-3xl xs:text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white tracking-tight leading-[1.12] transition-all ${
+              className={`text-3xl xs:text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-[1.12] transition-all ${
+                theme === "light" ? "text-slate-950" : "text-white"
+              } ${
                 isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400/80 p-2 rounded-2xl" : ""
               } ${selectedId === "hero_title" ? "ring-2 ring-blue-500 p-2 rounded-2xl bg-blue-500/5" : ""}`}
               style={{
@@ -669,7 +758,9 @@ export default function LandingPage() {
             <p
               onClick={() => setSelectedId("hero_desc")}
               onMouseDown={(e) => handleMouseDown("hero_desc", e)}
-              className={`text-sm sm:text-base lg:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl transition-all ${
+              className={`text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl transition-all ${
+                theme === "light" ? "text-slate-700 font-semibold" : "text-slate-300 font-normal"
+              } ${
                 isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400/80 p-2 rounded-2xl" : ""
               } ${selectedId === "hero_desc" ? "ring-2 ring-blue-500 p-2 rounded-2xl bg-blue-500/5" : ""}`}
               style={{
@@ -696,51 +787,184 @@ export default function LandingPage() {
               </a>
               <a
                 href="#faculty-login"
-                className="btn-silver-glass text-sm sm:text-base px-5 sm:px-7 py-3.5 sm:py-4 flex items-center justify-center space-x-2.5 sm:space-x-3 bg-slate-800/90 text-white border-slate-700 hover:bg-slate-700 w-full sm:w-auto"
+                className={`btn-silver-glass text-sm sm:text-base px-5 sm:px-7 py-3.5 sm:py-4 flex items-center justify-center space-x-2.5 sm:space-x-3 w-full sm:w-auto ${
+                  theme === "light"
+                    ? "bg-slate-900 text-white border-slate-700 hover:bg-slate-800"
+                    : "bg-slate-800/90 text-white border-slate-700 hover:bg-slate-700"
+                }`}
               >
                 <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                 <span>Faculty Studio</span>
               </a>
               <a
                 href="#download-apk"
-                className="btn-silver-glass text-sm sm:text-base px-5 sm:px-6 py-3.5 sm:py-4 flex items-center justify-center space-x-2.5 sm:space-x-3 border-emerald-500/40 text-emerald-300 bg-emerald-950/40 hover:bg-emerald-900/60 w-full sm:w-auto"
+                className={`btn-silver-glass text-sm sm:text-base px-5 sm:px-6 py-3.5 sm:py-4 flex items-center justify-center space-x-2.5 sm:space-x-3 w-full sm:w-auto ${
+                  theme === "light"
+                    ? "border-emerald-600/60 text-emerald-900 bg-emerald-100/80 hover:bg-emerald-200"
+                    : "border-emerald-500/40 text-emerald-300 bg-emerald-950/40 hover:bg-emerald-900/60"
+                }`}
               >
-                <Download className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
-                <span>Install APK</span>
+                <Download className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500" />
+                <span className="font-extrabold">Install APK</span>
               </a>
             </div>
 
             {/* Live Metrics Pills - 3 Column Compact Mobile Layout */}
             <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-2 sm:pt-4">
-              <div className="glass-card p-2 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900/70 border-slate-800 flex flex-col sm:flex-row items-center text-center sm:text-left space-y-1 sm:space-y-0 sm:space-x-3">
-                <MapPin className="w-4 h-4 sm:w-6 sm:h-6 text-blue-400 shrink-0" />
+              <div className={`glass-card p-2 sm:p-4 rounded-xl sm:rounded-2xl flex flex-col sm:flex-row items-center text-center sm:text-left space-y-1 sm:space-y-0 sm:space-x-3 transition-colors ${
+                theme === "light"
+                  ? "bg-white/95 border-slate-200/90 shadow-lg shadow-slate-200/60"
+                  : "bg-slate-900/70 border-slate-800"
+              }`}>
+                <MapPin className="w-4 h-4 sm:w-6 sm:h-6 text-blue-500 shrink-0" />
                 <div>
-                  <span className="text-sm sm:text-xl font-black text-white block leading-none">200m</span>
-                  <span className="text-[8px] sm:text-[10px] font-bold text-slate-400 block mt-0.5 sm:mt-0">GPS Geofence</span>
+                  <span className={`text-sm sm:text-xl font-black block leading-none ${theme === "light" ? "text-slate-950" : "text-white"}`}>200m</span>
+                  <span className={`text-[8px] sm:text-[10px] font-bold block mt-0.5 sm:mt-0 ${theme === "light" ? "text-slate-600" : "text-slate-400"}`}>GPS Geofence</span>
                 </div>
               </div>
-              <div className="glass-card p-2 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900/70 border-slate-800 flex flex-col sm:flex-row items-center text-center sm:text-left space-y-1 sm:space-y-0 sm:space-x-3">
-                <ShieldCheck className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-400 shrink-0" />
+              <div className={`glass-card p-2 sm:p-4 rounded-xl sm:rounded-2xl flex flex-col sm:flex-row items-center text-center sm:text-left space-y-1 sm:space-y-0 sm:space-x-3 transition-colors ${
+                theme === "light"
+                  ? "bg-white/95 border-slate-200/90 shadow-lg shadow-slate-200/60"
+                  : "bg-slate-900/70 border-slate-800"
+              }`}>
+                <ShieldCheck className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-500 shrink-0" />
                 <div>
-                  <span className="text-sm sm:text-xl font-black text-white block leading-none">3-Strike</span>
-                  <span className="text-[8px] sm:text-[10px] font-bold text-slate-400 block mt-0.5 sm:mt-0">Proctor Guard</span>
+                  <span className={`text-sm sm:text-xl font-black block leading-none ${theme === "light" ? "text-slate-950" : "text-white"}`}>3-Strike</span>
+                  <span className={`text-[8px] sm:text-[10px] font-bold block mt-0.5 sm:mt-0 ${theme === "light" ? "text-slate-600" : "text-slate-400"}`}>Proctor Guard</span>
                 </div>
               </div>
-              <div className="glass-card p-2 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900/70 border-slate-800 flex flex-col sm:flex-row items-center text-center sm:text-left space-y-1 sm:space-y-0 sm:space-x-3">
-                <Zap className="w-4 h-4 sm:w-6 sm:h-6 text-emerald-400 shrink-0" />
+              <div className={`glass-card p-2 sm:p-4 rounded-xl sm:rounded-2xl flex flex-col sm:flex-row items-center text-center sm:text-left space-y-1 sm:space-y-0 sm:space-x-3 transition-colors ${
+                theme === "light"
+                  ? "bg-white/95 border-slate-200/90 shadow-lg shadow-slate-200/60"
+                  : "bg-slate-900/70 border-slate-800"
+              }`}>
+                <Zap className="w-4 h-4 sm:w-6 sm:h-6 text-emerald-500 shrink-0" />
                 <div>
-                  <span className="text-sm sm:text-xl font-black text-white block leading-none">0.1s</span>
-                  <span className="text-[8px] sm:text-[10px] font-bold text-slate-400 block mt-0.5 sm:mt-0">PDF Dispatch</span>
+                  <span className={`text-sm sm:text-xl font-black block leading-none ${theme === "light" ? "text-slate-950" : "text-white"}`}>0.1s</span>
+                  <span className={`text-[8px] sm:text-[10px] font-bold block mt-0.5 sm:mt-0 ${theme === "light" ? "text-slate-600" : "text-slate-400"}`}>PDF Dispatch</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Hero Right Column - MASSIVE 3D Student Character Stage */}
-          <div className="lg:col-span-7 flex flex-col justify-center items-center relative z-20 min-h-[300px] xs:min-h-[380px] sm:min-h-[480px] lg:min-h-[580px] xl:min-h-[660px] w-full overflow-hidden lg:overflow-visible">
+          {/* Hero Right Column - MASSIVE 3D Student Character Stage with Floating Exam Windows */}
+          <div className="lg:col-span-7 flex flex-col justify-center items-center relative z-20 min-h-[360px] xs:min-h-[440px] sm:min-h-[520px] lg:min-h-[620px] xl:min-h-[680px] w-full overflow-visible">
 
             {/* Ambient Background Radial Glow behind Main Character */}
             <div className="absolute inset-0 bg-blue-600/30 rounded-full blur-[90px] sm:blur-[110px] pointer-events-none scale-100 sm:scale-110" />
+
+            {/* 🌟 FLOATING 3D EXAM WINDOW 1: MCQ Question & Answer Box (Shifted Left & Top to Unblock Face) */}
+            <div className={`absolute -top-8 xs:-top-12 sm:-top-16 lg:-top-20 left-[-4%] xs:left-[-8%] sm:-left-16 lg:-left-32 xl:-left-44 z-30 p-3 sm:p-4 rounded-2xl sm:rounded-3xl border backdrop-blur-2xl transition-all duration-300 animate-float-medium max-w-[250px] xs:max-w-[280px] sm:max-w-[320px] ${
+              theme === "light"
+                ? "bg-white/95 border-slate-200/90 shadow-[0_20px_45px_rgba(37,99,235,0.18)] text-slate-900"
+                : "bg-[#0f172a]/92 border-slate-700/80 shadow-[0_20px_45px_rgba(0,0,0,0.7)] text-white"
+            }`}>
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200/60 dark:border-slate-800/80 mb-2.5 text-[10px] sm:text-xs">
+                <div className="flex items-center space-x-2 font-bold">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  <span className={theme === "light" ? "text-emerald-700 font-extrabold" : "text-emerald-400 font-bold"}>
+                    ● LIVE EXAM #CS-302
+                  </span>
+                </div>
+                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase ${
+                  theme === "light" ? "bg-blue-100 text-blue-800" : "bg-blue-900/60 text-blue-300 border border-blue-500/40"
+                }`}>
+                  ⏳ 14:20 MINS
+                </span>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className={`text-xs sm:text-sm font-black leading-snug ${theme === "light" ? "text-slate-950" : "text-white"}`}>
+                  Q1: Time complexity of Binary Search algorithm?
+                </h4>
+
+                <div className="space-y-1.5 text-[11px] sm:text-xs font-semibold">
+                  <div className={`p-1.5 sm:p-2 rounded-xl border flex items-center justify-between transition-all ${
+                    theme === "light"
+                      ? "bg-slate-50 border-slate-200 text-slate-700"
+                      : "bg-slate-900/60 border-slate-800 text-slate-300"
+                  }`}>
+                    <span>A) O(n)</span>
+                  </div>
+
+                  <div className={`p-1.5 sm:p-2 rounded-xl border flex items-center justify-between transition-all font-bold ${
+                    theme === "light"
+                      ? "bg-emerald-50/90 border-emerald-400 text-emerald-950 shadow-sm"
+                      : "bg-emerald-950/80 border-emerald-500/60 text-emerald-300 shadow-sm"
+                  }`}>
+                    <span className="flex items-center space-x-1.5">
+                      <span>B) O(log n)</span>
+                    </span>
+                    <span className="w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] flex items-center justify-center font-black">
+                      ✓
+                    </span>
+                  </div>
+
+                  <div className={`p-1.5 sm:p-2 rounded-xl border flex items-center justify-between transition-all ${
+                    theme === "light"
+                      ? "bg-slate-50 border-slate-200 text-slate-700"
+                      : "bg-slate-900/60 border-slate-800 text-slate-300"
+                  }`}>
+                    <span>C) O(n²)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 🌟 FLOATING 3D EXAM WINDOW 2: Geofence Security Verification (Top Right / Above Campus Server) */}
+            <div className={`absolute top-6 sm:top-12 right-0 xs:-right-2 sm:-right-6 lg:-right-10 z-30 p-3 sm:p-4 rounded-2xl sm:rounded-3xl border backdrop-blur-2xl transition-all duration-300 animate-float-slow max-w-[210px] xs:max-w-[240px] sm:max-w-[280px] ${
+              theme === "light"
+                ? "bg-white/95 border-slate-200/90 shadow-[0_20px_45px_rgba(37,99,235,0.15)] text-slate-900"
+                : "bg-[#0f172a]/92 border-slate-700/80 shadow-[0_20px_45px_rgba(0,0,0,0.7)] text-white"
+            }`}>
+              <div className="flex items-center space-x-2.5 mb-1.5">
+                <div className="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-500 flex items-center justify-center shrink-0">
+                  <MapPin className="w-4 h-4 text-blue-500" />
+                </div>
+                <div>
+                  <span className={`text-xs font-black block leading-none ${theme === "light" ? "text-slate-950" : "text-white"}`}>
+                    200m GPS Geofence
+                  </span>
+                  <span className="text-[9px] font-bold text-emerald-500 block mt-0.5">
+                    ✓ LOCATION VERIFIED
+                  </span>
+                </div>
+              </div>
+
+              <div className={`p-2 rounded-xl text-[10px] font-bold border ${
+                theme === "light"
+                  ? "bg-blue-50/80 border-blue-200 text-blue-900"
+                  : "bg-blue-950/60 border-blue-800 text-blue-200"
+              }`}>
+                <span>LIET College Campus (CSE Dept)</span>
+              </div>
+            </div>
+
+            {/* 🌟 FLOATING 3D EXAM WINDOW 3: Instant Marks & Proctor Status (Bottom Right of Character) */}
+            <div className={`absolute bottom-4 sm:bottom-12 right-2 xs:right-4 sm:-right-4 z-30 p-3 sm:p-4 rounded-2xl sm:rounded-3xl border backdrop-blur-2xl transition-all duration-300 animate-float-reverse hidden xs:flex flex-col space-y-1.5 max-w-[210px] sm:max-w-[250px] ${
+              theme === "light"
+                ? "bg-white/95 border-emerald-500/30 shadow-[0_20px_45px_rgba(16,185,129,0.15)] text-slate-900"
+                : "bg-[#0f172a]/92 border-emerald-500/40 shadow-[0_20px_45px_rgba(0,0,0,0.7)] text-white"
+            }`}>
+              <div className="flex items-center space-x-2">
+                <div className="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center shrink-0">
+                  <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                </div>
+                <div>
+                  <span className={`text-xs font-black block leading-none ${theme === "light" ? "text-slate-950" : "text-white"}`}>
+                    Proctoring Status
+                  </span>
+                  <span className="text-[9px] font-extrabold text-emerald-500 block mt-0.5">
+                    0 Strikes (Safe)
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-1 border-t border-slate-200/50 dark:border-slate-800 text-[10px] font-bold">
+                <span className={theme === "light" ? "text-slate-600" : "text-slate-400"}>Score Preview</span>
+                <span className="text-emerald-500 font-black">98% Marks</span>
+              </div>
+            </div>
 
             {/* MAIN MASSIVE 3D HERO STUDENT CHARACTER (Responsive & Clamped for Mobile) */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -760,8 +984,6 @@ export default function LandingPage() {
             {/* Grounded 3D Shadow Ring */}
             <div className="w-[85%] h-10 bg-blue-500/25 rounded-[100%] blur-xl pointer-events-none -mt-6 relative z-0" />
 
-
-
           </div>
         </section>
 
@@ -771,7 +993,9 @@ export default function LandingPage() {
             <h2
               onClick={(e) => { e.stopPropagation(); setSelectedId("portals_title"); }}
               onMouseDown={(e) => handleMouseDown("portals_title", e)}
-              className={`text-3xl sm:text-5xl font-black text-white tracking-tight transition-all ${
+              className={`text-3xl sm:text-5xl font-black tracking-tight transition-all ${
+                theme === "light" ? "text-slate-950" : "text-white"
+              } ${
                 isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400 p-2 rounded-2xl" : ""
               } ${selectedId === "portals_title" ? "ring-2 ring-blue-500 bg-blue-500/10 p-2 rounded-2xl" : ""}`}
               style={{
@@ -784,7 +1008,9 @@ export default function LandingPage() {
             <p
               onClick={(e) => { e.stopPropagation(); setSelectedId("portals_desc"); }}
               onMouseDown={(e) => handleMouseDown("portals_desc", e)}
-              className={`text-base sm:text-lg text-slate-400 font-medium max-w-2xl mx-auto transition-all ${
+              className={`text-base sm:text-lg max-w-2xl mx-auto transition-all ${
+                theme === "light" ? "text-slate-600 font-semibold" : "text-slate-400 font-medium"
+              } ${
                 isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400 p-2 rounded-2xl" : ""
               } ${selectedId === "portals_desc" ? "ring-2 ring-blue-500 bg-blue-500/10 p-2 rounded-2xl" : ""}`}
               style={{
@@ -801,7 +1027,11 @@ export default function LandingPage() {
             <div
               onClick={(e) => { e.stopPropagation(); setSelectedId("student_hub_card"); }}
               onMouseDown={(e) => handleMouseDown("student_hub_card", e)}
-              className={`glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative group transition-all ${
+              className={`glass-card p-8 sm:p-10 rounded-3xl glass-card-hover space-y-8 flex flex-col justify-between overflow-hidden relative group transition-all ${
+                theme === "light"
+                  ? "bg-white/95 border-slate-200/90 shadow-xl shadow-slate-200/60"
+                  : "bg-slate-900/80 border-slate-800"
+              } ${
                 isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-blue-500/60" : ""
               } ${selectedId === "student_hub_card" ? "ring-4 ring-blue-500 border-blue-400 bg-blue-950/40" : ""}`}
               style={{
@@ -813,7 +1043,11 @@ export default function LandingPage() {
                 {/* 3D Character Display Stage */}
                 <div
                   onClick={(e) => { e.stopPropagation(); setSelectedId("student_hub_img"); }}
-                  className="h-56 w-full rounded-2xl bg-gradient-to-b from-slate-950/90 to-slate-900/50 border border-slate-800 flex items-center justify-center relative overflow-hidden"
+                  className={`h-56 w-full rounded-2xl flex items-center justify-center relative overflow-hidden border ${
+                    theme === "light"
+                      ? "bg-gradient-to-b from-blue-50 via-slate-100 to-indigo-50 border-slate-200"
+                      : "bg-gradient-to-b from-slate-950/90 to-slate-900/50 border-slate-800"
+                  }`}
                 >
                   <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -826,14 +1060,14 @@ export default function LandingPage() {
 
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-400/30 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-500 border border-blue-400/30 flex items-center justify-center">
                       <UserCheck className="w-5 h-5" />
                     </div>
-                    <h3 className="text-2xl font-black text-white">
+                    <h3 className={`text-2xl font-black ${theme === "light" ? "text-slate-950" : "text-white"}`}>
                       {getProp("student_hub_title", "text", "Student Hub")}
                     </h3>
                   </div>
-                  <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                  <p className={`text-sm leading-relaxed ${theme === "light" ? "text-slate-700 font-medium" : "text-slate-300 font-normal"}`}>
                     {getProp("student_hub_desc", "text", "Access geofenced exams, instant PDF documents, WhatsApp-style classmate messaging, and NVIDIA AI Studio assistant.")}
                   </p>
                 </div>
@@ -851,7 +1085,11 @@ export default function LandingPage() {
             <div
               onClick={(e) => { e.stopPropagation(); setSelectedId("faculty_studio_card"); }}
               onMouseDown={(e) => handleMouseDown("faculty_studio_card", e)}
-              className={`glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-slate-800 space-y-8 flex flex-col justify-between overflow-hidden relative group transition-all ${
+              className={`glass-card p-8 sm:p-10 rounded-3xl glass-card-hover space-y-8 flex flex-col justify-between overflow-hidden relative group transition-all ${
+                theme === "light"
+                  ? "bg-white/95 border-slate-200/90 shadow-xl shadow-slate-200/60"
+                  : "bg-slate-900/80 border-slate-800"
+              } ${
                 isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-indigo-500/60" : ""
               } ${selectedId === "faculty_studio_card" ? "ring-4 ring-indigo-500 border-indigo-400 bg-indigo-950/40" : ""}`}
               style={{
@@ -863,7 +1101,11 @@ export default function LandingPage() {
                 {/* 3D Character Display Stage */}
                 <div
                   onClick={(e) => { e.stopPropagation(); setSelectedId("faculty_studio_img"); }}
-                  className="h-56 w-full rounded-2xl bg-gradient-to-b from-slate-950/90 to-slate-900/50 border border-slate-800 flex items-center justify-center relative overflow-hidden"
+                  className={`h-56 w-full rounded-2xl flex items-center justify-center relative overflow-hidden border ${
+                    theme === "light"
+                      ? "bg-gradient-to-b from-indigo-50 via-slate-100 to-blue-50 border-slate-200"
+                      : "bg-gradient-to-b from-slate-950/90 to-slate-900/50 border-slate-800"
+                  }`}
                 >
                   <div className="absolute inset-0 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -876,21 +1118,25 @@ export default function LandingPage() {
 
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-400/30 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-500 border border-indigo-400/30 flex items-center justify-center">
                       <Lock className="w-5 h-5" />
                     </div>
-                    <h3 className="text-2xl font-black text-white">
+                    <h3 className={`text-2xl font-black ${theme === "light" ? "text-slate-950" : "text-white"}`}>
                       {getProp("faculty_studio_title", "text", "Faculty Studio")}
                     </h3>
                   </div>
-                  <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                  <p className={`text-sm leading-relaxed ${theme === "light" ? "text-slate-700 font-medium" : "text-slate-300 font-normal"}`}>
                     {getProp("faculty_studio_desc", "text", "Schedule MCQ exams, generate AI questions from syllabus notes, set 6-digit PINs, and monitor live proctoring grids.")}
                   </p>
                 </div>
               </div>
               <a
                 href="#faculty-login"
-                className="btn-silver-glass text-sm py-4 w-full flex items-center justify-center space-x-2 bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
+                className={`btn-silver-glass text-sm py-4 w-full flex items-center justify-center space-x-2 ${
+                  theme === "light"
+                    ? "bg-slate-900 text-white border-slate-700 hover:bg-slate-800"
+                    : "bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
+                }`}
               >
                 <span>{getProp("faculty_studio_btn", "text", "Open Faculty Studio")}</span>
                 <ArrowRight className="w-4 h-4 text-blue-400" />
@@ -901,7 +1147,11 @@ export default function LandingPage() {
             <div
               onClick={(e) => { e.stopPropagation(); setSelectedId("native_apk_card"); }}
               onMouseDown={(e) => handleMouseDown("native_apk_card", e)}
-              className={`glass-card p-8 sm:p-10 rounded-3xl glass-card-hover bg-slate-900/80 border-emerald-500/40 space-y-8 flex flex-col justify-between overflow-hidden relative group transition-all ${
+              className={`glass-card p-8 sm:p-10 rounded-3xl glass-card-hover space-y-8 flex flex-col justify-between overflow-hidden relative group transition-all ${
+                theme === "light"
+                  ? "bg-white/95 border-emerald-500/40 shadow-xl shadow-emerald-100/60"
+                  : "bg-slate-900/80 border-emerald-500/40"
+              } ${
                 isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-emerald-500/60" : ""
               } ${selectedId === "native_apk_card" ? "ring-4 ring-emerald-500 border-emerald-400 bg-emerald-950/40" : ""}`}
               style={{
@@ -913,7 +1163,11 @@ export default function LandingPage() {
                 {/* 3D Character Display Stage */}
                 <div
                   onClick={(e) => { e.stopPropagation(); setSelectedId("native_apk_img"); }}
-                  className="h-56 w-full rounded-2xl bg-gradient-to-b from-slate-950/90 to-slate-900/50 border border-emerald-500/30 flex items-center justify-center relative overflow-hidden"
+                  className={`h-56 w-full rounded-2xl flex items-center justify-center relative overflow-hidden border ${
+                    theme === "light"
+                      ? "bg-gradient-to-b from-emerald-50 via-slate-100 to-teal-50 border-emerald-500/30"
+                      : "bg-gradient-to-b from-slate-950/90 to-slate-900/50 border-emerald-500/30"
+                  }`}
                 >
                   <div className="absolute inset-0 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-colors" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -926,23 +1180,27 @@ export default function LandingPage() {
 
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-500 border border-emerald-400/30 flex items-center justify-center">
                       <Download className="w-5 h-5" />
                     </div>
-                    <h3 className="text-2xl font-black text-white">
+                    <h3 className={`text-2xl font-black ${theme === "light" ? "text-slate-950" : "text-white"}`}>
                       {getProp("native_apk_title", "text", "Native APKs")}
                     </h3>
                   </div>
-                  <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                  <p className={`text-sm leading-relaxed ${theme === "light" ? "text-slate-700 font-medium" : "text-slate-300 font-normal"}`}>
                     {getProp("native_apk_desc", "text", "Un-bypassable Student APK with screenshot block & 3-strike lock, plus portable Faculty Management APK.")}
                   </p>
                 </div>
               </div>
               <a
                 href="#download-apk"
-                className="btn-silver-glass text-sm py-4 w-full flex items-center justify-center space-x-2 border-emerald-400/40 text-emerald-300 bg-emerald-950/60 hover:bg-emerald-900/80"
+                className={`btn-silver-glass text-sm py-4 w-full flex items-center justify-center space-x-2 font-extrabold ${
+                  theme === "light"
+                    ? "border-emerald-600/60 text-emerald-900 bg-emerald-100/90 hover:bg-emerald-200"
+                    : "border-emerald-400/40 text-emerald-300 bg-emerald-950/60 hover:bg-emerald-900/80"
+                }`}
               >
-                <Download className="w-4 h-4 text-emerald-400" />
+                <Download className="w-4 h-4 text-emerald-500" />
                 <span>{getProp("native_apk_btn", "text", "Download Student APK")}</span>
               </a>
             </div>
@@ -954,7 +1212,11 @@ export default function LandingPage() {
           id="deck"
           onClick={(e) => { e.stopPropagation(); setSelectedId("deck_section"); }}
           onMouseDown={(e) => handleMouseDown("deck_section", e)}
-          className={`glass-card p-8 sm:p-12 rounded-3xl bg-slate-900/85 border-slate-800 space-y-8 shadow-2xl transition-all ${
+          className={`glass-card p-8 sm:p-12 rounded-3xl space-y-8 shadow-2xl transition-all ${
+            theme === "light"
+              ? "bg-white/95 border-slate-200/90 text-slate-900 shadow-slate-200/60"
+              : "bg-slate-900/85 border-slate-800 text-white"
+          } ${
             isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400/60" : ""
           } ${selectedId === "deck_section" ? "ring-4 ring-blue-500 border-blue-400" : ""}`}
           style={{
@@ -962,12 +1224,16 @@ export default function LandingPage() {
             transform: `scale(${getProp("deck_section", "scale", 100) / 100}) translate(${getProp("deck_section", "x", 0)}px, ${getProp("deck_section", "y", 0)}px)`
           }}
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
+          <div className={`flex flex-col sm:flex-row sm:items-center justify-between border-b pb-6 gap-4 ${
+            theme === "light" ? "border-slate-200" : "border-slate-800"
+          }`}>
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-blue-400">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-blue-600">
                 {getProp("deck_tag", "text", "Platform Architecture Deck")}
               </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight mt-1">
+              <h2 className={`text-2xl sm:text-4xl font-black tracking-tight mt-1 ${
+                theme === "light" ? "text-slate-950" : "text-white"
+              }`}>
                 {getProp("deck_title", "text", "Core Security & Autonomy Modules")}
               </h2>
             </div>
@@ -976,16 +1242,24 @@ export default function LandingPage() {
             <div className="flex items-center space-x-3">
               <button
                 onClick={() => setActiveSlide((prev) => (prev > 0 ? prev - 1 : slides.length - 1))}
-                className="p-3 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors text-white border border-slate-700"
+                className={`p-3 rounded-full transition-colors border ${
+                  theme === "light"
+                    ? "bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300"
+                    : "bg-slate-800 hover:bg-slate-700 text-white border-slate-700"
+                }`}
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
-              <span className="text-xs font-bold px-4 text-slate-400">
+              <span className={`text-xs font-bold px-4 ${theme === "light" ? "text-slate-600" : "text-slate-400"}`}>
                 {activeSlide + 1} / {slides.length}
               </span>
               <button
                 onClick={() => setActiveSlide((prev) => (prev < slides.length - 1 ? prev + 1 : 0))}
-                className="p-3 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors text-white border border-slate-700"
+                className={`p-3 rounded-full transition-colors border ${
+                  theme === "light"
+                    ? "bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300"
+                    : "bg-slate-800 hover:bg-slate-700 text-white border-slate-700"
+                }`}
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -1007,7 +1281,11 @@ export default function LandingPage() {
                 <div className="md:col-span-4 flex justify-center">
                   <div
                     onClick={(e) => { e.stopPropagation(); setSelectedId("deck_img"); }}
-                    className="w-full h-56 rounded-3xl bg-slate-950/80 border border-slate-800 flex items-center justify-center p-4 relative overflow-visible"
+                    className={`w-full h-56 rounded-3xl border flex items-center justify-center p-4 relative overflow-visible ${
+                      theme === "light"
+                        ? "bg-blue-50/90 border-slate-200"
+                        : "bg-slate-950/80 border-slate-800"
+                    }`}
                   >
                     <div className="absolute inset-0 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1022,20 +1300,22 @@ export default function LandingPage() {
 
                 <div className="md:col-span-8 space-y-4 animate-fade-up">
                   <div className="inline-flex items-center space-x-3">
-                    <span className="px-3.5 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold border border-blue-400/30">
+                    <span className="px-3.5 py-1 rounded-full bg-blue-500/20 text-blue-600 font-extrabold text-xs border border-blue-400/40">
                       {slides[activeSlide].tag}
                     </span>
-                    <span className="px-3.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-400/30">
+                    <span className="px-3.5 py-1 rounded-full bg-emerald-500/20 text-emerald-700 font-extrabold text-xs border border-emerald-400/40">
                       {slides[activeSlide].stat}
                     </span>
                   </div>
-                  <h3 className="text-3xl sm:text-4xl font-black text-white">
+                  <h3 className={`text-3xl sm:text-4xl font-black ${theme === "light" ? "text-slate-950" : "text-white"}`}>
                     {slides[activeSlide].title}
                   </h3>
-                  <span className="text-base font-semibold text-blue-400 block">
+                  <span className="text-base font-bold text-blue-600 block">
                     {slides[activeSlide].subtitle}
                   </span>
-                  <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-4xl">
+                  <p className={`text-base sm:text-lg leading-relaxed max-w-4xl ${
+                    theme === "light" ? "text-slate-700 font-semibold" : "text-slate-300 font-normal"
+                  }`}>
                     {slides[activeSlide].description}
                   </p>
                 </div>
@@ -1049,7 +1329,11 @@ export default function LandingPage() {
           id="vision"
           onClick={(e) => { e.stopPropagation(); setSelectedId("vision_section"); }}
           onMouseDown={(e) => handleMouseDown("vision_section", e)}
-          className={`glass-card p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-blue-950/80 border-slate-800 space-y-8 overflow-hidden relative transition-all ${
+          className={`glass-card p-8 sm:p-12 rounded-3xl space-y-8 overflow-hidden relative transition-all ${
+            theme === "light"
+              ? "bg-gradient-to-br from-white via-blue-50/70 to-indigo-50/90 border-slate-200/90 text-slate-900 shadow-xl shadow-slate-200/60"
+              : "bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-blue-950/80 border-slate-800 text-white"
+          } ${
             isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-blue-400/60" : ""
           } ${selectedId === "vision_section" ? "ring-4 ring-blue-500 border-blue-400" : ""}`}
           style={{
@@ -1061,19 +1345,23 @@ export default function LandingPage() {
             <div className="md:col-span-7 space-y-5">
               <span
                 onClick={(e) => { e.stopPropagation(); setSelectedId("vision_tag"); }}
-                className="text-xs font-bold uppercase tracking-wider text-blue-400 block cursor-pointer"
+                className="text-xs font-black uppercase tracking-wider text-blue-600 block cursor-pointer"
               >
                 {getProp("vision_tag", "text", "Platform Blueprint & Vision")}
               </span>
               <h2
                 onClick={(e) => { e.stopPropagation(); setSelectedId("vision_title"); }}
-                className="text-3xl sm:text-5xl font-black text-white tracking-tight cursor-pointer"
+                className={`text-3xl sm:text-5xl font-black tracking-tight cursor-pointer ${
+                  theme === "light" ? "text-slate-950" : "text-white"
+                }`}
               >
                 {getProp("vision_title", "text", "Architected by Md Jibran")}
               </h2>
               <p
                 onClick={(e) => { e.stopPropagation(); setSelectedId("vision_desc"); }}
-                className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-3xl cursor-pointer"
+                className={`text-base sm:text-lg leading-relaxed max-w-3xl cursor-pointer ${
+                  theme === "light" ? "text-slate-700 font-semibold" : "text-slate-300 font-normal"
+                }`}
               >
                 {getProp(
                   "vision_desc",
@@ -1111,12 +1399,16 @@ export default function LandingPage() {
       {/* Footer */}
       <footer
         onClick={(e) => { e.stopPropagation(); setSelectedId("footer_section"); }}
-        className="relative z-10 border-t border-slate-800 bg-slate-950/90 backdrop-blur-xl py-10 px-6 text-center text-xs font-semibold text-slate-400 space-y-2 cursor-pointer"
+        className={`relative z-10 border-t py-10 px-6 text-center text-xs font-semibold space-y-2 cursor-pointer transition-colors ${
+          theme === "light"
+            ? "bg-white/95 border-slate-200 text-slate-700 shadow-inner"
+            : "bg-slate-950/90 border-slate-800 text-slate-400"
+        }`}
       >
-        <p className="text-slate-300 font-bold">
+        <p className={`font-bold ${theme === "light" ? "text-slate-900" : "text-slate-300"}`}>
           {getProp("footer_text", "text", "© 2026 LeGeZt Academic Ecosystem. Created by Md Jibran.")}
         </p>
-        <p className="text-slate-500">
+        <p className={theme === "light" ? "text-slate-600" : "text-slate-500"}>
           {getProp("footer_sub", "text", "All rights reserved. Powered by Next.js 15, Tailwind, and Golang Microservices.")}
         </p>
       </footer>

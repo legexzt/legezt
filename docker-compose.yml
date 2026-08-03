@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  # MongoDB Database Service
+  mongodb:
+    image: mongo:latest
+    container_name: legezt_mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=legezt_portal
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
+  # LeGeZt Student Portal Web Application
+  student_portal:
+    build:
+      context: ./portal/student_portal
+      dockerfile: Dockerfile
+    container_name: legezt_student_portal
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/legezt_portal
+      - PORT=3001
+    depends_on:
+      - mongodb
+    restart: always
+
+volumes:
+  mongo_data:

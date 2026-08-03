@@ -224,3 +224,43 @@
   animation: slideFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Floating 3D Bobbing Movement Animations for Hero Windows */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(1deg);
+  }
+}
+
+@keyframes floatMedium {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(-1.5deg);
+  }
+}
+
+@keyframes floatReverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(14px) rotate(1.2deg);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+.animate-float-medium {
+  animation: floatMedium 4.2s ease-in-out infinite 0.7s;
+}
+
+.animate-float-reverse {
+  animation: floatReverse 4.8s ease-in-out infinite 1.4s;
+}
+

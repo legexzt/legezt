@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@layer base {
+  /* Notion Matte Design System Variables */
+  :root {
+    --bg-matte-light: #f8f9fa;
+    --card-matte-light: #ffffff;
+    --sidebar-matte-light: #f1f3f5;
+    --border-matte-light: #e9ecef;
+    --text-matte-light: #0f172a;
+    --text-muted-light: #64748b;
+
+    --bg-matte-dark: #0d0f14;
+    --card-matte-dark: #161922;
+    --sidebar-matte-dark: #11131a;
+    --border-matte-dark: #232736;
+    --text-matte-dark: #f8fafc;
+    --text-muted-dark: #94a3b8;
+  }
+}
+
+/* Custom Ergonomic Scrollbars for Notion-Style Canvas */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.45);
+}
+
+/* Notion Callout Box Shadow */
+.notion-callout-light {
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+.notion-callout-dark {
+  background-color: #1a1e2b;
+  border: 1px solid #282f45;
+}
+
+/* Pulse animation for live geofence radar */
+@keyframes radarPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 14px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.animate-radar {
+  animation: radarPulse 2.4s infinite ease-in-out;
+}
