@@ -11,6 +11,7 @@ interface ManageProfileModalProps {
   toggleTheme: () => void;
   currentAvatar: string;
   onSelectAvatar: (avatarUrl: string) => void;
+  onOpenIdCardModal?: () => void;
 }
 
 const AVATAR_OPTIONS = [
@@ -28,6 +29,7 @@ export const ManageProfileModal: React.FC<ManageProfileModalProps> = ({
   toggleTheme,
   currentAvatar,
   onSelectAvatar,
+  onOpenIdCardModal,
 }) => {
   if (!isOpen) return null;
 
@@ -163,6 +165,20 @@ export const ManageProfileModal: React.FC<ManageProfileModalProps> = ({
                 </p>
               </button>
             </div>
+          </div>
+
+          {/* Digital ID Card Preview Button */}
+          <div className="pt-2">
+            <button
+              onClick={() => {
+                onClose();
+                onOpenIdCardModal && onOpenIdCardModal();
+              }}
+              className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>Preview & Export Official Digital ID Card</span>
+            </button>
           </div>
 
         </div>

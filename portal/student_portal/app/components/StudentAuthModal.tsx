@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { User, Mail, ArrowRight, CheckCircle2, UserCheck, AlertCircle, Lock, ShieldCheck, KeyRound, RefreshCw, Eye, EyeOff } from "lucide-react";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+import { StudentIdCardModal } from "./StudentIdCardModal";
 
 declare global {
   interface Window {
@@ -32,6 +31,8 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
   const [regEmail, setRegEmail] = useState("");
   const [regDept, setRegDept] = useState("CSE");
   const [regGender, setRegGender] = useState<"male" | "female">("male");
+  const [showIdCardModal, setShowIdCardModal] = useState(false);
+  const [idCardStudentData, setIdCardStudentData] = useState<any>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [regPassword, setRegPassword] = useState("");
   const [regConfirmPassword, setRegConfirmPassword] = useState("");
@@ -266,40 +267,18 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
       const data = await res.json();
       if (res.ok && (data.authenticated || data.success)) {
         setErrorMsg("");
-        setSuccessMsg("Permanent Member Account Activated! Generating your Official ID Card...");
+        setSuccessMsg("Permanent Member Account Activated! Opening your Official ID Card...");
         
-        const cardElement = document.getElementById("live-id-card");
-        if (cardElement) {
-          try {
-            const canvas = await html2canvas(cardElement, { scale: 2, useCORS: true, backgroundColor: "#ffffff" } as any);
-            const imgData = canvas.toDataURL("image/jpeg", 1.0);
-            
-            const pdf = new jsPDF({
-              orientation: "portrait",
-              unit: "mm",
-              format: [54, 86]
-            });
-            pdf.addImage(imgData, "JPEG", 0, 0, 54, 86);
-            pdf.save(`ID_Card_${pendingStudent?.rollNo || regRollNo || "Student"}.pdf`);
-            
-            await fetch("/api/auth/send-id-card", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                email: pendingStudent?.email || regEmail,
-                name: pendingStudent?.name || regName,
-                rollNo: pendingStudent?.rollNo || regRollNo,
-                pdfBase64: pdf.output("datauristring")
-              })
-            });
-          } catch (e) {
-            console.error("ID Card Generation failed:", e);
-          }
-        }
+        const cardData = {
+          name: pendingStudent?.name || regName || "STUDENT NAME",
+          rollNo: pendingStudent?.rollNo || regRollNo || "2026-LIET-CS-042",
+          email: pendingStudent?.email || regEmail,
+          dept: regDept || "B.Tech Computer Science & Eng.",
+          gender: regGender,
+        };
         
-        setTimeout(() => {
-          onAuthenticated(data.student || pendingStudent);
-        }, 1500);
+        setIdCardStudentData(cardData);
+        setShowIdCardModal(true);
       } else {
         setErrorMsg(data.message || "Invalid 6-digit OTP code. Please try again.");
       }
@@ -1059,21 +1038,15 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
         </div>
       </div>
 
-      {/* Mobile Live ID Preview Modal Drawer */}
-      {showPreviewModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in lg:hidden">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 text-center space-y-4 max-w-sm w-full relative shadow-2xl">
-            <button
-              onClick={() => setShowPreviewModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white font-black text-sm bg-slate-800 px-3 py-1 rounded-full"
-            >
-              ✕ Close
-            </button>
-            <h3 className="text-sm font-black text-slate-300 uppercase tracking-widest pt-2">Live ID Preview</h3>
-            {renderIdCard("mobile-live-id-card")}
-          </div>
-        </div>
-      )}
+      {/* Interactive Official Digital ID Card Modal */}
+      <StudentIdCardModal
+        isOpen={showIdCardModal}
+        onClose={() => {
+          setShowIdCardModal(false);
+          onAuthenticated(pendingStudent || idCardStudentData);
+        }}
+        initialData={idCardStudentData}
+      />
 
       {/* Footer Info */}
       <div className="w-full text-center text-xs font-semibold text-slate-400 z-10 pt-4">

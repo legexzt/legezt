@@ -10,6 +10,7 @@ import { InstituteGateModal } from "./components/InstituteGateModal";
 import { RoleSelectionModal } from "./components/RoleSelectionModal";
 import { StudentAuthModal } from "./components/StudentAuthModal";
 import { ManageProfileModal } from "./components/ManageProfileModal";
+import { StudentIdCardModal } from "./components/StudentIdCardModal";
 
 export default function StudentPortalHomePage() {
   const [theme, setTheme] = useState<"dark" | "light">("light");
@@ -29,6 +30,7 @@ export default function StudentPortalHomePage() {
 
   // Profile Avatar & Manage Profile Modal State
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isIdCardModalOpen, setIsIdCardModalOpen] = useState(false);
   const [currentAvatar, setCurrentAvatar] = useState("/student_3d_pointing.png");
 
   // Geofence & OTP Modals
@@ -211,6 +213,13 @@ export default function StudentPortalHomePage() {
         toggleTheme={toggleTheme}
         currentAvatar={currentAvatar}
         onSelectAvatar={(url) => setCurrentAvatar(url)}
+        onOpenIdCardModal={() => setIsIdCardModalOpen(true)}
+      />
+
+      <StudentIdCardModal
+        isOpen={isIdCardModalOpen}
+        onClose={() => setIsIdCardModalOpen(false)}
+        initialData={currentStudent}
       />
 
       <OtpVerificationModal
