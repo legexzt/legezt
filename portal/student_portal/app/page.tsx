@@ -97,6 +97,7 @@ export default function StudentPortalHomePage() {
   const handleStudentAuthenticated = (studentData: any) => {
     setCurrentStudent(studentData);
     setIsAuthenticated(true);
+    setIsIdCardModalOpen(true);
     localStorage.setItem("legezt_authenticated_student", JSON.stringify(studentData));
   };
 
@@ -174,6 +175,7 @@ export default function StudentPortalHomePage() {
             verifiedInstituteName={verifiedInstituteName}
             openInstituteGate={() => setShowInstituteGateModal(true)}
             openProfileModal={() => setIsProfileModalOpen(true)}
+            openIdCardModal={() => setIsIdCardModalOpen(true)}
             currentAvatar={currentAvatar}
           />
 

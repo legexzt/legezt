@@ -23,6 +23,7 @@ interface TopNavbarProps {
   verifiedInstituteName?: string;
   openInstituteGate?: () => void;
   openProfileModal: () => void;
+  openIdCardModal?: () => void;
   currentAvatar?: string;
   studentName?: string;
 }
@@ -39,6 +40,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
   verifiedInstituteName = "Lords Institute of Engineering and Technology",
   openInstituteGate,
   openProfileModal,
+  openIdCardModal,
   currentAvatar = "/student_3d_pointing.png",
   studentName = "Mohd Jibraan",
 }) => {
@@ -150,6 +152,18 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
             </div>
           )}
         </div>
+
+        {/* Quick Official ID Card Button */}
+        {openIdCardModal && (
+          <button
+            onClick={openIdCardModal}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-bold shadow-md hover:opacity-90 transition-all shrink-0"
+            title="Preview & Download Official ID Card"
+          >
+            <span>🪪</span>
+            <span className="hidden sm:inline">My ID Card</span>
+          </button>
+        )}
 
         {/* User Account Profile Pill matching screenshot */}
         <button
