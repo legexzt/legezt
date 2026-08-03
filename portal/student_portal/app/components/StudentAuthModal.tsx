@@ -407,84 +407,6 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
     }
   };
 
-  const renderIdCard = (customId = "live-id-card") => (
-    <div
-      id={customId}
-      className="w-[300px] sm:w-[320px] bg-slate-950 rounded-3xl overflow-hidden border-2 border-cyan-500/30 shadow-2xl shadow-cyan-950/40 relative text-white font-sans transition-all mx-auto"
-    >
-      {/* Background Ambient Radial Lights */}
-      <div className="absolute -top-10 -right-10 w-40 h-40 bg-cyan-500/15 rounded-full blur-2xl pointer-events-none" />
-      <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-emerald-500/15 rounded-full blur-2xl pointer-events-none" />
-
-      {/* Top Header Bar */}
-      <div className="bg-slate-900/90 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <img src="/lords_logo_official.png" className="h-8 w-auto object-contain bg-white/95 rounded-md p-0.5" alt="Lords Logo" />
-          <div className="text-left">
-            <span className="block text-[9px] font-black tracking-widest text-slate-200 uppercase leading-none">LORDS INSTITUTE</span>
-            <span className="block text-[7px] font-bold text-cyan-400 uppercase tracking-wider mt-0.5">Autonomous Campus</span>
-          </div>
-        </div>
-
-        {/* LeGeZt Verified Emblem */}
-        <div className="flex items-center gap-1 bg-cyan-950/80 border border-cyan-500/40 px-2 py-0.5 rounded-full shadow-inner">
-          <img src="/legezt_main_logo.png" className="h-3.5 w-3.5 object-contain" alt="LeGeZt" />
-          <span className="text-[8px] font-black text-cyan-300 tracking-wider">LeGeZt</span>
-        </div>
-      </div>
-
-      {/* ID Card Body Content */}
-      <div className="p-5 text-center relative z-10 space-y-3">
-        {/* 3D Avatar Face Frame */}
-        <div className="relative w-20 h-20 mx-auto">
-          <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-cyan-400/60 shadow-lg shadow-cyan-500/20 bg-slate-900 flex items-center justify-center">
-            <img
-              src={regGender === "female" ? "/avatar_female.png" : "/avatar_male.png"}
-              alt="Student Portrait"
-              className="w-full h-full object-cover object-top scale-125 pt-1 transition-all duration-300"
-            />
-          </div>
-          <div className="absolute -bottom-1 -right-1 bg-emerald-500 border-2 border-slate-950 text-white rounded-full p-0.5 shadow-md">
-            <ShieldCheck className="w-3 h-3" />
-          </div>
-        </div>
-
-        {/* Name & Roll Number */}
-        <div>
-          <h2 className="text-base font-black tracking-tight text-white uppercase leading-tight line-clamp-1">
-            {regName || "Student Full Name"}
-          </h2>
-          <div className="inline-block mt-1 px-3 py-0.5 rounded-full bg-cyan-950/90 border border-cyan-500/30 text-cyan-300 text-[11px] font-black tracking-widest uppercase">
-            {regRollNo || "21LIETCS301"}
-          </div>
-        </div>
-
-        {/* Key Info Details Grid */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-left grid grid-cols-2 gap-2 text-[10px]">
-          <div>
-            <span className="block font-bold text-slate-500 uppercase tracking-wider text-[8px]">Department</span>
-            <span className="block font-extrabold text-slate-200 truncate text-[10px]">{regDept}</span>
-          </div>
-          <div>
-            <span className="block font-bold text-slate-500 uppercase tracking-wider text-[8px]">Gender</span>
-            <span className="block font-extrabold text-cyan-400 capitalize text-[10px]">{regGender}</span>
-          </div>
-          <div className="col-span-2 pt-1 border-t border-slate-800/80">
-            <span className="block font-bold text-slate-500 uppercase tracking-wider text-[8px]">Official Email</span>
-            <span className="block font-extrabold text-slate-200 truncate text-[9px]">{regEmail || "student@lords.ac.in"}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Card Footer Bar */}
-      <div className="px-4 py-2 bg-slate-900 border-t border-slate-800 flex items-center justify-between text-[9px]">
-        <span className="font-bold text-slate-400 tracking-wider">STATUS: <strong className="text-emerald-400 font-black">AUTONOMOUS VERIFIED</strong></span>
-        <span className="font-mono text-[8px] text-cyan-400/80">ID #{regRollNo ? regRollNo.slice(-6) : "849201"}</span>
-      </div>
-      <div className="h-1 bg-gradient-to-r from-cyan-500 via-emerald-400 to-teal-500" />
-    </div>
-  );
-
   return (
     <div className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-between p-4 sm:p-6 lg:p-8 text-slate-900 font-sans selection:bg-slate-950 selection:text-white animate-fade-in overflow-y-auto">
       {/* Background Radial Glow */}
@@ -567,19 +489,8 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
           </div>
         )}
 
-        {/* Auth Layout Wrapper for Two-Column Registration */}
-        <div className={`w-full flex flex-col lg:flex-row gap-6 ${authMode === "register" && !otpVerificationMode ? "max-w-5xl mx-auto" : "max-w-xl mx-auto"}`}>
-          
-          {/* LEFT COLUMN: LIVE ID CARD (Only visible during registration step 1 on Desktop) */}
-          {authMode === "register" && !otpVerificationMode && (
-            <div className="hidden lg:flex flex-col items-center gap-3 shrink-0 mt-4">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">⚡ Real-time Live Preview</span>
-              {renderIdCard("live-id-card")}
-            </div>
-          )}
-
-          {/* RIGHT COLUMN: Auth Card Container */}
-          <div className="flex-1 bg-white border-2 border-slate-950 rounded-3xl p-6 sm:p-10 shadow-2xl text-left space-y-6 animate-scale-up">
+        {/* Single Centered Auth Card Container */}
+        <div className="w-full max-w-[580px] mx-auto bg-white border-2 border-slate-950 rounded-3xl p-6 sm:p-10 shadow-2xl text-left space-y-6 animate-scale-up">
           
           {/* STEP 2: 6-DIGIT OTP PERMANENT MEMBER ACTIVATION */}
           {otpVerificationMode ? (
@@ -634,22 +545,13 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
           ) : authMode === "register" ? (
             /* REGISTER FORM (100% BLANK INITIAL FIELDS + PASSWORD TWICE) */
             <form onSubmit={handleRegisterSubmit} className="space-y-5">
-              <div className="space-y-1 flex items-center justify-between">
-                <div>
-                  <h3 className="font-black text-xl text-slate-950 tracking-tight">
-                    Create Your Official Student ID Record
-                  </h3>
-                  <p className="text-xs text-slate-500 font-semibold">
-                    Enter details to generate your official LIET ID card.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setShowPreviewModal(true)}
-                  className="lg:hidden px-3 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-700 text-xs font-black hover:bg-cyan-100 transition-all flex items-center gap-1 shadow-sm shrink-0"
-                >
-                  🪪 Live ID Preview
-                </button>
+              <div className="space-y-1">
+                <h3 className="font-black text-xl text-slate-950 tracking-tight">
+                  Create Your Official Student ID Record
+                </h3>
+                <p className="text-xs text-slate-500 font-semibold">
+                  Enter details to generate your official LIET ID card.
+                </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1034,7 +936,6 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
             </div>
           )}
 
-        </div>
         </div>
       </div>
 
