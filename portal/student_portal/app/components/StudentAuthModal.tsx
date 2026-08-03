@@ -271,7 +271,7 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
         const cardElement = document.getElementById("live-id-card");
         if (cardElement) {
           try {
-            const canvas = await html2canvas(cardElement, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
+            const canvas = await html2canvas(cardElement, { scale: 2, useCORS: true, backgroundColor: "#ffffff" } as any);
             const imgData = canvas.toDataURL("image/jpeg", 1.0);
             
             const pdf = new jsPDF({
