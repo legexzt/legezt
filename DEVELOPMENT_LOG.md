@@ -806,3 +806,29 @@
   - Admin Portal: [admin](file:///C:/Users/mdjib/Desktop/legezt/admin)
 - **Deployment Tooling**:
   - Drive Uploader: [gdrive_upload.py](file:///C:/Users/mdjib/Desktop/legezt/gdrive_upload.py)
+
+---
+
+## Milestone 27: Student Portal Auth & Ultra-Premium ID Card Overhaul (August 2026)
+
+### Highlights & Completed Features:
+1. **Ultra-Premium Digital Student ID Card**:
+   - Redesigned with Midnight Slate & Cyan gradient (`bg-slate-950`), metallic borders, and glowing ambient radial accents.
+   - Includes **Lords Institute Official Logo** and **LeGeZt Verified Emblem**.
+   - Holographic "AUTONOMOUS VERIFIED MEMBER" status badge and dynamic ID serial number.
+
+2. **Male & Female 3D Avatar Selection**:
+   - Added Male 👨 / Female 👩 radio selection pills.
+   - Dynamically crops and mounts `/avatar_male.png` or `/avatar_female.png` face portrait on the ID card.
+
+3. **Non-Intrusive & Mobile-Friendly Live Preview**:
+   - Clean, compact live preview for desktop.
+   - Floating `🪪 Live ID Preview` button on mobile that opens a dark backdrop slide-up preview drawer modal.
+
+4. **Enhanced Security & Registration Flow**:
+   - **Password Eye Toggle**: Show/Hide visibility icon for password and confirm password inputs.
+   - **Simulated Bot Captcha**: Custom "I'm not a robot" checkbox with verification spinner.
+   - **6-Box OTP Verification**: Replaced single text field with 6 auto-advancing OTP digit boxes.
+   - **Auto-Save Drafts**: Background auto-save to `/api/auth/draft` MongoDB route as user types.
+   - **PDF Generation & Emailing**: HTML canvas & jsPDF capture to auto-download ID card and email via `/api/auth/send-id-card`.
+

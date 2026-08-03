@@ -488,7 +488,7 @@ export default function LandingPage() {
           ? "bg-white/90 border-slate-200/90 text-slate-900 shadow-slate-200/60"
           : "bg-[#0b0f19]/85 border-slate-800/80 text-white shadow-black/40"
       }`}>
-        <div className="max-w-[1700px] mx-auto flex items-center justify-between">
+        <div className="max-w-[1700px] mx-auto flex items-center justify-between overflow-hidden">
           {/* Single High-Res 3D Image Logo with Dynamic Height & Backlight Glow */}
           <div
             className="relative group flex items-center cursor-pointer py-1 transition-all duration-200 shrink-0"
@@ -510,7 +510,7 @@ export default function LandingPage() {
           </div>
 
           {/* Navigation Links - 3D White Glass Pill Buttons (Desktop) */}
-          <nav className="hidden lg:flex items-center space-x-3.5 xl:space-x-5 text-xs font-bold">
+          <nav className="hidden lg:flex items-center space-x-2 xl:space-x-4 text-xs font-bold">
             <a
               href="#services"
               className="btn-white-glass-3d px-4 py-2 flex items-center space-x-1.5 shadow-md shadow-white/10"
@@ -545,32 +545,26 @@ export default function LandingPage() {
           </nav>
 
           {/* Action CTAs & Theme Switcher Controls Level Aligned */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          <div className="flex items-center space-x-1.5 sm:space-x-2 xl:space-x-3">
             {/* Light / Dark Theme Switcher Button */}
             <button
               onClick={toggleTheme}
-              className={`p-2 sm:px-3.5 sm:py-2.5 rounded-full transition-all border flex items-center space-x-1.5 shrink-0 font-extrabold text-xs shadow-md ${
+              className={`p-2 rounded-full transition-all border flex items-center justify-center shrink-0 shadow-md ${
                 theme === "light"
                   ? "bg-indigo-600 text-white border-indigo-400 hover:bg-indigo-700 shadow-indigo-500/30"
                   : "bg-amber-500/20 text-amber-300 border-amber-400/40 hover:bg-amber-500/30 shadow-amber-500/20"
               }`}
-              title={theme === "light" ? "Switch to Dark Theme Mode" : "Switch to Light Theme Mode"}
+              title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
             >
               {theme === "light" ? (
-                <>
-                  <Moon className="w-4 h-4 text-indigo-100 fill-indigo-100" />
-                  <span className="hidden sm:inline">Dark Theme</span>
-                </>
+                <Moon className="w-4 h-4 text-indigo-100 fill-indigo-100" />
               ) : (
-                <>
-                  <Sun className="w-4 h-4 text-amber-400 fill-amber-400" />
-                  <span className="hidden sm:inline">Light Theme</span>
-                </>
+                <Sun className="w-4 h-4 text-amber-400 fill-amber-400" />
               )}
             </button>
 
             <a
-              href="#student-login"
+              href="http://localhost:3002"
               className="btn-emerald-3d text-xs sm:text-sm px-3.5 sm:px-5 py-2 sm:py-2.5 flex items-center space-x-1.5 sm:space-x-2 shrink-0 shadow-lg shadow-emerald-600/30"
             >
               <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
@@ -579,7 +573,7 @@ export default function LandingPage() {
 
             <a
               href="#faculty-login"
-              className="btn-sapphire-3d text-xs sm:text-sm px-5 py-2.5 hidden sm:flex items-center space-x-2 shrink-0"
+              className="btn-sapphire-3d text-xs sm:text-sm px-4 py-2.5 hidden xl:flex items-center space-x-2 shrink-0"
             >
               <Lock className="w-4 h-4 text-white" />
               <span className="text-white font-black tracking-wide">Faculty Studio</span>
@@ -587,7 +581,7 @@ export default function LandingPage() {
 
             <a
               href="#download-apk"
-              className={`btn-slate-3d text-xs sm:text-sm px-4 py-2.5 hidden md:flex items-center space-x-2 shrink-0 ${
+              className={`btn-slate-3d text-xs sm:text-sm px-4 py-2.5 hidden 2xl:flex items-center space-x-2 shrink-0 ${
                 theme === "light" ? "border-emerald-600/50 text-emerald-800" : "border-emerald-500/30 text-emerald-300"
               }`}
             >
@@ -684,7 +678,7 @@ export default function LandingPage() {
               theme === "light" ? "border-slate-200" : "border-slate-800/80"
             }`}>
               <a
-                href="#student-login"
+                href="http://localhost:3002"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="btn-emerald-3d text-xs py-3 flex items-center justify-center space-x-2 w-full shadow-lg shadow-emerald-600/30"
               >
@@ -779,7 +773,7 @@ export default function LandingPage() {
             {/* Quick Action Grid - Responsive Mobile Touch Targets */}
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-1">
               <a
-                href="#student-login"
+                href="http://localhost:3002"
                 className="btn-sapphire-crystal text-sm sm:text-base px-6 sm:px-8 py-3.5 sm:py-4 flex items-center justify-center space-x-2.5 sm:space-x-3 shadow-2xl shadow-blue-600/40 w-full sm:w-auto"
               >
                 <span>Student Hub Access</span>
@@ -847,142 +841,143 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Hero Right Column - MASSIVE 3D Student Character Stage with Floating Exam Windows */}
-          <div className="lg:col-span-7 flex flex-col justify-center items-center relative z-20 min-h-[360px] xs:min-h-[440px] sm:min-h-[520px] lg:min-h-[620px] xl:min-h-[680px] w-full overflow-visible">
+          {/* Hero Right Column - Flow-based layout: Windows ABOVE → Character → Windows BELOW */}
+          <div className="lg:col-span-7 flex flex-col justify-center items-center relative z-20 w-full">
 
             {/* Ambient Background Radial Glow behind Main Character */}
             <div className="absolute inset-0 bg-blue-600/30 rounded-full blur-[90px] sm:blur-[110px] pointer-events-none scale-100 sm:scale-110" />
 
-            {/* 🌟 FLOATING 3D EXAM WINDOW 1: MCQ Question & Answer Box (Shifted Left & Top to Unblock Face) */}
-            <div className={`absolute -top-8 xs:-top-12 sm:-top-16 lg:-top-20 left-[-4%] xs:left-[-8%] sm:-left-16 lg:-left-32 xl:-left-44 z-30 p-3 sm:p-4 rounded-2xl sm:rounded-3xl border backdrop-blur-2xl transition-all duration-300 animate-float-medium max-w-[250px] xs:max-w-[280px] sm:max-w-[320px] ${
-              theme === "light"
-                ? "bg-white/95 border-slate-200/90 shadow-[0_20px_45px_rgba(37,99,235,0.18)] text-slate-900"
-                : "bg-[#0f172a]/92 border-slate-700/80 shadow-[0_20px_45px_rgba(0,0,0,0.7)] text-white"
-            }`}>
-              <div className="flex items-center justify-between pb-2 border-b border-slate-200/60 dark:border-slate-800/80 mb-2.5 text-[10px] sm:text-xs">
-                <div className="flex items-center space-x-2 font-bold">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                  <span className={theme === "light" ? "text-emerald-700 font-extrabold" : "text-emerald-400 font-bold"}>
-                    ● LIVE EXAM #CS-302
-                  </span>
-                </div>
-                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase ${
-                  theme === "light" ? "bg-blue-100 text-blue-800" : "bg-blue-900/60 text-blue-300 border border-blue-500/40"
-                }`}>
-                  ⏳ 14:20 MINS
-                </span>
-              </div>
+            {/* ═══════ TOP ROW: Two floating windows side by side ABOVE the character ═══════ */}
+            <div className="flex flex-col xs:flex-row justify-between items-start gap-3 sm:gap-4 w-full relative z-30 mb-3 sm:mb-5">
 
-              <div className="space-y-2">
-                <h4 className={`text-xs sm:text-sm font-black leading-snug ${theme === "light" ? "text-slate-950" : "text-white"}`}>
-                  Q1: Time complexity of Binary Search algorithm?
-                </h4>
-
-                <div className="space-y-1.5 text-[11px] sm:text-xs font-semibold">
-                  <div className={`p-1.5 sm:p-2 rounded-xl border flex items-center justify-between transition-all ${
-                    theme === "light"
-                      ? "bg-slate-50 border-slate-200 text-slate-700"
-                      : "bg-slate-900/60 border-slate-800 text-slate-300"
-                  }`}>
-                    <span>A) O(n)</span>
-                  </div>
-
-                  <div className={`p-1.5 sm:p-2 rounded-xl border flex items-center justify-between transition-all font-bold ${
-                    theme === "light"
-                      ? "bg-emerald-50/90 border-emerald-400 text-emerald-950 shadow-sm"
-                      : "bg-emerald-950/80 border-emerald-500/60 text-emerald-300 shadow-sm"
-                  }`}>
-                    <span className="flex items-center space-x-1.5">
-                      <span>B) O(log n)</span>
-                    </span>
-                    <span className="w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] flex items-center justify-center font-black">
-                      ✓
-                    </span>
-                  </div>
-
-                  <div className={`p-1.5 sm:p-2 rounded-xl border flex items-center justify-between transition-all ${
-                    theme === "light"
-                      ? "bg-slate-50 border-slate-200 text-slate-700"
-                      : "bg-slate-900/60 border-slate-800 text-slate-300"
-                  }`}>
-                    <span>C) O(n²)</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 🌟 FLOATING 3D EXAM WINDOW 2: Geofence Security Verification (Top Right / Above Campus Server) */}
-            <div className={`absolute top-6 sm:top-12 right-0 xs:-right-2 sm:-right-6 lg:-right-10 z-30 p-3 sm:p-4 rounded-2xl sm:rounded-3xl border backdrop-blur-2xl transition-all duration-300 animate-float-slow max-w-[210px] xs:max-w-[240px] sm:max-w-[280px] ${
-              theme === "light"
-                ? "bg-white/95 border-slate-200/90 shadow-[0_20px_45px_rgba(37,99,235,0.15)] text-slate-900"
-                : "bg-[#0f172a]/92 border-slate-700/80 shadow-[0_20px_45px_rgba(0,0,0,0.7)] text-white"
-            }`}>
-              <div className="flex items-center space-x-2.5 mb-1.5">
-                <div className="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-500 flex items-center justify-center shrink-0">
-                  <MapPin className="w-4 h-4 text-blue-500" />
-                </div>
-                <div>
-                  <span className={`text-xs font-black block leading-none ${theme === "light" ? "text-slate-950" : "text-white"}`}>
-                    200m GPS Geofence
-                  </span>
-                  <span className="text-[9px] font-bold text-emerald-500 block mt-0.5">
-                    ✓ LOCATION VERIFIED
-                  </span>
-                </div>
-              </div>
-
-              <div className={`p-2 rounded-xl text-[10px] font-bold border ${
+              {/* 🌟 FLOATING WINDOW 1: MCQ Question & Answer Box (Top Left) */}
+              <div className={`animate-float-medium p-2.5 sm:p-4 rounded-2xl sm:rounded-3xl border backdrop-blur-2xl transition-all duration-300 w-full xs:w-[55%] sm:w-[58%] ${
                 theme === "light"
-                  ? "bg-blue-50/80 border-blue-200 text-blue-900"
-                  : "bg-blue-950/60 border-blue-800 text-blue-200"
+                  ? "bg-white/95 border-slate-200/90 shadow-[0_20px_45px_rgba(37,99,235,0.18)] text-slate-900"
+                  : "bg-[#0f172a]/92 border-slate-700/80 shadow-[0_20px_45px_rgba(0,0,0,0.7)] text-white"
               }`}>
-                <span>LIET College Campus (CSE Dept)</span>
+                <div className="flex items-center justify-between pb-1.5 sm:pb-2 border-b border-slate-200/60 dark:border-slate-800/80 mb-2 text-[9px] sm:text-[10px] md:text-xs">
+                  <div className="flex items-center space-x-1.5 sm:space-x-2 font-bold">
+                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500 animate-ping" />
+                    <span className={theme === "light" ? "text-emerald-700 font-extrabold" : "text-emerald-400 font-bold"}>
+                      ● LIVE EXAM #CS-302
+                    </span>
+                  </div>
+                  <span className={`px-1.5 sm:px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-black uppercase ${
+                    theme === "light" ? "bg-blue-100 text-blue-800" : "bg-blue-900/60 text-blue-300 border border-blue-500/40"
+                  }`}>
+                    ⏳ 14:20 MINS
+                  </span>
+                </div>
+
+                <div className="space-y-1.5 sm:space-y-2">
+                  <h4 className={`text-[11px] sm:text-xs md:text-sm font-black leading-snug ${theme === "light" ? "text-slate-950" : "text-white"}`}>
+                    Q1: Time complexity of Binary Search?
+                  </h4>
+
+                  <div className="space-y-1 sm:space-y-1.5 text-[10px] sm:text-[11px] md:text-xs font-semibold">
+                    <div className={`p-1 sm:p-1.5 md:p-2 rounded-lg sm:rounded-xl border flex items-center justify-between transition-all ${
+                      theme === "light"
+                        ? "bg-slate-50 border-slate-200 text-slate-700"
+                        : "bg-slate-900/60 border-slate-800 text-slate-300"
+                    }`}>
+                      <span>A) O(n)</span>
+                    </div>
+
+                    <div className={`p-1 sm:p-1.5 md:p-2 rounded-lg sm:rounded-xl border flex items-center justify-between transition-all font-bold ${
+                      theme === "light"
+                        ? "bg-emerald-50/90 border-emerald-400 text-emerald-950 shadow-sm"
+                        : "bg-emerald-950/80 border-emerald-500/60 text-emerald-300 shadow-sm"
+                    }`}>
+                      <span className="flex items-center space-x-1.5">
+                        <span>B) O(log n)</span>
+                      </span>
+                      <span className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-emerald-500 text-white text-[8px] sm:text-[10px] flex items-center justify-center font-black">
+                        ✓
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 🌟 FLOATING WINDOW 2: Geofence Security Verification (Top Right) */}
+              <div className={`animate-float-slow p-2.5 sm:p-4 rounded-2xl sm:rounded-3xl border backdrop-blur-2xl transition-all duration-300 w-full xs:w-[42%] sm:w-[38%] ${
+                theme === "light"
+                  ? "bg-white/95 border-slate-200/90 shadow-[0_20px_45px_rgba(37,99,235,0.15)] text-slate-900"
+                  : "bg-[#0f172a]/92 border-slate-700/80 shadow-[0_20px_45px_rgba(0,0,0,0.7)] text-white"
+              }`}>
+                <div className="flex items-center space-x-2 sm:space-x-2.5 mb-1 sm:mb-1.5">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-blue-500/20 text-blue-500 flex items-center justify-center shrink-0">
+                    <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-blue-500" />
+                  </div>
+                  <div>
+                    <span className={`text-[10px] sm:text-xs font-black block leading-none ${theme === "light" ? "text-slate-950" : "text-white"}`}>
+                      200m GPS Geofence
+                    </span>
+                    <span className="text-[8px] sm:text-[9px] font-bold text-emerald-500 block mt-0.5">
+                      ✓ LOCATION VERIFIED
+                    </span>
+                  </div>
+                </div>
+
+                <div className={`p-1.5 sm:p-2 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-bold border ${
+                  theme === "light"
+                    ? "bg-blue-50/80 border-blue-200 text-blue-900"
+                    : "bg-blue-950/60 border-blue-800 text-blue-200"
+                }`}>
+                  <span>LIET College Campus</span>
+                </div>
               </div>
             </div>
 
-            {/* 🌟 FLOATING 3D EXAM WINDOW 3: Instant Marks & Proctor Status (Bottom Right of Character) */}
-            <div className={`absolute bottom-4 sm:bottom-12 right-2 xs:right-4 sm:-right-4 z-30 p-3 sm:p-4 rounded-2xl sm:rounded-3xl border backdrop-blur-2xl transition-all duration-300 animate-float-reverse hidden xs:flex flex-col space-y-1.5 max-w-[210px] sm:max-w-[250px] ${
-              theme === "light"
-                ? "bg-white/95 border-emerald-500/30 shadow-[0_20px_45px_rgba(16,185,129,0.15)] text-slate-900"
-                : "bg-[#0f172a]/92 border-emerald-500/40 shadow-[0_20px_45px_rgba(0,0,0,0.7)] text-white"
-            }`}>
-              <div className="flex items-center space-x-2">
-                <div className="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center shrink-0">
-                  <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                </div>
-                <div>
-                  <span className={`text-xs font-black block leading-none ${theme === "light" ? "text-slate-950" : "text-white"}`}>
-                    Proctoring Status
-                  </span>
-                  <span className="text-[9px] font-extrabold text-emerald-500 block mt-0.5">
-                    0 Strikes (Safe)
-                  </span>
-                </div>
-              </div>
+            {/* ═══════ CENTER: MAIN 3D HERO STUDENT CHARACTER ═══════ */}
+            <div className="relative flex justify-center items-center w-full">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={heroImage}
+                alt="3D Hero Student at Laptop (Drag to Move)"
+                onMouseDown={(e) => handleMouseDown("hero", e)}
+                style={{
+                  transform: `scale(${heroScale / 100}) translate(${heroX}px, ${heroY}px)`,
+                  transition: activeDragTarget === "hero" ? "none" : "transform 0.1s ease-out"
+                }}
+                className={`w-full max-w-[280px] xs:max-w-[380px] sm:max-w-[480px] lg:max-w-[540px] xl:max-w-[660px] h-auto object-contain drop-shadow-[0_30px_50px_rgba(37,99,235,0.45)] relative z-10 shrink-0 ${
+                  isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-blue-500/50 rounded-3xl" : ""
+                }`}
+              />
 
-              <div className="flex items-center justify-between pt-1 border-t border-slate-200/50 dark:border-slate-800 text-[10px] font-bold">
-                <span className={theme === "light" ? "text-slate-600" : "text-slate-400"}>Score Preview</span>
-                <span className="text-emerald-500 font-black">98% Marks</span>
-              </div>
+              {/* Grounded 3D Shadow Ring */}
+              <div className="absolute -bottom-2 sm:-bottom-4 w-[70%] h-6 sm:h-10 bg-blue-500/25 rounded-[100%] blur-xl pointer-events-none z-0" />
             </div>
 
-            {/* MAIN MASSIVE 3D HERO STUDENT CHARACTER (Responsive & Clamped for Mobile) */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={heroImage}
-              alt="3D Hero Student at Laptop (Drag to Move)"
-              onMouseDown={(e) => handleMouseDown("hero", e)}
-              style={{
-                transform: `scale(${heroScale / 100}) translate(${heroX}px, ${heroY}px)`,
-                transition: activeDragTarget === "hero" ? "none" : "transform 0.1s ease-out"
-              }}
-              className={`w-full max-w-[320px] xs:max-w-[420px] sm:max-w-[540px] lg:max-w-[620px] xl:max-w-[760px] object-contain drop-shadow-[0_30px_50px_rgba(37,99,235,0.45)] relative z-10 shrink-0 ${
-                isEditMode ? "cursor-grab active:cursor-grabbing hover:ring-4 hover:ring-blue-500/50 rounded-3xl" : ""
-              }`}
-            />
+            {/* ═══════ BOTTOM ROW: Proctoring status window BELOW the character ═══════ */}
+            <div className="flex justify-end w-full relative z-30 mt-2 sm:mt-4">
+              {/* 🌟 FLOATING WINDOW 3: Instant Marks & Proctor Status (Bottom Right) */}
+              <div className={`animate-float-reverse p-2.5 sm:p-4 rounded-2xl sm:rounded-3xl border backdrop-blur-2xl transition-all duration-300 flex flex-col space-y-1 sm:space-y-1.5 w-[200px] sm:w-[240px] ${
+                theme === "light"
+                  ? "bg-white/95 border-emerald-500/30 shadow-[0_20px_45px_rgba(16,185,129,0.15)] text-slate-900"
+                  : "bg-[#0f172a]/92 border-emerald-500/40 shadow-[0_20px_45px_rgba(0,0,0,0.7)] text-white"
+              }`}>
+                <div className="flex items-center space-x-1.5 sm:space-x-2">
+                  <div className="w-5 h-5 sm:w-7 sm:h-7 rounded-lg sm:rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center shrink-0">
+                    <ShieldCheck className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-500" />
+                  </div>
+                  <div>
+                    <span className={`text-[10px] sm:text-xs font-black block leading-none ${theme === "light" ? "text-slate-950" : "text-white"}`}>
+                      Proctoring Status
+                    </span>
+                    <span className="text-[8px] sm:text-[9px] font-extrabold text-emerald-500 block mt-0.5">
+                      0 Strikes (Safe)
+                    </span>
+                  </div>
+                </div>
 
-            {/* Grounded 3D Shadow Ring */}
-            <div className="w-[85%] h-10 bg-blue-500/25 rounded-[100%] blur-xl pointer-events-none -mt-6 relative z-0" />
+                <div className="flex items-center justify-between pt-1 border-t border-slate-200/50 dark:border-slate-800 text-[9px] sm:text-[10px] font-bold">
+                  <span className={theme === "light" ? "text-slate-600" : "text-slate-400"}>Score Preview</span>
+                  <span className="text-emerald-500 font-black">98% Marks</span>
+                </div>
+              </div>
+            </div>
 
           </div>
         </section>
@@ -1073,7 +1068,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <a
-                href="#student-login"
+                href="http://localhost:3002"
                 className="btn-sapphire-crystal text-sm py-4 w-full flex items-center justify-center space-x-2"
               >
                 <span>{getProp("student_hub_btn", "text", "Launch Student Hub")}</span>

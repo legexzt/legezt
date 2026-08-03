@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { User, Mail, ArrowRight, CheckCircle2, UserCheck, AlertCircle, Lock, ShieldCheck, KeyRound, RefreshCw } from "lucide-react";
+import { User, Mail, ArrowRight, CheckCircle2, UserCheck, AlertCircle, Lock, ShieldCheck, KeyRound, RefreshCw, Eye, EyeOff } from "lucide-react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 declare global {
   interface Window {
@@ -22,15 +24,23 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
   onAuthenticated,
   onBackToRoleSelect,
 }) => {
-  const [authMode, setAuthMode] = useState<"login" | "register" | "forgot_request" | "forgot_confirm">("register");
+  const [authMode, setAuthMode] = useState<"login" | "register" | "forgot_request" | "forgot_confirm">("login");
 
   // 100% BLANK INITIAL STATES (NO PRE-FILLED TEXT)
   const [regName, setRegName] = useState("");
   const [regRollNo, setRegRollNo] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [regDept, setRegDept] = useState("CSE");
+  const [regGender, setRegGender] = useState<"male" | "female">("male");
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [regPassword, setRegPassword] = useState("");
   const [regConfirmPassword, setRegConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [captchaVerified, setCaptchaVerified] = useState(false);
+  const [isCaptchaLoading, setIsCaptchaLoading] = useState(false);
+  
+  // OTP array state
+  const [otpArray, setOtpArray] = useState(["", "", "", "", "", ""]);
 
   // Login State
   const [loginEmailOrRoll, setLoginEmailOrRoll] = useState("");
@@ -88,6 +98,32 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
       document.body.appendChild(script);
     }
   }, [authMode, otpVerificationMode]);
+
+  // Auto-save Draft
+  useEffect(() => {
+    if (authMode !== "register" || otpVerificationMode) return;
+    if (!regName && !regRollNo && !regEmail) return;
+
+    const timeoutId = setTimeout(async () => {
+      try {
+        await fetch("/api/auth/draft", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            draftId: "browser-draft-" + (regRollNo || "unknown"),
+            name: regName,
+            rollNo: regRollNo,
+            email: regEmail,
+            department: regDept,
+          }),
+        });
+      } catch (e) {
+        console.error("Failed to auto-save draft");
+      }
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [regName, regRollNo, regEmail, regDept, authMode, otpVerificationMode]);
 
   // Real Google OAuth Credential Handler
   const handleGoogleJwtResponse = async (response: any) => {
@@ -191,10 +227,24 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
     }
   };
 
+  const handleOtpChange = (index: number, value: string) => {
+    if (value.length > 1) return;
+    const newOtpArray = [...otpArray];
+    newOtpArray[index] = value;
+    setOtpArray(newOtpArray);
+    
+    // Auto-focus next input
+    if (value && index < 5) {
+      const nextInput = document.getElementById(`otp-input-${index + 1}`);
+      if (nextInput) nextInput.focus();
+    }
+  };
+
   // Handle 6-Digit OTP Activation (Step 2: Permanent Membership)
   const handleOtpActivation = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!otpCode || otpCode.trim().length !== 6) {
+    const joinedOtpCode = otpArray.join("");
+    if (!joinedOtpCode || joinedOtpCode.trim().length !== 6) {
       setErrorMsg("Please enter the complete 6-digit OTP code.");
       return;
     }
@@ -209,17 +259,47 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: pendingStudent?.email || regEmail,
-          code: otpCode.trim(),
+          code: joinedOtpCode.trim(),
         }),
       });
 
       const data = await res.json();
       if (res.ok && (data.authenticated || data.success)) {
         setErrorMsg("");
-        setSuccessMsg("Permanent Member Account Activated! Welcome to LIET Intranet.");
+        setSuccessMsg("Permanent Member Account Activated! Generating your Official ID Card...");
+        
+        const cardElement = document.getElementById("live-id-card");
+        if (cardElement) {
+          try {
+            const canvas = await html2canvas(cardElement, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
+            const imgData = canvas.toDataURL("image/jpeg", 1.0);
+            
+            const pdf = new jsPDF({
+              orientation: "portrait",
+              unit: "mm",
+              format: [54, 86]
+            });
+            pdf.addImage(imgData, "JPEG", 0, 0, 54, 86);
+            pdf.save(`ID_Card_${pendingStudent?.rollNo || regRollNo || "Student"}.pdf`);
+            
+            await fetch("/api/auth/send-id-card", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: pendingStudent?.email || regEmail,
+                name: pendingStudent?.name || regName,
+                rollNo: pendingStudent?.rollNo || regRollNo,
+                pdfBase64: pdf.output("datauristring")
+              })
+            });
+          } catch (e) {
+            console.error("ID Card Generation failed:", e);
+          }
+        }
+        
         setTimeout(() => {
           onAuthenticated(data.student || pendingStudent);
-        }, 1000);
+        }, 1500);
       } else {
         setErrorMsg(data.message || "Invalid 6-digit OTP code. Please try again.");
       }
@@ -348,6 +428,84 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
     }
   };
 
+  const renderIdCard = (customId = "live-id-card") => (
+    <div
+      id={customId}
+      className="w-[300px] sm:w-[320px] bg-slate-950 rounded-3xl overflow-hidden border-2 border-cyan-500/30 shadow-2xl shadow-cyan-950/40 relative text-white font-sans transition-all mx-auto"
+    >
+      {/* Background Ambient Radial Lights */}
+      <div className="absolute -top-10 -right-10 w-40 h-40 bg-cyan-500/15 rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-emerald-500/15 rounded-full blur-2xl pointer-events-none" />
+
+      {/* Top Header Bar */}
+      <div className="bg-slate-900/90 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <img src="/lords_logo_official.png" className="h-8 w-auto object-contain bg-white/95 rounded-md p-0.5" alt="Lords Logo" />
+          <div className="text-left">
+            <span className="block text-[9px] font-black tracking-widest text-slate-200 uppercase leading-none">LORDS INSTITUTE</span>
+            <span className="block text-[7px] font-bold text-cyan-400 uppercase tracking-wider mt-0.5">Autonomous Campus</span>
+          </div>
+        </div>
+
+        {/* LeGeZt Verified Emblem */}
+        <div className="flex items-center gap-1 bg-cyan-950/80 border border-cyan-500/40 px-2 py-0.5 rounded-full shadow-inner">
+          <img src="/legezt_main_logo.png" className="h-3.5 w-3.5 object-contain" alt="LeGeZt" />
+          <span className="text-[8px] font-black text-cyan-300 tracking-wider">LeGeZt</span>
+        </div>
+      </div>
+
+      {/* ID Card Body Content */}
+      <div className="p-5 text-center relative z-10 space-y-3">
+        {/* 3D Avatar Face Frame */}
+        <div className="relative w-20 h-20 mx-auto">
+          <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-cyan-400/60 shadow-lg shadow-cyan-500/20 bg-slate-900 flex items-center justify-center">
+            <img
+              src={regGender === "female" ? "/avatar_female.png" : "/avatar_male.png"}
+              alt="Student Portrait"
+              className="w-full h-full object-cover object-top scale-125 pt-1 transition-all duration-300"
+            />
+          </div>
+          <div className="absolute -bottom-1 -right-1 bg-emerald-500 border-2 border-slate-950 text-white rounded-full p-0.5 shadow-md">
+            <ShieldCheck className="w-3 h-3" />
+          </div>
+        </div>
+
+        {/* Name & Roll Number */}
+        <div>
+          <h2 className="text-base font-black tracking-tight text-white uppercase leading-tight line-clamp-1">
+            {regName || "Student Full Name"}
+          </h2>
+          <div className="inline-block mt-1 px-3 py-0.5 rounded-full bg-cyan-950/90 border border-cyan-500/30 text-cyan-300 text-[11px] font-black tracking-widest uppercase">
+            {regRollNo || "21LIETCS301"}
+          </div>
+        </div>
+
+        {/* Key Info Details Grid */}
+        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-left grid grid-cols-2 gap-2 text-[10px]">
+          <div>
+            <span className="block font-bold text-slate-500 uppercase tracking-wider text-[8px]">Department</span>
+            <span className="block font-extrabold text-slate-200 truncate text-[10px]">{regDept}</span>
+          </div>
+          <div>
+            <span className="block font-bold text-slate-500 uppercase tracking-wider text-[8px]">Gender</span>
+            <span className="block font-extrabold text-cyan-400 capitalize text-[10px]">{regGender}</span>
+          </div>
+          <div className="col-span-2 pt-1 border-t border-slate-800/80">
+            <span className="block font-bold text-slate-500 uppercase tracking-wider text-[8px]">Official Email</span>
+            <span className="block font-extrabold text-slate-200 truncate text-[9px]">{regEmail || "student@lords.ac.in"}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Card Footer Bar */}
+      <div className="px-4 py-2 bg-slate-900 border-t border-slate-800 flex items-center justify-between text-[9px]">
+        <span className="font-bold text-slate-400 tracking-wider">STATUS: <strong className="text-emerald-400 font-black">AUTONOMOUS VERIFIED</strong></span>
+        <span className="font-mono text-[8px] text-cyan-400/80">ID #{regRollNo ? regRollNo.slice(-6) : "849201"}</span>
+      </div>
+      <div className="h-1 bg-gradient-to-r from-cyan-500 via-emerald-400 to-teal-500" />
+    </div>
+  );
+
   return (
     <div className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-between p-4 sm:p-6 lg:p-8 text-slate-900 font-sans selection:bg-slate-950 selection:text-white animate-fade-in overflow-y-auto">
       {/* Background Radial Glow */}
@@ -361,9 +519,6 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
         >
           ← Change Portal Role
         </button>
-        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-          Connected to {instituteCode} Database ✓
-        </span>
       </div>
 
       {/* Main Centered Auth Container */}
@@ -371,11 +526,11 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
         
         {/* BIG OFFICIAL 3D METALLIC LORDS FULL BANNER LOGO IMAGE */}
         <div className="w-full flex flex-col items-center justify-center space-y-4">
-          <div className="w-full max-w-2xl p-2 rounded-3xl bg-slate-950/5 border border-slate-200/80 shadow-2xl overflow-hidden backdrop-blur-md transition-transform hover:scale-[1.01]">
+          <div className="w-full max-w-2xl overflow-hidden transition-transform hover:scale-[1.01]">
             <img
               src="/lords_full_banner_logo.png"
               alt="Lords Institute Of Engineering & Technology Official 3D Metallic Logo"
-              className="w-full h-auto object-contain max-h-[160px] sm:max-h-[220px] rounded-2xl mx-auto"
+              className="w-full h-auto object-contain max-h-[80px] sm:max-h-[100px] mx-auto"
             />
           </div>
           <div className="space-y-1">
@@ -393,20 +548,6 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
           <div className="inline-flex p-1.5 rounded-2xl bg-slate-100 border border-slate-200 shadow-inner gap-1">
             <button
               onClick={() => {
-                setAuthMode("register");
-                setErrorMsg("");
-                setSuccessMsg("");
-              }}
-              className={`px-6 py-3 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2 ${
-                authMode === "register"
-                  ? "bg-slate-950 text-white shadow-lg shadow-slate-950/20"
-                  : "text-slate-600 hover:text-slate-950"
-              }`}
-            >
-              <UserCheck className="w-4 h-4" /> Register New Student ID
-            </button>
-            <button
-              onClick={() => {
                 setAuthMode("login");
                 setErrorMsg("");
                 setSuccessMsg("");
@@ -418,6 +559,20 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
               }`}
             >
               <User className="w-4 h-4" /> Login Existing ID
+            </button>
+            <button
+              onClick={() => {
+                setAuthMode("register");
+                setErrorMsg("");
+                setSuccessMsg("");
+              }}
+              className={`px-6 py-3 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2 ${
+                authMode === "register"
+                  ? "bg-slate-950 text-white shadow-lg shadow-slate-950/20"
+                  : "text-slate-600 hover:text-slate-950"
+              }`}
+            >
+              <UserCheck className="w-4 h-4" /> Register New Student ID
             </button>
           </div>
         )}
@@ -433,8 +588,19 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
           </div>
         )}
 
-        {/* Auth Card Container */}
-        <div className="bg-white border-2 border-slate-950 rounded-3xl p-6 sm:p-10 shadow-2xl text-left space-y-6 animate-scale-up">
+        {/* Auth Layout Wrapper for Two-Column Registration */}
+        <div className={`w-full flex flex-col lg:flex-row gap-6 ${authMode === "register" && !otpVerificationMode ? "max-w-5xl mx-auto" : "max-w-xl mx-auto"}`}>
+          
+          {/* LEFT COLUMN: LIVE ID CARD (Only visible during registration step 1 on Desktop) */}
+          {authMode === "register" && !otpVerificationMode && (
+            <div className="hidden lg:flex flex-col items-center gap-3 shrink-0 mt-4">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">⚡ Real-time Live Preview</span>
+              {renderIdCard("live-id-card")}
+            </div>
+          )}
+
+          {/* RIGHT COLUMN: Auth Card Container */}
+          <div className="flex-1 bg-white border-2 border-slate-950 rounded-3xl p-6 sm:p-10 shadow-2xl text-left space-y-6 animate-scale-up">
           
           {/* STEP 2: 6-DIGIT OTP PERMANENT MEMBER ACTIVATION */}
           {otpVerificationMode ? (
@@ -451,19 +617,30 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
                 </p>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-500">
                   6-Digit Verification OTP
                 </label>
-                <input
-                  type="text"
-                  maxLength={6}
-                  required
-                  value={otpCode}
-                  onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ""))}
-                  placeholder="e.g. 849201"
-                  className="w-full px-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-center text-slate-950 font-black text-2xl tracking-[0.4em] focus:border-emerald-500 focus:bg-white focus:outline-none transition-all"
-                />
+                <div className="flex gap-2 justify-between">
+                  {otpArray.map((digit, i) => (
+                    <input
+                      key={i}
+                      id={`otp-input-${i}`}
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={1}
+                      value={digit}
+                      onChange={(e) => handleOtpChange(i, e.target.value.replace(/\D/g, ""))}
+                      onKeyDown={(e) => {
+                        if (e.key === "Backspace" && !digit && i > 0) {
+                          const prev = document.getElementById(`otp-input-${i - 1}`);
+                          if (prev) prev.focus();
+                        }
+                      }}
+                      className="w-12 h-14 sm:w-14 sm:h-16 bg-slate-50 border-2 border-slate-200 rounded-xl text-center text-slate-950 font-black text-2xl focus:border-emerald-500 focus:bg-white focus:outline-none transition-all"
+                    />
+                  ))}
+                </div>
               </div>
 
               <button
@@ -478,13 +655,22 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
           ) : authMode === "register" ? (
             /* REGISTER FORM (100% BLANK INITIAL FIELDS + PASSWORD TWICE) */
             <form onSubmit={handleRegisterSubmit} className="space-y-5">
-              <div className="space-y-1">
-                <h3 className="font-black text-xl text-slate-950 tracking-tight">
-                  Create Your Official Student ID Record
-                </h3>
-                <p className="text-xs text-slate-500 font-semibold">
-                  Enter your official details to register as a permanent member in the LIET MongoDB database.
-                </p>
+              <div className="space-y-1 flex items-center justify-between">
+                <div>
+                  <h3 className="font-black text-xl text-slate-950 tracking-tight">
+                    Create Your Official Student ID Record
+                  </h3>
+                  <p className="text-xs text-slate-500 font-semibold">
+                    Enter details to generate your official LIET ID card.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowPreviewModal(true)}
+                  className="lg:hidden px-3 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-700 text-xs font-black hover:bg-cyan-100 transition-all flex items-center gap-1 shadow-sm shrink-0"
+                >
+                  🪪 Live ID Preview
+                </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -552,19 +738,62 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
                   </select>
                 </div>
 
+                {/* Gender & Avatar Selector */}
+                <div className="space-y-1.5 sm:col-span-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500">
+                    Select Gender & 3D Avatar
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setRegGender("male")}
+                      className={`p-3 rounded-2xl border-2 font-bold text-xs flex items-center justify-center gap-2.5 transition-all ${
+                        regGender === "male"
+                          ? "bg-slate-950 text-white border-slate-950 shadow-md scale-[1.02]"
+                          : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
+                      }`}
+                    >
+                      <img src="/avatar_male.png" className="w-7 h-7 object-cover object-top rounded-full border border-white" alt="Male" />
+                      <span>Male Student</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setRegGender("female")}
+                      className={`p-3 rounded-2xl border-2 font-bold text-xs flex items-center justify-center gap-2.5 transition-all ${
+                        regGender === "female"
+                          ? "bg-slate-950 text-white border-slate-950 shadow-md scale-[1.02]"
+                          : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
+                      }`}
+                    >
+                      <img src="/avatar_female.png" className="w-7 h-7 object-cover object-top rounded-full border border-white" alt="Female" />
+                      <span>Female Student</span>
+                    </button>
+                  </div>
+                </div>
+
+
                 {/* Set Password 1 */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-500">
                     Set New Password
                   </label>
-                  <input
-                    type="password"
-                    required
-                    value={regPassword}
-                    onChange={(e) => setRegPassword(e.target.value)}
-                    placeholder="Set password (min 6 chars)"
-                    className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl text-slate-950 font-bold text-sm focus:border-slate-950 focus:bg-white focus:outline-none transition-all"
-                  />
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      value={regPassword}
+                      onChange={(e) => setRegPassword(e.target.value)}
+                      placeholder="Set password (min 6 chars)"
+                      className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl text-slate-950 font-bold text-sm focus:border-slate-950 focus:bg-white focus:outline-none transition-all pr-12"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
                 </div>
 
                 {/* Confirm Password 2 */}
@@ -572,21 +801,49 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-500">
                     Confirm Password (Set Twice)
                   </label>
-                  <input
-                    type="password"
-                    required
-                    value={regConfirmPassword}
-                    onChange={(e) => setRegConfirmPassword(e.target.value)}
-                    placeholder="Re-enter password"
-                    className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl text-slate-950 font-bold text-sm focus:border-slate-950 focus:bg-white focus:outline-none transition-all"
-                  />
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      value={regConfirmPassword}
+                      onChange={(e) => setRegConfirmPassword(e.target.value)}
+                      placeholder="Re-enter password"
+                      className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl text-slate-950 font-bold text-sm focus:border-slate-950 focus:bg-white focus:outline-none transition-all pr-12"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Simulated CAPTCHA */}
+              <div className="border border-slate-200 rounded-xl p-3 sm:col-span-2 bg-slate-50 flex items-center justify-between w-full sm:w-64">
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsCaptchaLoading(true);
+                      setTimeout(() => {
+                        setIsCaptchaLoading(false);
+                        setCaptchaVerified(true);
+                      }, 1200);
+                    }}
+                    disabled={captchaVerified || isCaptchaLoading}
+                    className={`w-6 h-6 rounded border-2 flex items-center justify-center transition-all ${captchaVerified ? 'bg-emerald-500 border-emerald-500' : 'bg-white border-slate-300 hover:border-slate-400'}`}
+                  >
+                    {isCaptchaLoading && <RefreshCw className="w-3.5 h-3.5 text-emerald-600 animate-spin" />}
+                    {captchaVerified && <CheckCircle2 className="w-4 h-4 text-white" />}
+                  </button>
+                  <span className="text-sm font-semibold text-slate-700">I'm not a robot</span>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/RecaptchaLogo.svg/512px-RecaptchaLogo.svg.png" alt="reCAPTCHA" className="h-6 opacity-60" />
+                  <span className="text-[7px] text-slate-400 font-medium">Privacy - Terms</span>
                 </div>
               </div>
 
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-black text-base transition-all shadow-xl shadow-emerald-600/20 flex items-center justify-center gap-2 disabled:opacity-50"
+                disabled={loading || !captchaVerified}
+                className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-black text-base transition-all shadow-xl shadow-emerald-600/20 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <span>{loading ? "Registering & Dispatching OTP..." : "SUBMIT & SEND 6-DIGIT VERIFICATION CODE"}</span>
                 <ArrowRight className="w-5 h-5" />
@@ -636,13 +893,22 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
                       Forgot Password?
                     </button>
                   </div>
-                  <input
-                    type="password"
-                    value={loginPassword}
-                    onChange={(e) => setLoginPassword(e.target.value)}
-                    placeholder="Enter your password"
-                    className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl text-slate-950 font-bold text-sm focus:border-slate-950 focus:bg-white focus:outline-none transition-all"
-                  />
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                      placeholder="Enter your password"
+                      className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl text-slate-950 font-bold text-sm focus:border-slate-950 focus:bg-white focus:outline-none transition-all pr-12"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -790,8 +1056,24 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
           )}
 
         </div>
-
+        </div>
       </div>
+
+      {/* Mobile Live ID Preview Modal Drawer */}
+      {showPreviewModal && (
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in lg:hidden">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 text-center space-y-4 max-w-sm w-full relative shadow-2xl">
+            <button
+              onClick={() => setShowPreviewModal(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white font-black text-sm bg-slate-800 px-3 py-1 rounded-full"
+            >
+              ✕ Close
+            </button>
+            <h3 className="text-sm font-black text-slate-300 uppercase tracking-widest pt-2">Live ID Preview</h3>
+            {renderIdCard("mobile-live-id-card")}
+          </div>
+        </div>
+      )}
 
       {/* Footer Info */}
       <div className="w-full text-center text-xs font-semibold text-slate-400 z-10 pt-4">

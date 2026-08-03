@@ -39,10 +39,6 @@ export const RoleSelectionModal: React.FC<RoleSelectionModalProps> = ({
           />
         </div>
 
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-bold">
-          <Database className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Connected to {instituteCode} Database ✓</span>
-        </div>
       </div>
 
       {/* Main Centered Content */}
@@ -50,8 +46,9 @@ export const RoleSelectionModal: React.FC<RoleSelectionModalProps> = ({
         
         {/* Banner Title Section */}
         <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-black uppercase tracking-wider">
-            <Building2 className="w-4 h-4 text-emerald-600" /> {instituteName}
+          <div className="inline-flex items-center gap-4 px-6 py-3 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-base sm:text-lg lg:text-xl font-black uppercase tracking-wider shadow-sm">
+            <img src="/lords_logo_official.png" alt="Institute Logo" className="h-12 sm:h-14 lg:h-16 w-auto object-contain drop-shadow-sm" />
+            <span>{instituteName}</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-tight">
@@ -113,12 +110,12 @@ export const RoleSelectionModal: React.FC<RoleSelectionModalProps> = ({
             </div>
 
             <div className="space-y-6 relative z-10">
-              {/* 3D Geofence GPS Radar Graphic (Cropped inside a stylish 3D container) */}
-              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-3xl bg-slate-950 p-2 border-2 border-slate-900 shadow-xl group-hover:border-emerald-500 transition-all flex items-center justify-center overflow-hidden">
+              {/* 3D Faculty Graphic (Clean light container matching student card) */}
+              <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-3xl bg-slate-100 border-2 border-slate-200 shadow-lg group-hover:bg-emerald-50 group-hover:border-emerald-300 transition-colors flex items-center justify-center">
                 <img
                   src="/geofence_gps_radar.png"
                   alt="Faculty Geofence Radar Graphic"
-                  className="w-full h-full object-cover rounded-2xl group-hover:scale-110 transition-transform duration-300"
+                  className="w-[125%] h-[125%] max-w-none object-contain transform -translate-y-3 scale-110 group-hover:scale-125 transition-transform duration-300 drop-shadow-xl"
                 />
               </div>
 

@@ -1,19 +1,19 @@
 import {
   requestVerificationCode,
   verifyCode,
-} from "../../backend_core/verification_code_service";
+} from "@/backend_core/verification_code_service";
 import {
   verifyStudentGeofence,
   DEFAULT_CAMPUS_GEOFENCE,
-} from "../../backend_core/geofence_service";
-import { verifyExamTiming } from "../../backend_core/exam_schedule_service";
-import { sendExamSubmissionEmail } from "../../backend_core/mail_service";
-import { dbService } from "../../backend_core/database_service";
+} from "@/backend_core/geofence_service";
+import { verifyExamTiming } from "@/backend_core/exam_schedule_service";
+import { sendExamSubmissionEmail } from "@/backend_core/mail_service";
+import { dbService } from "@/backend_core/database_service";
 import {
   safeExecute,
   validatePayloadFields,
   ApiResponse,
-} from "../../backend_core/resiliency_and_crash_guard";
+} from "@/backend_core/resiliency_and_crash_guard";
 
 /**
  * Student API: Request Login / Access OTP (Sent via Gmail SMTP to legezt@gmail.com)
